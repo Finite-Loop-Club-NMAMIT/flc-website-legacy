@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "next": "12.2.5",
+    "next-auth-sanity": "^1.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
