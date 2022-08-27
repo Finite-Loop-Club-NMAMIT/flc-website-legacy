@@ -13,4 +13,27 @@ export default NextAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         }),
     ],
+    secret: process.env.AUTH_SECRET,
+    events: {
+        async signIn({ user, account, profile, isNewUser }) {
+            if (user.email.endsWith("@nmamit.in")) {
+                const member = await prisma.members.findUnique({
+                    where: {
+                        email: "4nm20cs195@nmamit.in",
+                    },
+                })
+                if (member) {
+                    const updateUser = await prisma.user.update({
+                        where: {
+                            email: user.email,
+                        },
+                        data: {
+                            ismember: true,
+                        },
+                    })
+                }
+
+            }
+        }
+    }
 })
