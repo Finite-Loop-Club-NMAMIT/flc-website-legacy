@@ -28,7 +28,7 @@ export default NextAuth({
                             email: user.email,
                         },
                         data: {
-                            ismember: true,
+                            isMember: true,
                         },
                     })
                 }

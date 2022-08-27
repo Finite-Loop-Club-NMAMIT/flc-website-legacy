@@ -46,10 +46,12 @@ model User {
   role          String?   @default("member")
   bio           String?
   links         Json?
-  ismember      Boolean   @default(false)
-  isadmin       Boolean   @default(false)
+  isMember      Boolean   @default(false)
+  isAdmin       Boolean   @default(false)
   accounts      Account[]
   sessions      Session[]
+  Team          Team?     @relation(fields: [teamId], references: [id])
+  teamId        Int?
 }
 
 model VerificationToken {
@@ -64,4 +66,23 @@ model Members {
   email String  @unique
   name  String?
   batch Int?
+}
+
+model Team {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  description String
+  members     User[]
+  Task        Task[]
+}
+
+model Task {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  completed   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId      Int
 }
