@@ -19,7 +19,7 @@ export default NextAuth({
             if (user.email.endsWith("@nmamit.in")) {
                 const member = await prisma.members.findUnique({
                     where: {
-                        email: "4nm20cs195@nmamit.in",
+                        email: user.email,
                     },
                 })
                 if (member) {
@@ -32,7 +32,6 @@ export default NextAuth({
                         },
                     })
                 }
-
             }
         }
     }
