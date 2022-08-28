@@ -7,7 +7,6 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
-        console.log(session.user)
         res.status(405).send({ message: 'Only POST requests allowed' })
         return
     }
@@ -18,20 +17,22 @@ export default async function handler(req, res) {
                 email: session.user.email
             }
         })
-        if (user.isAdmin) {
-            const { name, description, members } = req.body
-            const users = await prisma.team.create({
+        if (user.role === "team-leader") {
+            const { name, description, teamId } = req.body
+            const task = await prisma.task.create({
                 data: {
                     name, description,
-                    members: {
-                        connect: members
+                    team: {
+                        connect: {
+                            id: teamId
+                        }
                     }
                 }
             });
-            res.status(200).json({ message: 'Team Created', data: users })
+            res.status(200).json({ message: 'Team Created', data: task })
             return
         }
     }
-    res.status(401).json({ message: 'No Permission to create Team' })
+    res.status(401).json({ message: 'No Permission to create Task' })
     return
 }

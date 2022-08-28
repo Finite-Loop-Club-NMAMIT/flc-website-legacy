@@ -7,7 +7,6 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    console.log(session.user)
     res.status(405).send({ message: 'Only POST requests allowed' })
     return
   }
