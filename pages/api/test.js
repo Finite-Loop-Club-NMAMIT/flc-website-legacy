@@ -6,32 +6,28 @@ import { authOptions } from "./auth/[...nextauth]"
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  console.log(req.method, req.body);
   if (req.method !== 'POST') {
-
     console.log(session.user)
     res.status(405).send({ message: 'Only POST requests allowed' })
     return
   }
   const session = await unstable_getServerSession(req, res, authOptions)
-
   if (session.user) {
-    console.log(session.user)
-    if (session.user) {
-      const body = JSON.parse(req.body)
-      console.log(body)
-      const { name, description, members } = body
-
+    const user = await prisma.user.findUnique({
+      where: {
+        email: session.user.email
+      }
+    })
+    if (user.isAdmin) {
+      const { name, description, members } = req.body
       const users = await prisma.team.create({
         data: {
-          name,
-          description,
+          name, description,
           members: {
             connect: members
           }
         }
       });
-      console.log(users);
       res.status(200).json({ message: 'Team Created', data: users })
       return
     }

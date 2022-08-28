@@ -8,7 +8,7 @@ const handler = (e) => {
         body: JSON.stringify({
             name: "Test Lol",
             description: "Test Description",
-            members: [{ id: "" }, { id: "" }]
+            members: [{ id: "cl7c13ne50008wqd27nj37yuu" }, { id: "cl7cvyocm0012yyd2eh71fxb2" }]
         })
     }).then(res => console.log(res.json())).catch(err => console.log(err))
 }
