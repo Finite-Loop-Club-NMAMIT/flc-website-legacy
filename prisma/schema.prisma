@@ -90,7 +90,7 @@ model Task {
 model RegistrationPayment {
   id          Int      @id @default(autoincrement())
   userId      String
-  orderId     String
+  orderId     String   @unique
   amount      Int
   paid        Boolean  @default(false)
   paymentData Json?

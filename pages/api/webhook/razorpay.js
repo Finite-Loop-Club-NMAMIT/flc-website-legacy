@@ -8,26 +8,30 @@ export default async function handler(req, res) {
         res.status(405).send({ message: 'Only POST requests allowed' })
         return
     }
-    if (req.body.paylod.payment.entity.status === "captured") {
-        const payment = await prisma.registrationPayment.update({
-            where: {
-                orderId: req.body.paylod.payment.entity.order_id
-            },
-            data: {
-                paid: true,
-                paymentData: req.body
-            }
-        })
+    console.log(req.body.payload.payment.entity.order_id)
 
-        const user = await prisma.user.update({
-            where: {
-                id: payment.userId
-            },
-            data: {
-                isMember: true
-            }
-        })
-    }
-    res.status(200).json()
+    const payment = await prisma.registrationPayment.update({
+        where: {
+            orderId: req.body.payload.payment.entity.order_id
+        },
+        data: {
+            paid: true,
+            paymentData: req.body
+        }
+    })
+
+    const user = await prisma.user.update({
+        where: {
+            id: payment.userId
+        },
+        data: {
+            isMember: true
+        }
+    })
+    res.status(200).json({ status: "OK" })
     return
+    // } catch (err) {
+    //     console.log(err);
+    //     res.status(400).json(err);
+    // }
 }

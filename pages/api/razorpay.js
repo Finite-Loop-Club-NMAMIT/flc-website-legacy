@@ -22,33 +22,36 @@ export default async function handler(req, res) {
         const amount = 200;
         const currency = "INR";
         const options = {
-            amount: (amount).toString(),
+            amount: (amount * 100).toString(),
             currency,
             receipt: shortid.generate(),
             payment_capture,
         };
 
-
-        const user = await prisma.user.findUnique({
-            where: {
-                email: session.user.email,
-            }
-        });
-        const response = await razorpay.orders.create(options);
-        const orderId = response.id
-        const payment = await prisma.registrationPayment.create({
-            data: {
-                orderId,
-                userId: user.id,
-                amount
-            }
-        })
-        res.status(200).json({
-            id: response.id,
-            currency: response.currency,
-            amount: response.amount,
-        });
-
+        try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    email: session.user.email,
+                }
+            });
+            const response = await razorpay.orders.create(options);
+            const orderId = response.id
+            const payment = await prisma.registrationPayment.create({
+                data: {
+                    orderId,
+                    userId: user.id,
+                    amount: amount / 100
+                }
+            })
+            res.status(200).json({
+                id: response.id,
+                currency: response.currency,
+                amount: response.amount,
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(400).json(err);
+        }
     }
 
 }
