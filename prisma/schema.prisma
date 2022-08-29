@@ -43,14 +43,14 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  role          String?   @default("member")
+  role          String?   @default("user")
   bio           String?
   links         Json?
   isMember      Boolean   @default(false)
   isAdmin       Boolean   @default(false)
   accounts      Account[]
   sessions      Session[]
-  Team          Team?     @relation(fields: [teamId], references: [id])
+  Team          Team?     @relation(fields: [teamId], references: [id], onDelete: Cascade)
   teamId        Int?
 }
 
@@ -85,4 +85,15 @@ model Task {
   updatedAt   DateTime @updatedAt
   team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
   teamId      Int
+}
+
+model RegistrationPayment {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  orderId     String
+  amount      Int
+  paid        Boolean  @default(false)
+  paymentData Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

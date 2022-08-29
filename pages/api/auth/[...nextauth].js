@@ -28,7 +28,7 @@ export const authOptions = {
                             email: user.email,
                         },
                         data: {
-                            isMember: true,
+                            role: "member",
                         },
                     })
                 }
