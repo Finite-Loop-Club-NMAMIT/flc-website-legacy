@@ -21,7 +21,7 @@ export default async function handler(req, res) {
                 links,
             },
         })
-        res.status(200).json({ message: 'Team Created', data: user })
+        res.status(200).json({ message: 'User Updated', data: user })
         return
 
     }

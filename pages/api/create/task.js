@@ -28,7 +28,7 @@ export default async function handler(req, res) {
                     }
                 }
             });
-            res.status(200).json({ message: 'Team Created', data: task })
+            res.status(200).json({ message: 'Task Created', data: task })
             return
         }
     }

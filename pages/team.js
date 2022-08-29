@@ -6,9 +6,9 @@ const handler = (e) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            name: "Test Lol",
-            description: "Test Description",
-            members: [{ id: "cl7c13ne50008wqd27nj37yuu" }, { id: "cl7cvyocm0012yyd2eh71fxb2" }]
+            name: "Test team1",
+            description: "Test Description asdfas",
+            members: [{ id: "cl7eagsi20006aed2qy24gndv" }, { id: "cl7eambbq0096aed2c0tvt3k4" }]
         })
     }).then(res => console.log(res.json())).catch(err => console.log(err))
 }
@@ -19,9 +19,9 @@ const Taskhandler = (e) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            name: "Test Task 1",
+            name: "Test Task 2",
             description: "Test Description",
-            teamId: 6
+            teamId: 17
         })
     }).then(res => { console.log(res.json()) }).catch(err => { console.log(err) })
 }
