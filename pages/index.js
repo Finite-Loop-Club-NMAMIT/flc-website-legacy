@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
-
+import { makePayment } from '../utils/razorpay'
 export default function Home() {
   return (
     <div className={styles.container}>
@@ -20,7 +20,9 @@ export default function Home() {
         </Link >
 
       </nav>
-
+      <button onClick={makePayment}>
+        Pay
+      </button>
       <footer className={styles.footer}>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
