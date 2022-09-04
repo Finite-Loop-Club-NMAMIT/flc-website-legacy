@@ -32,15 +32,10 @@ export const makePayment = async () => {
         currency: data.currency,
         amount: data.amount,
         order_id: data.id,
-        description: "Thankyou for your test donation",
+        description: "Membership is valid throughout your engineering course",
         image: "/flc_logo_crop.png",
         handler: function (response) {
-            // Validate payment at server - using webhooks is a better idea.
-            alert(response.razorpay_payment_id);
-            alert(response.razorpay_order_id);
-            alert(response.razorpay_signature);
         },
-
     };
 
     const paymentObject = new window.Razorpay(options);

@@ -16,8 +16,6 @@ export default async function handler(req, res) {
             key_secret: process.env.RAZORPAY_SECRET,
         });
 
-        // Create an order -> generate the OrderID -> Send it to the Front-end
-        // Also, check the amount and currency on the backend (Security measure)
         const payment_capture = 1;
         const amount = 200;
         const currency = "INR";
@@ -36,22 +34,27 @@ export default async function handler(req, res) {
             });
             const response = await razorpay.orders.create(options);
             const orderId = response.id
-            const payment = await prisma.registrationPayment.create({
-                data: {
-                    orderId,
-                    userId: user.id,
-                    amount: amount / 100
-                }
-            })
-            res.status(200).json({
-                id: response.id,
-                currency: response.currency,
-                amount: response.amount,
+
+            if (user.role === "member") {
+                const payment = await prisma.registrationPayment.create({
+                    data: {
+                        orderId,
+                        userId: user.id,
+                        amount: amount / 100
+                    }
+                })
+                res.status(200).json({
+                    id: response.id,
+                    currency: response.currency,
+                    amount: response.amount,
+                });
+            }
+            res.status(401).json({
+                message: "No Permission"
             });
         } catch (err) {
             console.log(err);
             res.status(400).json(err);
         }
     }
-
 }
