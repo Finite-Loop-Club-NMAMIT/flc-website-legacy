@@ -16,7 +16,7 @@ const { data, status } = useSession()
         </h1>
         
         <p className="mt-4 sm:leading-relaxed sm:text-xl">
-            We are a Coding club of NMAMIT aiming at Realizing idea and Inspiring the next!
+            We are a Coding club of NMAMIT aiming at Realizing the idea and Inspiring the next!
         </p>
         <div className="flex flex-wrap justify-center mt-8">
             {status != 'authenticated'?(
