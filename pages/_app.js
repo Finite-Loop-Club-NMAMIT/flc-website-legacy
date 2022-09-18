@@ -1,12 +1,11 @@
 import '../styles/globals.css'
-import { GlobalStyles } from 'twin.macro'
+import { SessionProvider } from "next-auth/react"
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps }, }) {
   return (
-  <div>
-  <GlobalStyles />
-  <Component {...pageProps} />
-  </div>
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
   )
 }
 
