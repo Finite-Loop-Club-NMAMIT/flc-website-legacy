@@ -2,15 +2,15 @@ import { useSession } from "next-auth/react"
 import Link from "next/link"
 import Button from '../button';
 
-export default function index() {
+export default function Hero() {
 const { data, status } = useSession()
   return (
-    <section className="bg-gray-50 mt-20 md:mt-0">
+    <section className="mt-20 md:mt-0">
     <div className="px-4 py-32 mx-auto max-w-screen-xl lg:h-screen lg:items-center lg:flex">
         <div className="max-w-xl mx-auto text-center">
         <h1 className="text-3xl font-extrabold sm:text-5xl">
             Welcome to
-            <span className="block w-full py-2 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-300 to-red-500 animate-text">
+            <span className="block w-full py-2 heading">
             Finite Loop Club!
             </span>
         </h1>
