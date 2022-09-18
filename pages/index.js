@@ -3,6 +3,9 @@ import Navbar from "../components/navbar"
 import Hero from "../components/hero"
 import About from '../components/about'
 import Perks from '../components/perks'
+import Tech from '../components/tech'
+import Footer from '../components/footer'
+import Discord from '../components/discord'
 
 export default function Home() {
   return (
@@ -16,6 +19,9 @@ export default function Home() {
       <Hero />
       <About />
       <Perks />
+      <Tech />
+      <Discord />
+      <Footer />
     </div>
   )
 }
