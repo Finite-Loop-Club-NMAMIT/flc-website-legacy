@@ -5,8 +5,8 @@ import Button from '../button';
 export default function Hero() {
 const { data, status } = useSession()
   return (
-    <section className="mt-20 md:mt-0">
-    <div className="px-4 py-32 mx-auto max-w-screen-xl lg:h-screen lg:items-center lg:flex">
+    <section className="">
+    <div className="px-4 py-32 mx-auto max-w-screen-xl lg:items-center lg:flex">
         <div className="max-w-xl mx-auto text-center">
         <h1 className="text-3xl font-extrabold sm:text-5xl">
             Welcome to

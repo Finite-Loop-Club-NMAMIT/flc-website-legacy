@@ -1,5 +1,5 @@
 import { events, eventTabs } from '../../components/constants';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Button from '../../components/button';
 import Modal from '../../components/modal';
@@ -10,13 +10,20 @@ export default function Events() {
   const [modalData, setModalData] = useState([]);
   const [year, setYear] = useState('All');
   const handleOnClose = () => setShowModal(false);
+  useEffect(() => {
+    showModal && (document.body.style.overflow = 'hidden');
+    !showModal && (document.body.style.overflow = 'unset');
+  }, [showModal]);
   return (
-    <div className="mt-32">
+    <div className="">
       <ul className="flex border-b border-gray-100">
         {eventTabs.map((tab, index) => (
           <li className="flex-1" key={index}>
             <a
-              onClick={() => {setToggleState(index); setYear(tab)}}
+              onClick={() => {
+                setToggleState(index);
+                setYear(tab);
+              }}
               className="relative block p-4 cursor-pointer"
             >
               {toggleState === index ? (
@@ -33,38 +40,39 @@ export default function Events() {
         ))}
       </ul>
       <div className="flex flex-wrap gap-5 justify-center items-stretch my-5">
-        {events.map((event, index) => (
-          event.year === year || year === 'All'? (
-          <div
-            key={index}
-            className="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md"
-          >
-            <a href="#">
-              <Image
-                className="rounded-t-lg"
-                src={event.image}
-                width={500}
-                height={400}
-                alt="event-pic"
-              />
-            </a>
-            <div className="flex flex-col text-center p-5">
+        {events.map((event, index) =>
+          event.year === year || year === 'All' ? (
+            <div
+              key={index}
+              className="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md"
+            >
               <a href="#">
-                <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
-                  {event.name}
-                </h5>
+                <Image
+                  className="rounded-t-lg"
+                  src={event.image}
+                  width={500}
+                  height={400}
+                  alt="event-pic"
+                />
               </a>
-              <div
-                onClick={() => {
-                  setShowModal(true);
-                  setModalData(event);
-                }}
-              >
-                <Button>Know more</Button>
+              <div className="flex flex-col text-center p-5">
+                <a href="#">
+                  <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
+                    {event.name}
+                  </h5>
+                </a>
+                <div
+                  onClick={() => {
+                    setShowModal(true);
+                    setModalData(event);
+                  }}
+                >
+                  <Button>Know more</Button>
+                </div>
               </div>
             </div>
-          </div>
-        ): null))}
+          ) : null
+        )}
       </div>
       <Modal
         onClose={handleOnClose}
