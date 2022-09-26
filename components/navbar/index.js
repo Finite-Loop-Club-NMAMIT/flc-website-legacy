@@ -36,7 +36,7 @@ export default function Navbar(){
           ))
         }
         {status === 'authenticated'?(
-        <div className='flex flex-col md:flex-row w-[150px] md:w-full gap-3 md:gap-0'>
+        <div className='flex flex-col md:flex-row w-[150px] md:w-full gap-3 md:ml-8'>
           <Button>
             <Link href="/api/auth/signout">
               Sign Out
@@ -47,11 +47,13 @@ export default function Navbar(){
           </Button>
         </div>
         ):(
+        <div className="md:ml-8">
         <Button>
           <Link href="/api/auth/signin">
             Sign In
           </Link>
         </Button>
+        </div>
         )}
       </ul>
       </div>

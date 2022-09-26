@@ -17,7 +17,6 @@ export default function footer() {
         </p>
 
         <nav className="mt-12" aria-labelledby="footer-navigation">
-        <h2 className="sr-only" id="footer-navigation">Footer navigation</h2>
 
         <ul className="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
             {Links.map((link, index)=>(
