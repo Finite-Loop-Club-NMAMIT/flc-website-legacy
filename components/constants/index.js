@@ -42,6 +42,14 @@ export const eventTabs = [
   "2017-20",
 ]
 
+export const teamTabs = [
+  "Faculty",
+  "2022-23",
+  "2021-22",
+  "2020-21",
+  "2017-20",
+]
+
 export const events = [
     {
       name: "Git and Github - Hands on Workshop",

@@ -4,28 +4,15 @@ export default function Modal({ visible, onClose, name, img, desc, type, date, a
   const handleOnClose = (e) => {
     if (e.target.id === 'container') onClose();
   };
-  const MODAL_STYLES = {
-    position: "absolute",
-    zIndex: "1000",
-  };
-  
-  const OVERLAY_STYLE = {
-    position: "fixed",
-    display: "flex",
-    justifyContent: "center",
-    zIndex: "1000",
-    overflowY: "auto"
-  };
   
   if (!visible) return null;
   return (
     <div
       id="container"
       onClick={handleOnClose}
-      style={OVERLAY_STYLE}
-      className="z-[1] pt-56 md:pt-0 fixed inset-0 bg-black bg-opacity-30 backdrop-blur-lg flex justify-center items-center"
+      className="z-[60] pt-56 md:pt-0 fixed inset-0 bg-black bg-opacity-30 backdrop-blur-lg flex justify-center items-center overflow-y-auto"
     >
-      <div style={MODAL_STYLES} className="p-4">
+      <div className="p-4">
         <div className="relative max-w-5xl p-6 bg-gray-100 rounded-lg shadow-sm">
           <button
             onClick={onClose}

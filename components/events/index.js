@@ -30,7 +30,7 @@ export default function Events() {
                 <span className="absolute inset-x-0 w-full h-px bg-yellow-400 -bottom-px"></span>
               ) : null}
               <div className="flex items-center justify-center">
-                <span className="ml-3 text-sm md:text-lg font-medium text-gray-900">
+                <span className="ml-3 text-xs lg:text-sm md:text-lg font-light lg:font-medium text-gray-900">
                   {' '}
                   {tab}{' '}
                 </span>
