@@ -5,11 +5,14 @@ import { useState } from 'react';
 import Button from '../button';
 import { useSession } from 'next-auth/react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import { BiSun, BiMoon } from 'react-icons/bi';
 import { Links } from '../constants';
+import { useTheme } from 'next-themes';
 
 export default function Navbar() {
   const { data, status } = useSession();
   const [open, setOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
   return (
     <div className="shadow-md w-full fixed top-0 left-0 z-50 bg-black backdrop-filter backdrop-blur-lg bg-opacity-30">
       <div className="flex md:flex-row items-center justify-between py-4 md:px-10 px-7">
@@ -20,7 +23,9 @@ export default function Navbar() {
           <span className="text-3xl text-white mr-1 pt-2">
             <Image src="/assets/flc_logo_crop.png" width={50} height={50} alt="flc logo" />
           </span>
-          <Link href="/"><a >Finite Loop Club</a></Link>
+          <Link href="/">
+            <a>Finite Loop Club</a>
+          </Link>
         </div>
 
         <div
@@ -76,6 +81,12 @@ export default function Navbar() {
               </Button>
             </div>
           )}
+          <button
+            className="text-3xl mx-0 my-5 lg:mx-3 text-white"
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          >
+            {theme === 'dark' ? <BiSun /> : <BiMoon />}
+          </button>
         </ul>
       </div>
     </div >

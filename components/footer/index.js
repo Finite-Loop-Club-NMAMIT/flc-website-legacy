@@ -5,14 +5,14 @@ import { social } from "../constants"
 
 export default function footer() {
   return (
-    <footer className="bg-black text-white">
+    <footer className="bg-white dark:bg-black text-black dark:text-white transition-colors duration-500">
     <div className="max-w-5xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
         <div className="flex justify-center items-center">
             <Image src="/assets/flc_logo_crop.png" width={100} height={100} />
-            <a className="ml-3 text-lg md:text-xl cursor-pointer flex items-center text-gray-100">Finite Loop Club</a>
+            <a className="ml-3 text-lg md:text-xl cursor-pointer flex items-center text-black dark:text-gray-100">Finite Loop Club</a>
         </div>
 
-        <p className="max-w-md mx-auto mt-6 leading-relaxed text-center text-gray-200">
+        <p className="max-w-md mx-auto mt-6 leading-relaxed text-center text-black dark:text-gray-200">
         NMAM Institute of Technology, Nitte, SH1, Karkala, Karnataka, KARKALA, NMAMIT 574110, IN
         </p>
 
@@ -22,7 +22,7 @@ export default function footer() {
             {Links.map((link, index)=>(
             <li key={index}>
             <Link href={link.link}>
-            <a className="text-gray-100 transition hover:text-gray-200/75">
+            <a className="text-black dark:text-gray-100 transition hover:text-gray-500 dark:hover:text-gray-200/75">
                 {link.name}
             </a>
             </Link>
@@ -38,7 +38,7 @@ export default function footer() {
                 <a
                 rel="noopener noreferrer"
                 target="_blank"
-                className="text-gray-100 transition hover:text-gray-200/75"
+                className="text-black dark:text-gray-100 transition hover:text-gray-200/75"
                 >
                 <span className="sr-only">{link.name}</span>
                 {link.icon}

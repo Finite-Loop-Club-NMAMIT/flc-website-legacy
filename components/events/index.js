@@ -30,7 +30,7 @@ export default function Events() {
                 <span className="absolute inset-x-0 w-full h-px bg-yellow-400 -bottom-px"></span>
               ) : null}
               <div className="flex items-center justify-center">
-                <span className="ml-3 text-xs lg:text-sm md:text-lg font-light lg:font-medium text-white">
+                <span className="ml-3 text-xs lg:text-sm md:text-lg font-light lg:font-medium text-black dark:text-white">
                   {' '}
                   {tab}{' '}
                 </span>
@@ -44,7 +44,7 @@ export default function Events() {
           event.year === year || year === 'All' ? (
             <div
               key={index}
-              className="max-w-sm bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md"
+              className="max-w-sm bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md mx-5"
             >
               <a href="#">
                 <Image
@@ -57,7 +57,7 @@ export default function Events() {
               </a>
               <div className="flex flex-col text-center p-5">
                 <a href="#">
-                  <h5 className="mb-2 text-xl font-bold tracking-tight text-white">
+                  <h5 className="mb-5 text-xl font-bold tracking-tight text-black dark:text-white">
                     {event.name}
                   </h5>
                 </a>

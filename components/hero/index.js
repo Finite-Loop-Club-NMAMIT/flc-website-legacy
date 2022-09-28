@@ -5,7 +5,7 @@ import Button from '../button';
 export default function Hero() {
 const { data, status } = useSession()
   return (
-    <section className="text-white">
+    <section className="text-black dark:text-white bg-white dark:bg-gray-900/10 transition-colors duration-500">
     <div className="px-4 py-32 mx-auto max-w-screen-xl lg:items-center lg:flex">
         <div className="max-w-xl mx-auto text-center">
         <h1 className="text-3xl font-extrabold sm:text-5xl">

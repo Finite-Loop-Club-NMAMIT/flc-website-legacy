@@ -3,9 +3,11 @@ import { SessionProvider } from "next-auth/react"
 import Footer from '../components/footer'
 import Navbar from "../components/navbar"
 import Head from 'next/head'
+import {ThemeProvider} from 'next-themes'
 
 function MyApp({ Component, pageProps: { session, ...pageProps }, }) {
   return (
+    <ThemeProvider attribute="class">
     <SessionProvider session={session}>
       <Head>
         <title>Finite Loop Club - NMAMIT</title>
@@ -16,6 +18,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps }, }) {
       <Component {...pageProps} />
       <Footer />
     </SessionProvider>
+    </ThemeProvider>
   )
 }
 

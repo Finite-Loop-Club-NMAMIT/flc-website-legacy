@@ -2,7 +2,7 @@ import Image from "next/image"
 
 export default function Tech() {
   const tech = [
-    {src: 'nextjs.svg'},
+    {src: 'nextjs.png'},
     {src: 'react.svg'},
     {src: 'laravel.svg'},
     {src: 'node.svg'},
@@ -11,14 +11,14 @@ export default function Tech() {
   ]
   return (
     <section>
-    <div className="bg-black px-4 py-16 max-w-screen-xl sm:px-6 lg:px-28 text-white">
+    <div className="bg-white dark:bg-black px-4 py-16 max-w-screen-xl sm:px-6 lg:px-28 text-black dark:text-white transition-colors duration-500">
         <div
         className="grid grid-cols-1 lg:grid-cols-2 gap-y-8 lg:gap-x-16 lg:items-center"
         >
         <div className="max-w-lg mx-auto text-center lg:text-left lg:mx-0">
             <h2 className="text-3xl font-bold sm:text-4xl heading">Work on new Trending Tech Stack</h2>
 
-            <p className="mt-4 text-gray-200">
+            <p className="mt-4 text-gray-600 dark:text-gray-200">
             Get a chance to explore and innovate using the in-demand Tech Stack! Get your hands to code your idea and enter the world of developers!
             </p>
         </div>

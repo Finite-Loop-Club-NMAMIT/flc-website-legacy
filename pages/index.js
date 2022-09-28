@@ -8,15 +8,15 @@ export default function Home() {
   return (
     <div>
       <Hero />
-      <hr />
+      <hr className="border-gray-500/50" />
       <About />
-      <hr />
+      <hr className="border-gray-500/50" />
       <Perks />
-      <hr />
+      <hr className="border-gray-500/50" />
       <Tech />
-      <hr />
+      <hr className="border-gray-500/50" />
       <Discord />
-      <hr />
+      <hr className="border-gray-500/50" />
     </div>
   )
 }
