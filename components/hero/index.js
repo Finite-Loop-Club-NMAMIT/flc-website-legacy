@@ -5,7 +5,7 @@ import Button from '../button';
 export default function Hero() {
 const { data, status } = useSession()
   return (
-    <section className="">
+    <section className="text-white">
     <div className="px-4 py-32 mx-auto max-w-screen-xl lg:items-center lg:flex">
         <div className="max-w-xl mx-auto text-center">
         <h1 className="text-3xl font-extrabold sm:text-5xl">
@@ -27,7 +27,7 @@ const { data, status } = useSession()
             </Link>
             ):(
             <Link href='/events'>
-                <a className="block w-auto px-12 py-3 font-medium text-yellow-400 rounded shadow hover:text-yellow-300 active:text-yellow-500 focus:outline-none focus:ring duration-300">
+                <a className="block bg-gray-50 w-auto px-12 py-3 font-medium text-black rounded shadow hover:text-gray-400 active:text-yellow-500 focus:outline-none focus:ring duration-300">
                     Explore Events
                 </a>
             </Link>

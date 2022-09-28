@@ -16,17 +16,17 @@ export default function discord() {
             </div>
         </div>
 
-        <div className="relative flex items-center bg-gray-100">
+        <div className="relative flex items-center bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg">
             <span
-            className="hidden lg:inset-y-0 lg:absolute lg:w-16 lg:bg-gray-100 lg:block lg:-left-16"
+            className="hidden lg:inset-y-0 lg:absolute lg:w-16 lg:bg-white lg:block lg:-left-16 lg:bg-opacity-30 lg:backdrop-filter lg:backdrop-blur-lg"
             ></span>
 
             <div className="p-8 sm:p-16 lg:p-24">
-            <h2 className="text-2xl font-bold sm:text-3xl">
+            <h2 className="text-2xl font-bold sm:text-3xl text-white">
             Get access to our exclusive discord community 
             </h2>
 
-            <p className="mt-4 text-gray-600 md:text-lg">
+            <p className="mt-4 text-gray-300 md:text-lg">
             Our Discord community would help you to meet and make new connections with peers, and to expand your network. All-in one place to showcase your projects, knowledge, participate in events or even chill in VCs.
             </p>
             </div>

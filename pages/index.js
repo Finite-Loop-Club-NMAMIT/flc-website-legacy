@@ -8,10 +8,15 @@ export default function Home() {
   return (
     <div>
       <Hero />
+      <hr />
       <About />
+      <hr />
       <Perks />
+      <hr />
       <Tech />
+      <hr />
       <Discord />
+      <hr />
     </div>
   )
 }

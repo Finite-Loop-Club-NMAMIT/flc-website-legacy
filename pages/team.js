@@ -11,7 +11,7 @@ export default function Teams() {
       <div class="flex flex-wrap justify-center text-center mb-10">
         <div class="w-full lg:w-6/12 px-4">
           <h1 class="heading text-4xl font-bold mb-3">Meet the Team</h1>
-          <p class="text-gray-700 text-lg">Dynamic and Agile</p>
+          <p class="text-gray-200 text-lg">Dynamic and Agile</p>
         </div>
       </div>
       <ul className="flex border-b border-gray-100">
@@ -28,7 +28,7 @@ export default function Teams() {
                 <span className="absolute inset-x-0 w-full h-px bg-yellow-400 -bottom-px"></span>
               ) : null}
               <div className="flex items-center justify-center">
-                <span className="ml-3 text-xs lg:text-sm md:text-lg font-light lg:font-medium text-gray-900">
+                <span className="ml-3 text-xs lg:text-sm md:text-lg font-light lg:font-medium text-gray-200">
                   {' '}
                   {tab}{' '}
                 </span>
@@ -56,28 +56,28 @@ export default function Teams() {
                 />
               </a>
               <div class="text-center mt-6">
-                <h1 class="text-gray-900 text-xl font-bold mb-1">
+                <h1 class="text-gray-200 text-xl font-bold mb-1">
                   {member.name}
                 </h1>
 
-                <div class="text-gray-700 font-light mb-2">{member.role}</div>
+                <div class="text-gray-300 font-light mb-2">{member.role}</div>
                 <div
                   class="flex items-center justify-center opacity-50 hover:opacity-100
                           transition-opacity duration-300"
                 >
                   <a
                     href={member.linkedin}
-                    class="flex justify-center items-center rounded-full hover:bg-indigo-50 h-10 w-10"
+                    class="flex justify-center items-center text-white rounded-full hover:bg-indigo-50 h-10 w-10 hover:text-blue-700"
                   >
-                    <AiFillLinkedin className="text-2xl hover:text-blue-700" />
+                    <AiFillLinkedin className="text-2xl" />
                   </a>
 
                   {member.github && (
                     <a
                       href={member.github}
-                      class="flex justify-center items-center rounded-full hover:bg-gray-50 h-10 w-10"
+                      class="flex justify-center items-center text-white rounded-full hover:bg-gray-50 h-10 w-10 hover:text-black"
                     >
-                      <AiFillGithub className="text-2xl hover:text-black" />
+                      <AiFillGithub className="text-2xl" />
                     </a>
                   )}
                 </div>
@@ -87,6 +87,7 @@ export default function Teams() {
         ):null
         )}
       </div>
+      <hr />
     </div>
   );
 }

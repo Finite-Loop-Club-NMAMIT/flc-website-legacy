@@ -13,10 +13,10 @@ export default function Modal({ visible, onClose, name, img, desc, type, date, a
       className="z-[60] pt-56 md:pt-0 fixed inset-0 bg-black bg-opacity-30 backdrop-blur-lg flex justify-center items-center overflow-y-auto"
     >
       <div className="p-4">
-        <div className="relative max-w-5xl p-6 bg-gray-100 rounded-lg shadow-sm">
+        <div className="relative max-w-5xl p-6 bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-sm">
           <button
             onClick={onClose}
-            className="absolute p-1 text-gray-400 bg-white border border-gray-200 rounded-full -top-1 -right-1"
+            className="absolute p-1 text-black bg-white bg-opacity-70 borde rounded-full -top-1 -right-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -40,16 +40,16 @@ export default function Modal({ visible, onClose, name, img, desc, type, date, a
               height={400}
               width={400}
             />
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 text-white">
               <h2 className="text-lg lg:text-2xl font-medium">{name}</h2>
               <a>Category: {type}</a>
               <a>Date: {date}</a>
               <a>Attended by: {attended}</a>
               <a>Organizers: {organizer}</a>
               <p className="mt-4 text-sm">
-                <a className="text-lg">Description</a>
+                <a className="text-lg text-white">Description</a>
                 <div className="mt-2 pr-2">
-                <a className="text-gray-500">
+                <a className="text-gray-200">
                 {desc}
                 </a>
                 </div>
