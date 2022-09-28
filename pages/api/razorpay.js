@@ -35,7 +35,7 @@ export default async function handler(req, res) {
             const response = await razorpay.orders.create(options);
             const orderId = response.id
 
-            if (user.role === "member") {
+            if (user.role === "member" && user.isMember === false) {
                 const payment = await prisma.registrationPayment.create({
                     data: {
                         orderId,

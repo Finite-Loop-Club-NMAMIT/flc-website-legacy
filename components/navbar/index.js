@@ -18,9 +18,9 @@ export default function Navbar() {
       text-white"
         >
           <span className="text-3xl text-white mr-1 pt-2">
-            <Image src="/assets/flc_logo_crop.png" width={50} height={50} />
+            <Image src="/assets/flc_logo_crop.png" width={50} height={50} alt="flc logo" />
           </span>
-          <a href="/">Finite Loop Club</a>
+          <Link href="/"><a >Finite Loop Club</a></Link>
         </div>
 
         <div
@@ -31,9 +31,8 @@ export default function Navbar() {
         </div>
 
         <ul
-          className={`bg-black bg-opacity-80 md:bg-white md:bg-opacity-0 md:flex md:items-center md:pb-0 pb-12 absolute md:static  md:z-auto left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
-            open ? 'top-20 ' : 'top-[-490px]'
-          }`}
+          className={`bg-black bg-opacity-80 md:bg-white md:bg-opacity-0 md:flex md:items-center md:pb-0 pb-12 absolute md:static  md:z-auto left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${open ? 'top-20 ' : 'top-[-490px]'
+            }`}
         >
           {Links.map((link) => (
             <li
@@ -54,7 +53,7 @@ export default function Navbar() {
               </Button>
               <Button
                 className="bg-red-400 hover:bg-red-300"
-                onClick={makePayment}
+                onClick={() => { makePayment(data.user.email, data.user.name) }}
               >
                 Pay
               </Button>
@@ -65,6 +64,7 @@ export default function Navbar() {
                     width={40}
                     height={40}
                     className="rounded-full cursor-pointer"
+                    alt="profile picture"
                   />
                 </Link>
               </div>
@@ -78,6 +78,6 @@ export default function Navbar() {
           )}
         </ul>
       </div>
-    </div>
+    </div >
   );
 }
