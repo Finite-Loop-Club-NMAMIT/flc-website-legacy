@@ -26,7 +26,7 @@ export default function Hero() {
               </Link>
             ) : (
               <Link href="/events">
-                <a className="block bg-gray-50 w-auto px-12 py-3 font-medium text-black rounded shadow hover:text-gray-400 active:text-yellow-500 focus:outline-none focus:ring duration-300">
+                <a className="block bg-gray-50 w-auto px-12 py-3 font-medium text-black rounded shadow hover:text-gray-600 active:text-yellow-500 focus:outline-none focus:ring duration-300">
                   Explore Events
                 </a>
               </Link>

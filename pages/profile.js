@@ -5,13 +5,13 @@ import Button from '../components/button';
 import { useState, useEffect } from 'react';
 
 export default function Profile() {
-  const { data, status } = useSession();
-  const [profile1, setProfile] = useState([]);
+  const [profile, setProfile] = useState([]);
+  const { data: session, status } = useSession()
 
   const fetchProfile = async () => {
-    const res = await fetch('/api/read/users');
-    const profile = await res.json();
-    setProfile(profile);
+    const res = await fetch(`/api/read/users?q=${session.user.email}`);
+    const user = await res.json();
+    setProfile(user);
   };
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Profile() {
 
   return (
     <div>
-      {console.log(profile1.data[1])}
+      {console.log(profile, session)}
       {status != 'authenticated' ? (
         <div className="flex flex-col justify-center items-center gap-6 m-24 text-center lg:m-56">
           <h1 className="text-lg lg:text-2xl">
@@ -34,13 +34,13 @@ export default function Profile() {
         <div className="flex justify-center items-center flex-col gap-5 my-10">
           <Image
             className="rounded-lg"
-            src={data.user.image}
+            src={session.user.image}
             width={200}
             height={200}
           />
-          <a className="heading text-2xl font-bold">{data.user.name}</a>
+          <a className="heading text-2xl font-bold">{session.user.name}</a>
           {/* <p className='font-bold text-gray-300'>Bio: {profile.data[0].bio}</p>
-        <p className='font-bold text-gray-300'>Role: {profile.data[0].role}</p> */}
+          <p className='font-bold text-gray-300'>Role: {profile.data[0].role}</p> */}
         </div>
       )}
     </div>
