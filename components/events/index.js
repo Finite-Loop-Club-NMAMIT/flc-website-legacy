@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Button from '../../components/button';
 import Modal from '../../components/modal';
+import { Fade } from 'react-reveal';
 
 export default function Events() {
   const [toggleState, setToggleState] = useState(0);
@@ -42,35 +43,37 @@ export default function Events() {
       <div className="flex flex-wrap gap-5 justify-center items-stretch my-5">
         {events.map((event, index) =>
           event.year === year || year === 'All' ? (
-            <div
-              key={index}
-              className="max-w-sm bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md mx-5"
-            >
-              <a href="#">
-                <Image
-                  className="rounded-t-lg"
-                  src={event.image}
-                  width={500}
-                  height={400}
-                  alt="event-pic"
-                />
-              </a>
-              <div className="flex flex-col text-center p-5">
+            <Fade right>
+              <div
+                key={index}
+                className="max-w-sm bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md mx-5"
+              >
                 <a href="#">
-                  <h5 className="mb-5 text-xl font-bold tracking-tight text-black dark:text-white">
-                    {event.name}
-                  </h5>
+                  <Image
+                    className="rounded-t-lg"
+                    src={event.image}
+                    width={500}
+                    height={400}
+                    alt="event-pic"
+                  />
                 </a>
-                <div
-                  onClick={() => {
-                    setShowModal(true);
-                    setModalData(event);
-                  }}
-                >
-                  <Button>Know more</Button>
+                <div className="flex flex-col text-center p-5">
+                  <a href="#">
+                    <h5 className="mb-5 text-xl font-bold tracking-tight text-black dark:text-white">
+                      {event.name}
+                    </h5>
+                  </a>
+                  <div
+                    onClick={() => {
+                      setShowModal(true);
+                      setModalData(event);
+                    }}
+                  >
+                    <Button>Know more</Button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Fade>
           ) : null
         )}
       </div>

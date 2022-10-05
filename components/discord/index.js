@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { Fade } from "react-reveal"
 
 export default function discord() {
   return (
@@ -20,7 +21,7 @@ export default function discord() {
             <span
             className="hidden lg:inset-y-0 lg:absolute lg:w-16 lg:bg-gray-400 lg:dark:bg-white lg:block lg:-left-16 lg:bg-opacity-30 lg:backdrop-filter lg:backdrop-blur-lg"
             ></span>
-
+            <Fade top cascade>
             <div className="p-8 sm:p-16 lg:p-24">
             <h2 className="text-2xl font-bold sm:text-3xl text-black">
             Get access to our exclusive discord community 
@@ -30,6 +31,7 @@ export default function discord() {
             Our Discord community would help you to meet and make new connections with peers, and to expand your network. All-in one place to showcase your projects, knowledge, participate in events or even chill in VCs.
             </p>
             </div>
+            </Fade>
         </div>
         </div>
     </div>

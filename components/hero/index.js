@@ -1,12 +1,13 @@
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import Button from '../button';
+import { Flip } from 'react-reveal';
 
 export default function Hero() {
   const { data, status } = useSession();
   return (
     <section className="text-black dark:text-white bg-white dark:bg-gray-900/10 transition-colors duration-500">
       <div className="px-4 py-32 mx-auto max-w-screen-xl lg:items-center lg:flex">
+      <Flip top cascade>
         <div className="max-w-xl mx-auto text-center">
           <h1 className="text-3xl font-extrabold sm:text-5xl">
             Welcome to
@@ -26,13 +27,14 @@ export default function Hero() {
               </Link>
             ) : (
               <Link href="/events">
-                <a className="block bg-gray-50 w-auto px-12 py-3 font-medium text-black rounded shadow hover:text-gray-600 active:text-yellow-500 focus:outline-none focus:ring duration-300">
+                <a className="block bg-gray-50 w-auto px-12 py-3 font-medium text-black rounded shadow hover:text-gray-600 active:text-yellow-500 focus:outline-none focus:ring duration-300 hover:scale-[1.03]">
                   Explore Events
                 </a>
               </Link>
             )}
           </div>
         </div>
+      </Flip>
       </div>
     </section>
   );
