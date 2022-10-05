@@ -6,11 +6,27 @@ import { useState, useEffect } from 'react';
 import { Fade } from 'react-reveal';
 import { authOptions } from './api/auth/[...nextauth]';
 import { unstable_getServerSession } from 'next-auth/next';
+import { AiFillInstagram } from 'react-icons/ai';
 
 export default function Profile() {
   const [profile, setProfile] = useState([]);
   const { data, status } = useSession();
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleSave = async (e) => {
+    fetch('/api/update/user', {
+      body: JSON.stringify({
+        name: e.target[0].value,
+        bio: e.target[1].value,
+        links: e.target[2].value,
+      }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  };
 
   const fetchProfile = async () => {
     const res = await fetch(`/api/read/users?q=${data.user.email}`);
@@ -59,11 +75,70 @@ export default function Profile() {
             ) : (
               <>
                 <p className="font-bold dark:text-gray-300 text-gray-700">
-                  Bio: {profile.data[0].bio}
+                  Bio:{' '}
+                  <span className="text-black dark:text-white">
+                    {profile.data[0].bio}
+                  </span>
                 </p>
                 <p className="font-bold dark:text-gray-300 text-gray-700">
-                  Role: {profile.data[0].role}
+                  Role:{' '}
+                  <span className="text-black dark:text-white">
+                    {profile.data[0].role}
+                  </span>
                 </p>
+                <p className="font-bold dark:text-gray-300 text-gray-700 flex flex-row items-center gap-2">
+                  Instagram:{' '}
+                  <Link href={profile.data[0].links}>
+                    <AiFillInstagram className="cursor-pointer text-2xl text-black dark:text-white" />
+                  </Link>
+                </p>
+                <Button onClick={() => setShowModal(true)}>Edit Profile</Button>
+                {showModal ? (
+                  <form
+                    className="flex flex-col gap-5 bg-black bg-opacity-30 dark:bg-white dark:bg-opacity-30 backdrop-filter backdrop-blur-lg p-5 rounded-xl"
+                    onSubmit={handleSave}
+                  >
+                    <div className="flex">
+                      <span class="text-sm rounded-l py-3 px-5 bg-gray-300 dark:bg-gray-500 whitespace-no-wrap w-24">
+                        Name
+                      </span>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        defaultValue={profile.data[0].name}
+                        className="py-3 px-5 rounded-r border w-80"
+                      />
+                    </div>
+                    <div className="flex">
+                      <span class="text-sm rounded-l py-3 px-5 bg-gray-300 dark:bg-gray-500 whitespace-no-wrap w-24">
+                        Bio
+                      </span>
+                      <input
+                        type="text"
+                        id="bio"
+                        name="bio"
+                        defaultValue={profile.data[0].bio}
+                        className="py-3 px-5 rounded-r border w-80"
+                      />
+                    </div>
+                    <div className="flex">
+                      <span class="text-sm rounded-l py-3 px-5 bg-gray-300 dark:bg-gray-500 whitespace-no-wrap w-24">
+                        Instagram
+                      </span>
+                      <input
+                        type="url"
+                        name="url"
+                        id="url"
+                        placeholder="https://instagram.com/username"
+                        pattern="https://.*"
+                        defaultValue={profile.data[0].links}
+                        className="py-3 px-5 rounded-r border w-80"
+                      ></input>
+                    </div>
+                    <Button type="submit">Save</Button>
+                  </form>
+                ) : null}
               </>
             )}
           </div>

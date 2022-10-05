@@ -1,34 +1,74 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Finite Loop Club - Official Repo
+<p align="left">
+<img src="https://res.cloudinary.com/dpfpk49oa/image/upload/v1661426779/logo1_gyjvor.png" width="501" height="94">
+</p>
 
-## Getting Started
+## Built with:
 
-First, run the development server:
+<p align="left">
+<img src="https://ui-lib.com/blog/wp-content/uploads/2021/12/nextjs-boilerplate-logo.png" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://www.svgrepo.com/show/374118/tailwind.svg" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://www.svgrepo.com/show/374002/prisma.svg" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://www.svgrepo.com/show/354200/postgresql.svg" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://avatars.githubusercontent.com/u/7713209?s=280&v=4" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+
+### Running the Project
+
+1. Clone the repo
+```bash
+git clone https://github.com/FiniteLoop-NMAMIT/flc-website
+```
+2. Install the dependencies:
+
+```bash
+npm i
+```
+
+3. Create & start a DB on postgres. Run Prisma migrations which will create SQL tables from `schema.prisma`
+```bash
+npx prisma migrate dev
+```
+
+4. Create an .env file in the root directory and fill the essential vars
+```env
+DATABASE_URL="..."
+GOOGLE_CLIENT_ID="..."
+GOOGLE_CLIENT_SECRET="..."
+AUTH_SECRET="..."
+RAZORPAY_KEY="..."
+RAZORPAY_SECRET="..."
+```
+
+5. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [port 3000 on localhost](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Additional: 
+```bash
+npx prisma studio
+``` 
+to use Prisma Studio(visual editor).
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Open [port 5555 on localhost](http://localhost:5555) with your browser.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Dependencies
+```json
+    "@next-auth/prisma-adapter": "^1.0.4",
+    "@prisma/client": "^4.2.1",
+    "axios": "^0.27.2",
+    "next": "12.2.5",
+    "next-auth": "^4.10.3",
+    "next-auth-sanity": "^1.4.4",
+    "next-themes": "^0.2.1",
+    "razorpay": "^2.8.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.4.0",
+    "react-reveal": "^1.2.2",
+    "shortid": "^2.2.16"
+```
