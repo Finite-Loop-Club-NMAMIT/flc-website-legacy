@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Fade } from "react-reveal";
 
 export default function Modal({ visible, onClose, name, img, desc, type, date, attended, organizer }) {
   const handleOnClose = (e) => {
@@ -12,6 +13,7 @@ export default function Modal({ visible, onClose, name, img, desc, type, date, a
       onClick={handleOnClose}
       className="z-[60] pt-56 md:pt-0 fixed inset-0 bg-black bg-opacity-30 backdrop-blur-lg flex justify-center items-center overflow-y-auto"
     >
+    <Fade top>
       <div className="p-4">
         <div className="relative max-w-5xl p-6 bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-sm">
           <button
@@ -58,6 +60,7 @@ export default function Modal({ visible, onClose, name, img, desc, type, date, a
           </div>
         </div>
       </div>
+    </Fade>
     </div>
   );
 }

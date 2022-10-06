@@ -88,56 +88,95 @@ export default function Profile() {
                 </p>
                 <p className="font-bold dark:text-gray-300 text-gray-700 flex flex-row items-center gap-2">
                   Instagram:{' '}
-                  <Link href={profile.data[0].links}>
-                    <AiFillInstagram className="cursor-pointer text-2xl text-black dark:text-white" />
+                  <Link
+                    href={`https://instagram.com/${profile.data[0].links}`}
+                    passHref
+                  >
+                    <a target="_blank" rel="noopener noreferrer">
+                      <AiFillInstagram className="cursor-pointer text-2xl text-black dark:text-white" />
+                    </a>
                   </Link>
                 </p>
                 <Button onClick={() => setShowModal(true)}>Edit Profile</Button>
                 {showModal ? (
-                  <form
-                    className="flex flex-col gap-5 bg-black bg-opacity-30 dark:bg-white dark:bg-opacity-30 backdrop-filter backdrop-blur-lg p-5 rounded-xl"
-                    onSubmit={handleSave}
-                  >
-                    <div className="flex">
-                      <span class="text-sm rounded-l py-3 px-5 bg-gray-300 dark:bg-gray-500 whitespace-no-wrap w-24">
-                        Name
-                      </span>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        defaultValue={profile.data[0].name}
-                        className="py-3 px-5 rounded-r border w-80"
-                      />
+                  <>
+                    <div className="fixed inset-0 z-10 overflow-y-auto">
+                      <div
+                        className="fixed inset-0 w-full h-full bg-black opacity-30"
+                        onClick={() => setShowModal(false)}
+                      ></div>
+                      <div className="flex items-center min-h-screen px-4 py-8">
+                        <div className="relative w-full max-w-lg p-4 mx-auto bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-md shadow-lg">
+                          <form
+                            onSubmit={handleSave}
+                            className="mb-0 space-y-4 p-8"
+                          >
+                            <p class="text-lg font-medium">Edit your Profile</p>
+                            <div>
+                              <label for="name" className="text-sm font-medium">
+                                Name
+                              </label>
+
+                              <div className="relative mt-1">
+                                <input
+                                  id="name"
+                                  name="name"
+                                  defaultValue={profile.data[0].name}
+                                  className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                                  placeholder="Enter name"
+                                />
+
+                                <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+                              </div>
+                            </div>
+
+                            <div>
+                              <label for="bio" className="text-sm font-medium">
+                                Bio
+                              </label>
+
+                              <div className="relative mt-1">
+                                <input
+                                  id="bio"
+                                  name="bio"
+                                  defaultValue={profile.data[0].bio}
+                                  className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                                  placeholder="Enter bio"
+                                />
+
+                                <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+                              </div>
+                            </div>
+
+                            <div>
+                              <label
+                                for="insta"
+                                className="text-sm font-medium"
+                              >
+                                Instagram username (without @)
+                              </label>
+
+                              <div className="relative mt-1">
+                                <input
+                                  id="insta"
+                                  name="insta"
+                                  defaultValue={profile.data[0].links}
+                                  className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                                  placeholder="Enter username (without @)"
+                                />
+
+                                <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+                              </div>
+                            </div>
+
+                            <div className="flex justify-center pt-2">
+                              <Button type="submit">Save Profile</Button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex">
-                      <span class="text-sm rounded-l py-3 px-5 bg-gray-300 dark:bg-gray-500 whitespace-no-wrap w-24">
-                        Bio
-                      </span>
-                      <input
-                        type="text"
-                        id="bio"
-                        name="bio"
-                        defaultValue={profile.data[0].bio}
-                        className="py-3 px-5 rounded-r border w-80"
-                      />
-                    </div>
-                    <div className="flex">
-                      <span class="text-sm rounded-l py-3 px-5 bg-gray-300 dark:bg-gray-500 whitespace-no-wrap w-24">
-                        Instagram
-                      </span>
-                      <input
-                        type="url"
-                        name="url"
-                        id="url"
-                        placeholder="https://instagram.com/username"
-                        pattern="https://.*"
-                        defaultValue={profile.data[0].links}
-                        className="py-3 px-5 rounded-r border w-80"
-                      ></input>
-                    </div>
-                    <Button type="submit">Save</Button>
-                  </form>
+                  </>
                 ) : null}
               </>
             )}
