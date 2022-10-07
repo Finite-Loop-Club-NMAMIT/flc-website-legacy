@@ -1,7 +1,7 @@
 import { makePayment } from '../../utils/razorpay';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../button';
 import { useSession } from 'next-auth/react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
@@ -13,6 +13,17 @@ export default function Navbar() {
   const { data, status } = useSession();
   const [open, setOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [profile, setProfile] = useState({});
+  const fetchProfile = async () => {
+    const res = await fetch(`/api/read/users?q=${data.user.email}`);
+    const user = await res.json();
+    setProfile(user.data[0]);
+  };
+  useEffect(() => {
+    if (status == 'authenticated') {
+      fetchProfile();
+    }
+  });
   return (
     <div className="shadow-md w-full fixed top-0 left-0 z-50 bg-black backdrop-filter backdrop-blur-lg bg-opacity-30">
       <div className="flex md:flex-row items-center justify-between py-4 md:px-10 px-7">
@@ -52,16 +63,16 @@ export default function Navbar() {
             </li>
           ))}
           {status === 'authenticated' ? (
-            <div className="flex flex-col md:flex-row w-[150px] md:w-full gap-3 md:ml-8">
-              <Button>
-                <Link href="/api/auth/signout">Sign Out</Link>
-              </Button>
-              <Button
-                className="bg-red-400 hover:bg-red-300"
-                onClick={() => { makePayment(data.user.email, data.user.name) }}
-              >
-                Pay
-              </Button>
+            <div className="flex flex-col  md:flex-row w-[150px] md:w-full gap-3 md:ml-8">
+              {
+                !profile.isMember && profile.role === 'member' &&
+                <Button
+                  className="bg-red-400 hover:bg-red-300 font-extrabold"
+                  onClick={() => { makePayment(data.user.email, data.user.name) }}
+                >
+                  Register
+                </Button>
+              }
               <div>
                 <Link href="/profile">
                   <Image
@@ -82,7 +93,7 @@ export default function Navbar() {
             </div>
           )}
           <button
-            className="text-3xl mx-0 my-5 lg:mx-3 text-white"
+            className="text-3xl  mx-0 my-5 lg:mx-3 text-white"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           >
             {theme === 'dark' ? <BiSun /> : <BiMoon />}

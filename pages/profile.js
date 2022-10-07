@@ -77,13 +77,13 @@ export default function Profile() {
                 <p className="font-bold dark:text-gray-300 text-gray-700">
                   Bio:{' '}
                   <span className="text-black dark:text-white">
-                    {profile.data[0].bio}
+                    {profile?.data[0].bio != null ? profile?.data[0].bio : 'No bio'}
                   </span>
                 </p>
                 <p className="font-bold dark:text-gray-300 text-gray-700">
                   Role:{' '}
                   <span className="text-black dark:text-white">
-                    {profile.data[0].role}
+                    {profile.data[0].isMember ? profile?.data[0].role : "Unofficial Member"}
                   </span>
                 </p>
                 <p className="font-bold dark:text-gray-300 text-gray-700 flex flex-row items-center gap-2">
@@ -97,7 +97,12 @@ export default function Profile() {
                     </a>
                   </Link>
                 </p>
-                <Button onClick={() => setShowModal(true)}>Edit Profile</Button>
+                <div className="flex gap-5">
+                  <Button>
+                    <Link href="/api/auth/signout">Sign Out</Link>
+                  </Button>
+                  <Button onClick={() => setShowModal(true)}>Edit Profile</Button>
+                </div>
                 {showModal ? (
                   <>
                     <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -111,7 +116,7 @@ export default function Profile() {
                             onSubmit={handleSave}
                             className="mb-0 space-y-4 p-8"
                           >
-                            <p class="text-lg font-medium">Edit your Profile</p>
+                            <p className="text-lg font-medium">Edit your Profile</p>
                             <div>
                               <label for="name" className="text-sm font-medium">
                                 Name
