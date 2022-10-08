@@ -39,8 +39,8 @@ export default function Modal({ visible, onClose, name, img, desc, type, date, a
               alt="Laptop"
               src={img}
               className="w-full h-full rounded-xl"
-              height={400}
-              width={400}
+              height={500}
+              width={500}
             />
             <div className="flex flex-col gap-3 text-white">
               <h2 className="text-lg lg:text-2xl font-medium">{name}</h2>

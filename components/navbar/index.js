@@ -32,7 +32,12 @@ export default function Navbar() {
       text-white"
         >
           <span className="text-3xl text-white mr-1 pt-2">
-            <Image src="/assets/flc_logo_crop.png" width={50} height={50} alt="flc logo" />
+            <Image
+              src="/assets/flc_logo_crop.png"
+              width={50}
+              height={50}
+              alt="flc logo"
+            />
           </span>
           <Link href="/">
             <a>Finite Loop Club</a>
@@ -47,8 +52,9 @@ export default function Navbar() {
         </div>
 
         <ul
-          className={`bg-black bg-opacity-80 md:bg-white md:bg-opacity-0 md:flex md:items-center md:pb-0 pb-12 absolute md:static  md:z-auto left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${open ? 'top-20 ' : 'top-[-490px]'
-            }`}
+          className={`bg-black bg-opacity-80 md:bg-white md:bg-opacity-0 md:flex md:items-center md:pb-0 pb-12 absolute md:static  md:z-auto left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
+            open ? 'top-20 ' : 'top-[-490px]'
+          }`}
         >
           {Links.map((link) => (
             <li
@@ -64,15 +70,16 @@ export default function Navbar() {
           ))}
           {status === 'authenticated' ? (
             <div className="flex flex-col  md:flex-row w-[150px] md:w-full gap-3 md:ml-8">
-              {
-                !profile.isMember && profile.role === 'member' &&
+              {!profile.isMember && profile.role === 'member' && (
                 <Button
                   className="bg-red-400 hover:bg-red-300 font-extrabold"
-                  onClick={() => { makePayment(data.user.email, data.user.name) }}
+                  onClick={() => {
+                    makePayment(data.user.email, data.user.name);
+                  }}
                 >
                   Register
                 </Button>
-              }
+              )}
               <div>
                 <Link href="/profile">
                   <Image
@@ -100,6 +107,6 @@ export default function Navbar() {
           </button>
         </ul>
       </div>
-    </div >
+    </div>
   );
 }

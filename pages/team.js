@@ -3,6 +3,7 @@ import { teamTabs, members } from '../components/constants';
 import Image from 'next/image';
 import { AiFillLinkedin, AiFillGithub } from 'react-icons/ai';
 import { Fade } from 'react-reveal';
+import Link from 'next/link';
 
 export default function Teams() {
   const [toggleState, setToggleState] = useState(1);
@@ -20,9 +21,9 @@ export default function Teams() {
             </div>
           </Fade>
         </div>
-        <ul className="flex border-b border-gray-100">
+        <ul className="flex justify-center flex-wrap ">
           {teamTabs.map((tab, index) => (
-            <li className="flex-1" key={index}>
+            <li key={index}>
               <a
                 onClick={() => {
                   setToggleState(index);
@@ -46,7 +47,7 @@ export default function Teams() {
         <div className="flex flex-wrap mt-10 gap-10 justify-center">
           {members.map((member, index) =>
             member.year === team ? (
-              <Fade left cascade>
+              <Fade cascade>
                 <div
                   key={index}
                   className="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4"
@@ -75,20 +76,29 @@ export default function Teams() {
                         className="flex items-center justify-center opacity-50 hover:opacity-100
                           transition-opacity duration-300"
                       >
-                        <a
-                          href={member.linkedin}
-                          className="flex justify-center items-center  rounded-full hover:bg-indigo-50 h-10 w-10 hover:text-blue-700"
-                        >
-                          <AiFillLinkedin className="text-2xl" />
-                        </a>
+                        {member.linkedin && (
+                          <Link passHref href={member.linkedin}>
+                            <a
+                              target="_blank"
+                              rel="noreferrer noopener"
+                              className="flex justify-center items-center  rounded-full hover:bg-indigo-50 h-10 w-10 hover:text-blue-700"
+                            >
+                              <AiFillLinkedin className="text-2xl" />
+                            </a>
+                          </Link>
+                        )}
 
                         {member.github && (
-                          <a
-                            href={member.github}
-                            className="flex justify-center items-center  rounded-full hover:bg-gray-50 h-10 w-10 hover:text-black"
-                          >
-                            <AiFillGithub className="text-2xl" />
-                          </a>
+                          <Link passHref href={member.github}>
+                            <a
+                              target="_blank"
+                              rel="noreferrer noopener"
+                              href={member.github}
+                              className="flex justify-center items-center  rounded-full hover:bg-gray-50 h-10 w-10 hover:text-black"
+                            >
+                              <AiFillGithub className="text-2xl" />
+                            </a>
+                          </Link>
                         )}
                       </div>
                     </div>

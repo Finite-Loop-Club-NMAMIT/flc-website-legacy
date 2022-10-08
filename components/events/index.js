@@ -17,9 +17,9 @@ export default function Events() {
   }, [showModal]);
   return (
     <div className="">
-      <ul className="flex border-b border-gray-100">
+      <ul className="flex justify-center flex-wrap">
         {eventTabs.map((tab, index) => (
-          <li className="flex-1" key={index}>
+          <li key={index}>
             <a
               onClick={() => {
                 setToggleState(index);
@@ -43,7 +43,7 @@ export default function Events() {
       <div className="flex flex-wrap gap-5 justify-center items-stretch my-5">
         {events.map((event, index) =>
           event.year === year || year === 'All' ? (
-            <Fade right>
+            <Fade cascade>
               <div
                 key={index}
                 className="max-w-sm bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md mx-5"
@@ -53,7 +53,7 @@ export default function Events() {
                     className="rounded-t-lg"
                     src={event.image}
                     width={500}
-                    height={400}
+                    height={500}
                     alt="event-pic"
                   />
                 </a>
