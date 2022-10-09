@@ -308,7 +308,7 @@ export const members = [
     role: 'Assistant Professor-CSE',
     img: '/team/faculty/kp_sir.jpg',
     // github: "https://github.com/ShrilakshmiPai",
-    // linkedin: 'https://www.linkedin.com/in/niranjan-chiplunkar-47b302a/',
+    linkedin: 'https://www.linkedin.com/in/krishna-prasad-n-rao-2367a523/',
     year: 'Faculty',
   },
   {
@@ -316,7 +316,7 @@ export const members = [
     role: 'Assistant Professor-CSE',
     img: '/team/faculty/puneet_sir.jpg',
     // github: "https://github.com/ShrilakshmiPai",
-    // linkedin: 'https://www.linkedin.com/in/niranjan-chiplunkar-47b302a/',
+    linkedin: 'https://www.linkedin.com/in/puneethrp/',
     year: 'Faculty',
   },
   //Team2022-23
@@ -452,6 +452,7 @@ export const members = [
     role: 'Program Lead',
     img: '/team/team2023/ASHWINIACHARYA.jpg',
     linkedin: 'https://www.linkedin.com/in/p-ashwini-acharya-73a631229/',
+    github: 'https://github.com/acharyaashwini/',
     year: '2022-23',
   },
   {
@@ -480,6 +481,7 @@ export const members = [
     role: 'Program Lead',
     img: '/team/team2023/Bhushan Nayak.jpg',
     linkedin: 'https://www.linkedin.com/in/bhushan-nayak/',
+    github: 'https://github.com/Bhushan-code/',
     year: '2022-23',
   },
   {
@@ -494,6 +496,7 @@ export const members = [
     role: 'Program Lead',
     img: '/team/team2023/Daivik Shetty.jpg',
     linkedin: 'https://www.linkedin.com/in/daivik-shetty-a4537521b/',
+    github: 'https://github.com/daivikshetty/',
     year: '2022-23',
   },
   {
@@ -508,6 +511,7 @@ export const members = [
     role: 'Program Lead',
     img: '/team/team2023/Prajwal Suvarna.jpg',
     linkedin: 'https://www.linkedin.com/in/prajwal-suvarna-43446a218/',
+    github: 'https://github.com/prajwalsuvarna',
     year: '2022-23',
   },
   {
@@ -521,6 +525,7 @@ export const members = [
     role: 'Program Lead',
     img: '/team/team2023/NIDHEESHA T.jpg',
     linkedin: 'https://www.linkedin.com/in/nidheesha-t-8b6685246/',
+    github: 'https://github.com/NidheeshaT',
     year: '2022-23',
   },
 
