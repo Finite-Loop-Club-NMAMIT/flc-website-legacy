@@ -19,7 +19,6 @@ export const initializeRazorpay = () => {
 export const makePayment = async (email, name) => {
     console.log("here...");
     const res = await initializeRazorpay();
-
     if (!res) {
         alert("Razorpay SDK Failed to load");
         return;
