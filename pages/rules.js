@@ -16,7 +16,7 @@ export default function rules() {
         </li>
         <li>
           Event organizers are not responsible for any loss or damage of
-          member's/participant's personal belongings.
+          member&apos;s/participant&apos;s personal belongings.
         </li>
       </ul>
       <h1 className="text-2xl md:text-4xl my-5">Refund Policy</h1>

@@ -22,8 +22,8 @@ export default function Perks() {
               />
             </div>
             <p className="mt-4">
-              Lab Oriented Training conducted by the ever-energetic 'Finite Loop
-              Club' on 'Application Development using Collaborative Tools' to
+              Lab Oriented Training conducted by the ever-energetic &apos;Finite Loop
+              Club&apos; on &apos;Application Development using Collaborative Tools&apos; to
               the first-year students (2021-2022) as a part of enhancing their
               skills.
             </p>

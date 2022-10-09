@@ -46,7 +46,7 @@ export default function privacy() {
         information is protected both online and offline. Wherever we collect
         sensitive information (such as name and date of birth), that information
         is encrypted and transmitted to us in a secure way. You can verify this
-        by looking for a lock icon in the address bar and looking for "https" at
+        by looking for a lock icon in the address bar and looking for &quot;https&duot; at
         the beginning of the address of the Web page. While we use encryption to
         protect sensitive information transmitted online, we also protect your
         information offline. Only employees who need the information to perform
@@ -57,7 +57,7 @@ export default function privacy() {
         To buy from us, you must provide contact information (like name and date
         of birth) and financial information (like credit card number, expiration
         date). This information is used for billing purposes and to fullfil your
-        orders. If we have trouble processing an order, we'll use this
+        orders. If we have trouble processing an order, we&apos;ll use this
         information to contact you. The contact information collected while
         ordering from us will be only used to send order related details and
         information and wont be used for anything else. Links This website

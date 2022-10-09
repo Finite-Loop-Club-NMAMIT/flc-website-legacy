@@ -118,7 +118,7 @@ export default function Profile() {
                           >
                             <p className="text-lg font-medium">Edit your Profile</p>
                             <div>
-                              <label for="name" className="text-sm font-medium">
+                              <label htmlFor="name" className="text-sm font-medium">
                                 Name
                               </label>
 
@@ -136,7 +136,7 @@ export default function Profile() {
                             </div>
 
                             <div>
-                              <label for="bio" className="text-sm font-medium">
+                              <label htmlFor="bio" className="text-sm font-medium">
                                 Bio
                               </label>
 
@@ -155,7 +155,7 @@ export default function Profile() {
 
                             <div>
                               <label
-                                for="insta"
+                                htmlFor="insta"
                                 className="text-sm font-medium"
                               >
                                 Instagram username (without @)
