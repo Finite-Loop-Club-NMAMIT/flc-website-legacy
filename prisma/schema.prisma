@@ -87,7 +87,7 @@ model RegistrationPayment {
   id          Int      @id @default(autoincrement())
   userId      String
   orderId     String   @unique
-  amount      Int
+  amount      Float
   paid        Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
