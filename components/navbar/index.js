@@ -14,16 +14,17 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const [profile, setProfile] = useState({});
-  const fetchProfile = async () => {
-    const res = await fetch(`/api/read/users?q=${data.user.email}`);
-    const user = await res.json();
-    setProfile(user.data[0]);
-  };
+
   useEffect(() => {
     if (status == 'authenticated') {
+      const fetchProfile = async () => {
+        const res = await fetch(`/api/read/users?q=${data.user.email}`);
+        const user = await res.json();
+        setProfile(user.data[0]);
+      };
       fetchProfile();
     }
-  });
+  }, [status]);
   return (
     <div className="shadow-md w-full fixed top-0 left-0 z-50 bg-black backdrop-filter backdrop-blur-lg bg-opacity-30">
       <div className="flex md:flex-row items-center justify-between py-4 md:px-10 px-7">

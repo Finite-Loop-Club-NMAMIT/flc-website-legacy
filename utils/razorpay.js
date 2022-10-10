@@ -33,7 +33,7 @@ export const makePayment = async (email, name) => {
         name: "Finite Loop Club",
         currency: data.currency,
         amount: data.amount,
-        order_id: data.id,
+        
         description: "Membership is valid throughout your engineering course",
         image: "/flc_logo_crop.png",
         handler: function (response) {
