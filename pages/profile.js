@@ -1,17 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSession, signOut, signIn } from 'next-auth/react';
+import { useSession, signOut, signIn, getSession } from 'next-auth/react';
 import Button from '../components/button';
 import { useState, useEffect } from 'react';
 import { Fade } from 'react-reveal';
-import { authOptions } from './api/auth/[...nextauth]';
-import { unstable_getServerSession } from 'next-auth/next';
 import { AiFillInstagram } from 'react-icons/ai';
 
 export default function Profile() {
   const [profile, setProfile] = useState([]);
   const { data, status } = useSession();
-  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
   const handleSave = async (e) => {
@@ -29,25 +26,17 @@ export default function Profile() {
   };
 
   const fetchProfile = async () => {
-    const res = await fetch(`/api/read/users?q=${data.user.email}`);
+    const session = await getSession();
+    const res = await fetch(`/api/read/users?q=${session.user.email}`);
     const user = await res.json();
     setProfile(user);
   };
 
-  /* Temporary fix for session not found and fetching issues after component mount */
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (status == 'authenticated') {
       fetchProfile();
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+    }
+  }, [status]);
 
   return (
     <div>
@@ -56,7 +45,7 @@ export default function Profile() {
           <h1 className="text-lg lg:text-2xl">
             You are not authorised, Please sign in.
           </h1>
-          <Button onClick={() => signIn("google")}>
+          <Button onClick={() => signIn('google')}>
             <a>Sign In</a>
           </Button>
         </div>
@@ -68,22 +57,27 @@ export default function Profile() {
               src={data.user.image}
               width={200}
               height={200}
+              alt="Profile Picture"
             />
             <a className="heading text-2xl font-bold">{data.user.name}</a>
-            {loading ? (
+            {profile?.data === undefined ? (
               <a>Loading...</a>
             ) : (
               <>
                 <p className="font-bold dark:text-gray-300 text-gray-700">
                   Bio:{' '}
                   <span className="text-black dark:text-white">
-                    {profile?.data[0].bio != null ? profile?.data[0].bio : 'No bio'}
+                    {profile?.data[0].bio != null
+                      ? profile?.data[0].bio
+                      : 'No bio'}
                   </span>
                 </p>
                 <p className="font-bold dark:text-gray-300 text-gray-700">
                   Role:{' '}
                   <span className="text-black dark:text-white">
-                    {profile.data[0].isMember ? profile?.data[0].role : "Unofficial Member"}
+                    {profile.data[0].isMember
+                      ? profile?.data[0].role
+                      : 'Unofficial Member'}
                   </span>
                 </p>
                 <p className="font-bold dark:text-gray-300 text-gray-700 flex flex-row items-center gap-2">
@@ -101,7 +95,9 @@ export default function Profile() {
                   <Button onClick={() => signOut()}>
                     <a>Sign Out</a>
                   </Button>
-                  <Button onClick={() => setShowModal(true)}>Edit Profile</Button>
+                  <Button onClick={() => setShowModal(true)}>
+                    Edit Profile
+                  </Button>
                 </div>
                 {showModal ? (
                   <>
@@ -116,9 +112,14 @@ export default function Profile() {
                             onSubmit={handleSave}
                             className="mb-0 space-y-4 p-8"
                           >
-                            <p className="text-lg font-medium">Edit your Profile</p>
+                            <p className="text-lg font-medium">
+                              Edit your Profile
+                            </p>
                             <div>
-                              <label htmlFor="name" className="text-sm font-medium">
+                              <label
+                                htmlFor="name"
+                                className="text-sm font-medium"
+                              >
                                 Name
                               </label>
 
@@ -136,7 +137,10 @@ export default function Profile() {
                             </div>
 
                             <div>
-                              <label htmlFor="bio" className="text-sm font-medium">
+                              <label
+                                htmlFor="bio"
+                                className="text-sm font-medium"
+                              >
                                 Bio
                               </label>
 
@@ -190,28 +194,4 @@ export default function Profile() {
       )}
     </div>
   );
-}
-
-/* to reduce response time https://next-auth.js.org/configuration/nextjs#unstable_getServerSession */
-export async function getServerSideProps(context) {
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
 }

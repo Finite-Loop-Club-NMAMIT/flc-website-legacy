@@ -1,6 +1,7 @@
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { Flip } from 'react-reveal';
+import Button from '../button';
 
 export default function Hero() {
   const { data, status } = useSession();
@@ -22,11 +23,11 @@ export default function Hero() {
             </p>
             <div className="flex flex-wrap justify-center mt-8">
               {status != 'authenticated' ? (
-                <Link href="/api/auth/signin">
-                  <a className="block w-auto px-12 py-3 font-medium text-white bg-yellow-400 rounded shadow active:bg-yellow-500 hover:bg-yellow-300 focus:outline-none focus:ring duration-300">
+                <Button onClick={()=>signIn("google")}>
+                  <a>
                     Sign In
                   </a>
-                </Link>
+                </Button>
               ) : (
                 <Link href="/events">
                   <a className="block bg-gray-50 w-auto px-12 py-3 font-medium text-black rounded shadow hover:text-gray-600 active:text-yellow-500 focus:outline-none focus:ring duration-300 hover:scale-[1.03]">

@@ -392,7 +392,7 @@ export const members = [
   {
     name: 'Vidyesh Kumar',
     role: 'Digital Tech lead',
-    img: '/team/team2022/vidyesh.png',
+    img: '/team/team2022/Vidyesh.png',
     github: 'https://github.com/vidyesh-kumar',
     linkedin: 'hhttps://www.linkedin.com/in/vidyesh-kumar-83667221a/',
     year: '2022-23',
@@ -598,7 +598,7 @@ export const members = [
   {
     name: 'Vidyesh Kumar',
     role: 'Graphics Design Co-Head',
-    img: '/team/team2022/vidyesh.png',
+    img: '/team/team2022/Vidyesh.png',
     github: 'https://github.com/vidyesh-kumar',
     linkedin: 'hhttps://www.linkedin.com/in/vidyesh-kumar-83667221a/',
     year: '2021-22',
