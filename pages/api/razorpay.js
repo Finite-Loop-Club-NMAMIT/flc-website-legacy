@@ -9,6 +9,7 @@ export default async function handler(req, res) {
         return
     }
     const session = await unstable_getServerSession(req, res, authOptions);
+    console.log(session);
     if (session.user) {
 
         const razorpay = new Razorpay({

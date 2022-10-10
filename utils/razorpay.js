@@ -1,7 +1,3 @@
-
-import { useSession } from "next-auth/react";
-
-
 export const initializeRazorpay = () => {
     return new Promise((resolve) => {
         const script = document.createElement("script");
@@ -16,9 +12,10 @@ export const initializeRazorpay = () => {
     });
 };
 
-export const makePayment = async (email, name) => {
+export const makePayment = async () => {
     console.log("here...");
     const res = await initializeRazorpay();
+
     if (!res) {
         alert("Razorpay SDK Failed to load");
         return;
@@ -33,21 +30,13 @@ export const makePayment = async (email, name) => {
         name: "Finite Loop Club",
         currency: data.currency,
         amount: data.amount,
-        
+        order_id: data.id,
         description: "Membership is valid throughout your engineering course",
-        image: "/flc_logo_crop.png",
+        image: "/assets/flc_logo_crop.png",
         handler: function (response) {
         },
-        prefill: {
-            email: email,
-            name: name
-        }
     };
-
 
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
 };
-
-
-
