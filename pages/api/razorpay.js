@@ -44,18 +44,18 @@ export default async function handler(req, res) {
                         amount: amount / 100
                     }
                 })
-                res.status(200).json({
+                return res.status(200).json({
                     id: response.id,
                     currency: response.currency,
                     amount: response.amount,
                 });
             }
-            res.status(401).json({
+            return res.status(401).json({
                 message: "No Permission"
             });
         } catch (err) {
             console.log(err);
-            res.status(400).json(err);
+            return res.status(400).json(err);
         }
     }
 }
