@@ -7,7 +7,7 @@ export default function About() {
     <section>
       <div className="bg-white dark:bg-black max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-28 transition-colors duration-500">
         <div className="grid grid-cols-1 gap-8 lg:gap-16 lg:grid-cols-2">
-          <div className="relative h-96 overflow-hidden rounded-lg lg:order-last my-auto">
+          <div className="relative h-80 lg:h-96 overflow-hidden rounded-lg lg:order-last my-auto">
             <Image
               alt="Team"
               layout="fill"
