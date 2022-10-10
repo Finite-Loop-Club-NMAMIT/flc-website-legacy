@@ -5,6 +5,7 @@ import Button from '../components/button';
 import { useState, useEffect } from 'react';
 import { Fade } from 'react-reveal';
 import { AiFillInstagram } from 'react-icons/ai';
+import { BsPatchCheckFill } from 'react-icons/bs';
 
 export default function Profile() {
   const [profile, setProfile] = useState([]);
@@ -69,14 +70,14 @@ export default function Profile() {
                   <span className="text-black dark:text-white">
                     {profile?.data[0].bio != null
                       ? profile?.data[0].bio
-                      : 'No bio'}
+                      : "You don't have any bio yet"}
                   </span>
                 </p>
                 <p className="font-bold dark:text-gray-300 text-gray-700">
                   Role:{' '}
-                  <span className="text-black dark:text-white">
+                  <span className="text-black dark:text-white inline-flex gap-1 items-center">
                     {profile.data[0].isMember
-                      ? profile?.data[0].role
+                      ? <> <span>{capitalize(profile?.data[0].role)}</span><BsPatchCheckFill className='text-green-500 animate-pulse' /> </>
                       : 'Unofficial Member'}
                   </span>
                 </p>
@@ -194,4 +195,8 @@ export default function Profile() {
       )}
     </div>
   );
+}
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }

@@ -1,3 +1,5 @@
+import Router from 'next/router'
+
 export const initializeRazorpay = () => {
     return new Promise((resolve) => {
         const script = document.createElement("script");
@@ -12,7 +14,7 @@ export const initializeRazorpay = () => {
     });
 };
 
-export const makePayment = async () => {
+export const makePayment = async (email, name) => {
     console.log("here...");
     const res = await initializeRazorpay();
 
@@ -34,7 +36,13 @@ export const makePayment = async () => {
         description: "Membership is valid throughout your engineering course",
         image: "/assets/flc_logo_crop.png",
         handler: function (response) {
+            Router.push('/profile')
         },
+        prefill: {
+            email: email,
+            name: name,
+
+        }
     };
 
     const paymentObject = new window.Razorpay(options);
