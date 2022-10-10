@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Button from '../button';
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { BiSun, BiMoon } from 'react-icons/bi';
 import { Links } from '../constants';
@@ -94,8 +94,8 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="md:ml-8">
-              <Button>
-                <Link href="/api/auth/signin">Sign In</Link>
+              <Button onClick={() => signIn("google")}>
+                <a>Sign In</a>
               </Button>
             </div>
           )}

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut, signIn } from 'next-auth/react';
 import Button from '../components/button';
 import { useState, useEffect } from 'react';
 import { Fade } from 'react-reveal';
@@ -56,8 +56,8 @@ export default function Profile() {
           <h1 className="text-lg lg:text-2xl">
             You are not authorised, Please sign in.
           </h1>
-          <Button>
-            <Link href="/api/auth/signin">Sign In</Link>
+          <Button onClick={() => signIn("google")}>
+            <a>Sign In</a>
           </Button>
         </div>
       ) : (
@@ -98,8 +98,8 @@ export default function Profile() {
                   </Link>
                 </p>
                 <div className="flex gap-5">
-                  <Button>
-                    <Link href="/api/auth/signout">Sign Out</Link>
+                  <Button onClick={() => signOut()}>
+                    <a>Sign Out</a>
                   </Button>
                   <Button onClick={() => setShowModal(true)}>Edit Profile</Button>
                 </div>
