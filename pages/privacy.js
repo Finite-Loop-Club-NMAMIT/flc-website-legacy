@@ -1,6 +1,6 @@
 export default function privacy() {
   return (
-    <div className="p-10 text-gray-300 text-md md:text-lg">
+    <div className="p-10 text-gray-700 dark:text-gray-300 text-md md:text-lg">
       <h1 className="text-2xl md:text-4xl my-5">Privacy Policy</h1>
       <p>
         This privacy notice discloses the privacy practices for
@@ -68,7 +68,7 @@ export default function privacy() {
         leave our site and to read the privacy statements of any other site that
         collects personally identifiable information.
       </p>
-      <p className="mt-4 text-yellow-300">
+      <p className="mt-4 text-yellow-500 dark:text-yellow-300">
         If you feel that we are not abiding by this privacy policy, you should
         contact us immediately via telephone at +91 8197903771 or via
         inspirantech@gmail.com

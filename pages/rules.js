@@ -1,6 +1,6 @@
 export default function rules() {
   return (
-    <div className="p-10 text-gray-300 text-md md:text-lg">
+    <div className="p-10 text-gray-700 dark:text-gray-300 text-md md:text-lg">
       <h1 className="text-2xl md:text-4xl my-5">Terms and Conditions</h1>
       <ul style={{ listStyle: 'disc' }} className="pl-5">
         <li>

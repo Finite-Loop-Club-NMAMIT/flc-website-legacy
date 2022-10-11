@@ -60,7 +60,7 @@ export default function Profile() {
               height={200}
               alt="Profile Picture"
             />
-            <a className="heading text-2xl font-bold">{data.user.name}</a>
+            <a className="heading text-center text-2xl font-bold">{data.user.name}</a>
             {profile?.data === undefined ? (
               <a>Loading...</a>
             ) : (
