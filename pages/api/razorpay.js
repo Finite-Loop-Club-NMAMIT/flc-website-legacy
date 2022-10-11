@@ -41,7 +41,7 @@ export default async function handler(req, res) {
                     data: {
                         orderId,
                         userId: user.id,
-                        amount: amount / 100
+                        amount: amount
                     }
                 })
                 return res.status(200).json({
