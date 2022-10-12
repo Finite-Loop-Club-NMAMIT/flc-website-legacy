@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { points } from '../constants';
-import { Fade, Slide } from 'react-reveal';
+import { Slide, Fade } from 'react-reveal';
 
 export default function About() {
   return (
@@ -30,7 +30,7 @@ export default function About() {
                 </p>
               </div>
             </Slide>
-            <Fade top cascade>
+            <Fade top>
               <div className="mt-5 flex gap-3 flex-col md:text-lg text-gray-600 dark:text-gray-400">
                 {points.map((point) => (
                   <p
@@ -41,7 +41,7 @@ export default function About() {
                   </p>
                 ))}
               </div>
-            </Fade>
+              </Fade>
           </div>
         </div>
       </div>
