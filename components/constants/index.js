@@ -341,7 +341,7 @@ export const members = [
   ,
   {
     name: 'Apoorva Prabhu',
-    role: 'Joint Secretary',
+    role: 'Secretary',
     img: '/team/team2022/apoorva.jpg',
     github: 'https://github.com/Apoorva77',
     linkedin: 'https://www.linkedin.com/in/apoorva-prabhu-r/',

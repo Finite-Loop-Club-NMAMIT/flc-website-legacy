@@ -5,10 +5,10 @@ import { social } from '../constants';
 
 export default function footer() {
   return (
-    <footer className="bg-white dark:bg-black text-black dark:text-white transition-colors duration-500">
+    <footer className="bg-gray-50 dark:bg-black text-black dark:text-white transition-colors duration-500">
       <div className="max-w-5xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
         <div className="flex justify-center items-center">
-          <Image src="/assets/flc_logo_crop.png" width={100} height={100} />
+          <Image src="/assets/flc_logo_crop.png" width={100} height={100} alt="flc_logo" />
           <a className="ml-3 text-lg md:text-xl cursor-pointer flex items-center text-black dark:text-gray-100">
             Finite Loop Club
           </a>
