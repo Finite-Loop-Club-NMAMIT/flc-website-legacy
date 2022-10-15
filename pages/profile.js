@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { Fade } from 'react-reveal';
 import { AiFillInstagram } from 'react-icons/ai';
 import { BsPatchCheckFill } from 'react-icons/bs';
+import { toast, Toaster } from 'react-hot-toast';
+import Router from 'next/router';
 
 export default function Profile() {
   const [profile, setProfile] = useState([]);
@@ -13,6 +15,8 @@ export default function Profile() {
   const [showModal, setShowModal] = useState(false);
 
   const handleSave = async (e) => {
+    // avoiding autorefresh to show toast
+    e.preventDefault();
     fetch('/api/update/user', {
       body: JSON.stringify({
         name: e.target[0].value,
@@ -23,7 +27,15 @@ export default function Profile() {
       headers: {
         'Content-Type': 'application/json',
       },
-    });
+    })
+      .then((r) => {
+        if (r.status === 200) toast.success('Saved successfully!');
+        //refreshing after toast is shown
+        Router.reload();
+      })
+      .catch((err) => {
+        toast.error(err);
+      });
   };
 
   const fetchProfile = async () => {
@@ -41,6 +53,9 @@ export default function Profile() {
 
   return (
     <div>
+      <div>
+        <Toaster />
+      </div>
       {profile?.data === undefined ? (
         <div className="flex flex-col justify-center items-center gap-6 m-24 text-center lg:m-56">
           <h1 className="text-lg lg:text-2xl">
@@ -74,7 +89,7 @@ export default function Profile() {
           <div className="flex justify-center items-center flex-col gap-5 my-10">
             <Image
               className="rounded-lg"
-              src={data.user.image}
+              src={data.user.image.split('=')[0]}
               width={200}
               height={200}
               alt="Profile Picture"

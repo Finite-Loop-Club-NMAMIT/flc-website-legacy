@@ -8,6 +8,7 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { BiSun, BiMoon } from 'react-icons/bi';
 import { Links } from '../constants';
 import { useTheme } from 'next-themes';
+import { toast, Toaster } from 'react-hot-toast';
 
 export default function Navbar() {
   const { data, status } = useSession();
@@ -26,6 +27,8 @@ export default function Navbar() {
     }
   }, [status]);
   return (
+    <>
+    <div><Toaster /></div>
     <div className="shadow-md w-full fixed top-0 left-0 z-50 bg-black backdrop-filter backdrop-blur-lg bg-opacity-30">
       <div className="flex md:flex-row items-center justify-between py-4 md:px-10 px-7">
         <div
@@ -72,14 +75,12 @@ export default function Navbar() {
           {status === 'authenticated' ? (
             <div className="flex flex-col  md:flex-row w-[150px] md:w-full gap-3 md:ml-8">
               {!profile.isMember && profile.role === 'member' && (
-                <Button
-                  className="bg-red-400 hover:bg-red-300 font-extrabold"
-                  onClick={() => {
-                    makePayment(data.user.email, data.user.name);
-                  }}
-                >
-                  Register
-                </Button>
+                // <Button
+                //   onClick={() => {
+                //     makePayment(data.user.email, data.user.name);
+                //   }}
+                // >
+                <Button onClick={() => {toast.error(`Hey ${data.user?.name}, Payments are temporarily down. Wait for them to get fixed or Contact the team for more info.`, {duration: 6000,})}} >Register</Button>
               )}
               <div>
                 <Link href="/profile">
@@ -95,7 +96,7 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="md:ml-8">
-              <Button onClick={() => signIn("google")}>
+              <Button onClick={() => signIn('google')}>
                 <a>Sign In</a>
               </Button>
             </div>
@@ -109,5 +110,6 @@ export default function Navbar() {
         </ul>
       </div>
     </div>
+    </>
   );
 }
