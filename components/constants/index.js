@@ -16,6 +16,7 @@ export const Links = [
   { name: 'Home', link: '/' },
   { name: 'Events', link: '/events' },
   { name: 'Team', link: '/team' },
+  { name: 'Services', link: '/shipping' },
 ];
 
 export const points = [
@@ -88,7 +89,7 @@ export const social = [
     name: 'E-mail',
   },
   {
-    link: 'tel:8861643971',
+    link: 'tel:8197903771',
     icon: <AiOutlinePhone className="w-7 h-7 hover:text-yellow-500" />,
     name: 'Call Us',
   },

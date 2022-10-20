@@ -10,7 +10,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-body{
+body {
   padding-top: 150px;
 }
 
@@ -25,4 +25,8 @@ a {
 
 .heading {
   @apply text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-300 to-red-500 animate-text;
+}
+
+::selection {
+  background: #fde047;
 }

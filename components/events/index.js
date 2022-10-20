@@ -48,7 +48,7 @@ export default function Events() {
                 key={index}
                 className="max-w-sm bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md mx-5"
               >
-                <a href="#">
+                <a>
                   <Image
                     className="rounded-t-lg"
                     src={event.image}
@@ -58,7 +58,7 @@ export default function Events() {
                   />
                 </a>
                 <div className="flex flex-col text-center p-5">
-                  <a href="#">
+                  <a>
                     <h5 className="mb-5 text-xl font-bold tracking-tight text-black dark:text-white">
                       {event.name}
                     </h5>
