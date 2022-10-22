@@ -1,14 +1,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Links } from '../constants';
-import { social } from '../constants';
+import { Links, social, footLinks } from '../constants';
 
 export default function footer() {
   return (
     <footer className="bg-gray-50 dark:bg-black text-black dark:text-white transition-colors duration-500">
       <div className="max-w-5xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
         <div className="flex justify-center items-center">
-          <Image src="/assets/flc_logo_crop.png" width={100} height={100} alt="flc_logo" />
+          <Image
+            src="/assets/flc_logo_crop.png"
+            width={100}
+            height={100}
+            alt="flc_logo"
+          />
           <a className="ml-3 text-lg md:text-xl cursor-pointer flex items-center text-black dark:text-gray-100">
             Finite Loop Club
           </a>
@@ -52,21 +56,18 @@ export default function footer() {
 
         <nav className="mt-6">
           <ul className="flex flex-wrap justify-center gap-6">
-            <li>
-              <Link href="/privacy">
-                <a className="text-black dark:text-gray-400 transition hover:text-gray-500 dark:hover:text-gray-200/75">
-                  Privacy Policy
-                </a>
-              </Link>
-            </li>
-            <a className="hidden sm:flex">|</a>
-            <li>
-              <Link href="/rules">
-                <a className="text-black dark:text-gray-400 transition hover:text-gray-500 dark:hover:text-gray-200/75">
-                  Terms and Conditions
-                </a>
-              </Link>
-            </li>
+            {footLinks.map((link, index) => (
+              <>
+                <li key={index}>
+                  <Link href={link.link}>
+                    <a className="text-black dark:text-gray-400 transition hover:text-gray-500 dark:hover:text-gray-200/75">
+                      {link.name}
+                    </a>
+                  </Link>
+                </li>
+                <a className="hidden sm:flex">|</a>
+              </>
+            ))}
           </ul>
         </nav>
       </div>
