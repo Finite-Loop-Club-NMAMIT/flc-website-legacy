@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Button from '../button';
 import { useSession, signIn } from 'next-auth/react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
-import { BiSun, BiMoon } from 'react-icons/bi';
+import { BiSun, BiMoon} from 'react-icons/bi';
 import { Links } from '../constants';
 import { useTheme } from 'next-themes';
 // import { toast, Toaster } from 'react-hot-toast';
@@ -14,7 +14,7 @@ import { Fade } from 'react-reveal';
 export default function Navbar() {
   const { data, status } = useSession();
   const [open, setOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const {theme, setTheme } = useTheme();
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
@@ -27,6 +27,7 @@ export default function Navbar() {
       fetchProfile();
     }
   }, [status]);
+
   return (
     <>
       {/* <div>
@@ -108,9 +109,9 @@ export default function Navbar() {
             )}
             <button
               className="text-3xl  mx-0 my-5 lg:mx-3 text-white"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark') + console.log('było', theme)}
             >
-              {theme === 'dark' ? <BiSun /> : <BiMoon />}
+              {theme ? (theme === 'dark' ? <BiSun/> : <BiMoon/>) :<></>}
             </button>
           </ul>
         </div>
