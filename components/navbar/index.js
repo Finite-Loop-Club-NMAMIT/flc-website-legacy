@@ -109,7 +109,7 @@ export default function Navbar() {
             )}
             <button
               className="text-3xl  mx-0 my-5 lg:mx-3 text-white"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark') + console.log('było', theme)}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
               {theme ? (theme === 'dark' ? <BiSun/> : <BiMoon/>) :<></>}
             </button>
