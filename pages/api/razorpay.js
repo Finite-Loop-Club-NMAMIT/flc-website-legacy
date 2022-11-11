@@ -9,6 +9,7 @@ export default async function handler(req, res) {
         return
     }
     const session = await unstable_getServerSession(req, res, authOptions);
+    console.log(session);
     if (session.user) {
 
         const razorpay = new Razorpay({
@@ -40,21 +41,21 @@ export default async function handler(req, res) {
                     data: {
                         orderId,
                         userId: user.id,
-                        amount: amount / 100
+                        amount: amount
                     }
                 })
-                res.status(200).json({
+                return res.status(200).json({
                     id: response.id,
                     currency: response.currency,
                     amount: response.amount,
                 });
             }
-            res.status(401).json({
+            return res.status(401).json({
                 message: "No Permission"
             });
         } catch (err) {
             console.log(err);
-            res.status(400).json(err);
+            return res.status(400).json(err);
         }
     }
 }

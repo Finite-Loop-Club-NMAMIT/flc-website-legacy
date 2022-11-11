@@ -34,7 +34,7 @@ export default function Tech() {
                   key={index}
                   className="block p-4 border border-yellow-400 shadow-sm rounded-xl hover:border-yellow-200 hover:shadow-yellow-300/25 hover:shadow-xl duration-300 text-center"
                 >
-                  <Image src={`/assets/${item.src}`} width={100} height={100} />
+                  <Image src={`/assets/${item.src}`} width={100} height={100} alt="icon" />
                 </a>
               ))}
             </div>

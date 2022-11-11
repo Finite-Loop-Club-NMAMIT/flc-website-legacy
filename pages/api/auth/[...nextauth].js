@@ -15,9 +15,9 @@ export const authOptions = {
     ],
     secret: process.env.AUTH_SECRET,
     theme: {
-        colorScheme: "dark", 
-        brandColor: "#facc15", 
-        logo: "https://res.cloudinary.com/dpfpk49oa/image/upload/v1661426777/logo2_fpkrl6.png", 
+        colorScheme: "dark",
+        brandColor: "#facc15",
+        logo: "https://res.cloudinary.com/dpfpk49oa/image/upload/v1661426777/logo2_fpkrl6.png",
     },
     events: {
         async signIn({ user, account, profile, isNewUser }) {
@@ -41,6 +41,11 @@ export const authOptions = {
         }
 
     },
+    callbacks: {
+        async jwt({ token, user, account, profile, isNewUser }) {
+            return token
+        }
+    }
 
 }
 

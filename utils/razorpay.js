@@ -1,6 +1,4 @@
-
-import { useSession } from "next-auth/react";
-
+import Router from 'next/router'
 
 export const initializeRazorpay = () => {
     return new Promise((resolve) => {
@@ -19,6 +17,7 @@ export const initializeRazorpay = () => {
 export const makePayment = async (email, name) => {
     console.log("here...");
     const res = await initializeRazorpay();
+
     if (!res) {
         alert("Razorpay SDK Failed to load");
         return;
@@ -35,19 +34,17 @@ export const makePayment = async (email, name) => {
         amount: data.amount,
         order_id: data.id,
         description: "Membership is valid throughout your engineering course",
-        image: "/flc_logo_crop.png",
+        image: "/assets/flc_logo_crop.png",
         handler: function (response) {
+            Router.push('/profile')
         },
         prefill: {
             email: email,
-            name: name
+            name: name,
+
         }
     };
-
 
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
 };
-
-
-

@@ -6,8 +6,7 @@ export default async function handler(req, res) {
 
     console.log(req.body)
     if (req.method !== 'POST') {
-        res.status(405).send({ message: 'Only POST requests allowed' })
-        return
+        return res.status(405).send({ message: 'Only POST requests allowed' })
     }
     try {
         const payment = await prisma.registrationPayment.update({
@@ -28,10 +27,10 @@ export default async function handler(req, res) {
                 isMember: true
             }
         })
-        res.status(200).json({ status: "OK" })
-        return
+        return res.status(200).json({ status: "OK" })
+
     } catch (err) {
         console.log(err);
-        res.status(400).json(err);
+        return res.status(400).json(err);
     }
 }
