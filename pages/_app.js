@@ -1,7 +1,8 @@
 import '../styles/globals.css';
 import { SessionProvider } from 'next-auth/react';
 import Footer from '../components/footer';
-import Navbar from '../components/navbar';
+import dynamic from 'next/dynamic';
+const Navbar = dynamic(()=> import('../components/navbar'), {ssr: false});
 import Head from 'next/head';
 import { ThemeProvider } from 'next-themes';
 import nProgress from 'nprogress';
