@@ -8,6 +8,7 @@ import { AiFillInstagram } from 'react-icons/ai';
 import { BsPatchCheckFill } from 'react-icons/bs';
 import { toast, Toaster } from 'react-hot-toast';
 import Router from 'next/router';
+import Team from '../components/Team';
 
 export default function Profile() {
   const [profile, setProfile] = useState([]);
@@ -86,7 +87,7 @@ export default function Profile() {
         </div>
       ) : (
         <Fade top cascade>
-          <div className="flex justify-center items-center flex-col gap-5 my-10">
+          <div className="p-5 flex justify-center items-center flex-col gap-5 my-10">
             <Image
               className="rounded-lg"
               src={data.user.image.split('=')[0]}
@@ -136,6 +137,8 @@ export default function Profile() {
               </Button>
               <Button onClick={() => setShowModal(true)}>Edit Profile</Button>
             </div>
+            <Team />
+
             {showModal ? (
               <>
                 <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -226,3 +229,5 @@ export default function Profile() {
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+
