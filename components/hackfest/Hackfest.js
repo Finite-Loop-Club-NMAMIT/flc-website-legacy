@@ -105,8 +105,8 @@ const Hackfest = () => {
                 <ul className="dui-steps gap-3">
                   <li data-content="✓" className="dui-step dui-step-warning text-xl font-bold ">Phase 1</li>
                   <li data-content="✓" className="dui-step dui-step-warning text-xl font-bold">Phase 2</li>
-                  <li data-content="✓" className="dui-step dui-step-neutral text-xl font-bold">Phase 3</li>
-                  <li data-content="✓" className="dui-step dui-step-neutral text-xl font-bold">Phase 4</li>
+                  <li data-content="✓" className="dui-step dui-step-warning text-xl font-bold">Phase 3</li>
+                  <li data-content="✓" className="dui-step dui-step-warning text-xl font-bold">Phase 4</li>
                   <li data-content="★" className="dui-step dui-step-neutral text-xl font-bold">Phase 5</li>
                   {/* <li data-content="●" className="dui-step dui-step-neutral">Step 7</li> */}
                 </ul>
