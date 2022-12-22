@@ -3,6 +3,7 @@ import About from '../components/about'
 import Perks from '../components/perks'
 import Tech from '../components/tech'
 import Discord from '../components/discord'
+import Hackfest from "../components/hackfest/Hackfest"
 
 export default function Home() {
   return (
@@ -10,6 +11,8 @@ export default function Home() {
       <Hero />
       <hr className="border-gray-500/50" />
       <About />
+      <hr className="border-gray-500/50" />
+      <Hackfest />
       <hr className="border-gray-500/50" />
       <Perks />
       <hr className="border-gray-500/50" />

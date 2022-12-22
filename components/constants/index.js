@@ -132,7 +132,7 @@ export const events = [
     Finite Loop Club(FLC) welcomes all the technophiles to an interesting opportunity.⚡
     
     📢 FLC is organizing a "beginner-friendly hands-on guide to Application Security (Ethical Hacking)" where all the participants will be upskilled by taking them through the topics like : 2FA Bypass ,Broken Authentication,HTML Injection,Brute Force Attacks,HTTP Parameter Pollution,OAuth Misconfiguration,Host Header Injection.
-    \n
+    
     Then Let's hunt the bugs, like thugs;
     Let's have some fun, with Trojan;
     Let's get the code fix, but keeping our ethics`
