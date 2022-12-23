@@ -3,6 +3,8 @@ import { Fade } from 'react-reveal';
 import { RiNumber1, RiNumber2, RiNumber3, RiNumber4, RiNumber5, } from 'react-icons/ri';
 import { GiRuleBook } from 'react-icons/gi';
 import { FiExternalLink } from 'react-icons/fi';
+
+
 const HackFestPhase = [
   {
     title: 'Kickstart',
@@ -18,7 +20,8 @@ const HackFestPhase = [
     implement it.`,
     icon: <RiNumber1 className='text-3xl text-yellow-500 inline' />,
     date: '11-18th Nov',
-    link: false
+    link: false,
+    id: 1
   },
   {
     title: 'Ideathon',
@@ -30,7 +33,8 @@ const HackFestPhase = [
     days to get the feedbacks.`,
     icon: <RiNumber2 className='text-3xl text-yellow-500 inline' />,
     date: '19th-20th Nov',
-    link: false
+    link: false,
+    id: 2
   },
   {
     title: 'Hackathon',
@@ -43,7 +47,8 @@ const HackFestPhase = [
     month of December.`,
     icon: <RiNumber3 className='text-3xl text-yellow-500 inline' />,
     date: '21 Nov - 25 Dec',
-    link: false
+    link: false,
+    id: 3
   },
   {
     title: 'Expo Prep',
@@ -54,7 +59,8 @@ const HackFestPhase = [
     present your project to the judges.`,
     icon: <RiNumber4 className='text-3xl text-yellow-500 inline' />,
     date: '25th Dec onwards',
-    link: false
+    link: false,
+    id: 4
   },
   {
     title: 'Project Expo',
@@ -63,14 +69,18 @@ const HackFestPhase = [
     announced on the same day. Each team member of
     Winning and Runner up team will be awarded with
     exciting prizes.`,
+    date: 'Coming Soon',
     icon: <RiNumber5 className='text-3xl text-yellow-500 inline' />,
-    link: false
+    link: false,
+    id: 5
+
   },
   {
     title: 'Brochure',
-    description: `Hackfest Brochure explaining the whole rules and timeline in detail.`,
+    description: `Hackfest Brochure explaining the whole rules and timeline in the detail.`,
     icon: <GiRuleBook className='text-3xl text-yellow-500 inline' />,
-    link: true
+    link: true,
+    id: 6
   },
 ]
 
@@ -117,21 +127,21 @@ const Hackfest = () => {
           <Fade top cascade>
             <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {HackFestPhase.map((phase, index) => (
-                <a
-                  
-                  key={index}
+                <div
+
+                  key={phase.id}
                   className="block p-8 border border-yellow-500 shadow-xl transition-all rounded-xl hover:shadow-yellow-500/25 hover:border-yellow-300 duration-300 hover:scale-[1.05]"
                 >
-                  <span className="border-2 p-3 rounded-xl border-yellow-500 w-fit">
+                  <div className="border-2 p-3 rounded-xl border-yellow-500 w-fit">
                     {phase.icon}
-                  </span>
-                  <h3 className="mt-4 text-xl font-bold text-black dark:text-white">
-                    {phase.title} {phase?.date ? <div className="dui-badge dui-badge-warning p-3 ml-3 dui-badge-outline"> {phase?.date}</div> : ( phase.link ? <FiExternalLink className='inline text-yellow-500 ml-2'/>:'') }
-                  </h3>
-                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-200">
+                  </div>
+                  <div className="mt-4 text-xl font-bold text-black dark:text-white">
+                    {phase.title} {phase.date ? <div className="dui-badge dui-badge-warning p-3 ml-3 dui-badge-outline">  {phase.date}</div> : ''}{phase.link ? (<a href="/FLC_Hackfest_2022.pdf" target='_blank' > <FiExternalLink className='inline ml-2 text-yellow-500 cursor-pointer mb-1 text-2xl' /> </a>) : ''}
+                  </div>
+                  <div className="mt-1 text-sm text-gray-600 dark:text-gray-200">
                     {phase.description}
-                  </p>
-                </a>
+                  </div>
+                </div>
               ))}
             </div>
           </Fade>

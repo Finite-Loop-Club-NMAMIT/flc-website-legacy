@@ -148,7 +148,7 @@ export const events = [
     desc: `At the Induction Program held on October 13, 2022, Finite Loop Club, NMAMIT, effectively orientated the new batch of FLCians to the club culture and the activities intended to be continued.
     Ms. Shambhavi Bhandarkar, CEO of Chipsy IT Services Pvt. Ltd., served as the event's Chief Guest.
     A huge welcome to our new members, let's stay in the loop`
-    
+
   },
   {
     name: 'Kickstart Open source journey with Hacktoberfest',
@@ -1139,3 +1139,5 @@ export const members = [
     year: '2017-20',
   },
 ];
+
+
