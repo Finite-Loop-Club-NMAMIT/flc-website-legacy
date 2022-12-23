@@ -131,11 +131,11 @@ const DSAsprint = () => {
                             </p> */}
                             <div className='my-4 ' >
                                 <ul className="dui-steps gap-3">
-                                    <li data-content="✓" className="dui-step dui-step-warning text-xl font-bold ">The Gateway</li>
-                                    <li data-content="✓" className="dui-step dui-step-neutral text-xl font-bold">The Next Milestone</li>
-                                    <li data-content="✓" className="dui-step dui-step-neutral text-xl font-bold">The Summit</li>
-                                    <li data-content="✓" className="dui-step dui-step-neutral text-xl font-bold">The Pinnacle</li>
-                                    <li data-content="★" className="dui-step dui-step-neutral text-xl font-bold">The Apex</li>
+                                    <li data-content="✓" className="dui-step dui-step-warning  lg:text-xl lg:font-bold ">The Gateway</li>
+                                    <li data-content="✓" className="dui-step dui-step-neutral  lg:text-xl lg:font-bold">The Next Milestone</li>
+                                    <li data-content="✓" className="dui-step dui-step-neutral  lg:text-xl lg:font-bold">The Summit</li>
+                                    <li data-content="✓" className="dui-step dui-step-neutral  lg:text-xl lg:font-bold">The Pinnacle</li>
+                                    <li data-content="★" className="dui-step dui-step-neutral  lg:text-xl lg:font-bold">The Apex</li>
                                 </ul>
                             </div>
                         </div>
@@ -153,7 +153,7 @@ const DSAsprint = () => {
                                         {phase.icon}
                                     </div>
                                     <div className="mt-4 text-xl font-bold text-black dark:text-white">
-                                        {phase.title} {phase.date ? <div className="dui-badge dui-badge-warning p-3 ml-3 dui-badge-outline">  {phase.date}</div> : ''}{phase.link ? (<a href="/DSA_Sprint_Brochure.pdf" target='_blank' > <FiExternalLink className='inline ml-2 text-yellow-500 cursor-pointer mb-1 text-2xl' /> </a> ) : ''}
+                                        {phase.title} {phase.date ? <div className="dui-badge dui-badge-warning p-3 ml-3 dui-badge-outline">  {phase.date}</div> : ''}{phase.link ? (<a href="/DSA_Sprint_Brochure.pdf" target='_blank' > <FiExternalLink className='inline ml-2 text-yellow-500 cursor-pointer mb-1 text-2xl' /> </a>) : ''}
 
                                     </div>
                                     <div className="mt-1 text-sm text-gray-600 dark:text-gray-200">
