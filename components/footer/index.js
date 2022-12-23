@@ -57,8 +57,8 @@ export default function footer() {
         <nav className="mt-6">
           <ul className="flex flex-wrap justify-center gap-6">
             {footLinks.map((link, index) => (
-              <>
-                <li key={index}>
+              <div key={index}>
+                <li>
                   <Link href={link.link}>
                     <a className="text-black dark:text-gray-400 transition hover:text-gray-500 dark:hover:text-gray-200/75">
                       {link.name}
@@ -66,7 +66,7 @@ export default function footer() {
                   </Link>
                 </li>
                 <a className="hidden sm:flex">|</a>
-              </>
+              </div>
             ))}
           </ul>
         </nav>

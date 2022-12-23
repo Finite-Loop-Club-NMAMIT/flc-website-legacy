@@ -12,7 +12,7 @@ export default function About() {
               alt="Team"
               layout="fill"
               src="/assets/team.jpeg"
-              class="absolute inset-0 object-cover w-full h-full"
+              className="absolute inset-0 object-cover w-full h-full"
             />
           </div>
           <div className="lg:py-24">

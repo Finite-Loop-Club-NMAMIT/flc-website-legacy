@@ -109,6 +109,48 @@ export const teamTabs = ['Faculty', '2022-23', '2021-22', '2020-21', '2017-20'];
 
 export const events = [
   {
+    name: 'DSA with JAVA workshop',
+    date: '12/11/2022',
+    attended: '70+ Participants',
+    type: 'Hands-On Workshop',
+    image: '/events/DSA_with_JAVA/dsa_with_java_akash.png',
+    organizer: 'Amogh Mayya',
+    desc: "The Placement Season is on and so is the anxiety to be placed! We hear that Twilio is around the corner and the pre-final year students are being geared up. Are you unsure where to start your preparations from? What are the topics that need to be focused on  Which language to code in Not to worry. Finite Loop Club, NMAMIT is here with a workshop on 'Data Structures and Algorithms with Java' (Theory + Problem Solving) !! That's right",
+    year: '2022-23',
+  },
+  {
+    name: 'Web Application Security & Bug Bounty Hunting',
+    date: '05/11/2022',
+    attended: '70+ Participants',
+    type: 'Hands-On Workshop',
+    image: '/events/Web Application Security/Web Application Security.png',
+    organizer: ' P Ashwini Acharya and Padmashree Shetty',
+    year: '2022-23',
+    desc: `⚡Are you someone who is curious about Ethical Hacking, Are you inclined towards technological security and networks or system infrastructure ?⚡
+
+    ⚡If these things resonates with your area of interest then,
+    Finite Loop Club(FLC) welcomes all the technophiles to an interesting opportunity.⚡
+    
+    📢 FLC is organizing a "beginner-friendly hands-on guide to Application Security (Ethical Hacking)" where all the participants will be upskilled by taking them through the topics like : 2FA Bypass ,Broken Authentication,HTML Injection,Brute Force Attacks,HTTP Parameter Pollution,OAuth Misconfiguration,Host Header Injection.
+    
+    Then Let's hunt the bugs, like thugs;
+    Let's have some fun, with Trojan;
+    Let's get the code fix, but keeping our ethics`
+  },
+  {
+    name: 'Induction programme',
+    date: '13/10/2022',
+    attended: '200+ Participants',
+    type: 'Hands-On Workshop',
+    image: '/events/induction 22/induction 22.png',
+    organizer: 'FLC Team',
+    year: '2022-23',
+    desc: `At the Induction Program held on October 13, 2022, Finite Loop Club, NMAMIT, effectively orientated the new batch of FLCians to the club culture and the activities intended to be continued.
+    Ms. Shambhavi Bhandarkar, CEO of Chipsy IT Services Pvt. Ltd., served as the event's Chief Guest.
+    A huge welcome to our new members, let's stay in the loop`
+
+  },
+  {
     name: 'Kickstart Open source journey with Hacktoberfest',
     date: '24/09/2022',
     attended: '70+ Participants',
@@ -1097,3 +1139,5 @@ export const members = [
     year: '2017-20',
   },
 ];
+
+
