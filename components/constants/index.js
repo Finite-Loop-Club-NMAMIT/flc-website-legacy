@@ -16,16 +16,7 @@ export const Links = [
   { name: 'Home', link: '/' },
   { name: 'Events', link: '/events' },
   { name: 'Team', link: '/team' },
-  { name: 'Services', link: '/shipping' },
 ];
-
-export const footLinks = [
-  { name: 'Privacy', link: '/privacy' },
-  { name: 'Terms and Conditions', link: '/rules' },
-  { name: 'Refund & Cancellation', link: '/refund' },
-  { name: 'Contact us', link: '/contact-us' },
-  { name: 'Shipping', link: '/shipping' },
-]
 
 export const points = [
   {
@@ -135,7 +126,7 @@ export const events = [
     
     Then Let's hunt the bugs, like thugs;
     Let's have some fun, with Trojan;
-    Let's get the code fix, but keeping our ethics`
+    Let's get the code fix, but keeping our ethics`,
   },
   {
     name: 'Induction programme',
@@ -147,8 +138,7 @@ export const events = [
     year: '2022-23',
     desc: `At the Induction Program held on October 13, 2022, Finite Loop Club, NMAMIT, effectively orientated the new batch of FLCians to the club culture and the activities intended to be continued.
     Ms. Shambhavi Bhandarkar, CEO of Chipsy IT Services Pvt. Ltd., served as the event's Chief Guest.
-    A huge welcome to our new members, let's stay in the loop`
-
+    A huge welcome to our new members, let's stay in the loop`,
   },
   {
     name: 'Kickstart Open source journey with Hacktoberfest',
@@ -1139,5 +1129,3 @@ export const members = [
     year: '2017-20',
   },
 ];
-
-
