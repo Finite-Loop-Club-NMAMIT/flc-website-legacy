@@ -16,7 +16,7 @@ import {
 } from 'react-icons/fa';
 import { toast, Toaster } from 'react-hot-toast';
 import Router from 'next/router';
-import Team from '../components/Team';
+import Team from '../components/team';
 
 export default function Profile() {
   const [profile, setProfile] = useState([]);
@@ -175,7 +175,7 @@ export default function Profile() {
               </Button>
               <Button onClick={() => setShowModal(true)}>Edit Profile</Button>
             </div>
-            <Team />
+            <Team userRole={profile?.data[0].role} />
 
             {showModal ? (
               <>
@@ -236,9 +236,12 @@ export default function Profile() {
                           </label>
 
                           {socialLinks.map((link, index) => (
-                            <div className="flex items-center mb-4" key={index}>
+                            <div
+                              className="flex items-center gap-3 mb-4"
+                              key={index}
+                            >
                               <select
-                                className="rounded w-16 lg:w-32"
+                                className="w-16 lg:w-32 rounded-lg border-gray-200 p-1 text-sm shadow-sm"
                                 value={link.platform}
                                 onChange={(e) => {
                                   const newLinks = [...socialLinks];
@@ -258,7 +261,7 @@ export default function Profile() {
                               <input
                                 type="text"
                                 placeholder="Link"
-                                className="ml-2 w-full rounded"
+                                className="ml-2 w-full rounded-lg border-gray-200 p-1 text-sm shadow-sm"
                                 value={link.link}
                                 onChange={(e) => {
                                   const newLinks = [...socialLinks];
@@ -269,7 +272,7 @@ export default function Profile() {
                               {socialLinks.length > 1 && (
                                 <button
                                   type="button"
-                                  className="text-red-500 mr-2 bg-white rounded-full px-1 py-[1]"
+                                  className="text-red-500 mr-2 bg-white rounded-full px-3 py-1"
                                   onClick={() => handleDeleteLink(index)}
                                 >
                                   ×

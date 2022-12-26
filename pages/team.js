@@ -62,6 +62,7 @@ export default function Teams() {
                         src={member.img}
                         width={350}
                         height={350}
+                        alt={member.name}
                       />
                     </div>
                     <div className="text-center mt-6">
