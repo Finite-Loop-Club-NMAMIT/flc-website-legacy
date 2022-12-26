@@ -19,7 +19,7 @@ function Team() {
   }, [status]);
   return teamData ? (
     <div className="mt-10 p-5 mx-auto max-w-4xl  w-full bg-slate-400 dark:bg-slate-700 bg-opacity-10 dark:bg-opacity-10 rounded-xl backdrop-blur-md ">
-      <h2 className="text-xl font-semibold w-full">{teamData.name}</h2>
+      <h2 className="text-xl font-semibold heading w-full">{teamData.name}</h2>
       <p className="text-md text-gray-500 dark:text-gray-200 border-b-[0.5px] border-opacity-10 py-2">
         {teamData.description}
       </p>
@@ -41,7 +41,7 @@ export default Team;
 
 const Card = ({ teamLead, img, name }) => {
   return (
-    <div className="w-48 cursor-pointer h-full text-center p-3 bg-gray-200 dark:bg-black dark:bg-opacity-10  rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transform pointer ease-in-out duration-300 delay-50 ">
+    <div className="w-48 cursor-pointer text-center p-3 bg-gray-200 dark:bg-black dark:bg-opacity-10  rounded-xl shadow-sm hover:shadow-lg hover:scale-105 transform pointer ease-in-out duration-300 delay-50 h-[200px]">
       <Image
         alt={name}
         src={img}

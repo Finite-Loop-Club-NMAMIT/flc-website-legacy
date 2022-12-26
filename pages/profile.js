@@ -65,8 +65,6 @@ export default function Profile() {
     const user = await res.json();
     setProfile(user);
     user.data[0].links?.length > 0 && setSocialLinks(user.data[0].links);
-    console.log(user.data[0].links);
-    console.log(socialLinks);
   };
 
   useEffect(() => {
@@ -74,6 +72,16 @@ export default function Profile() {
       fetchProfile();
     }
   }, [status]);
+
+  const platformIcons = {
+    Github: <FaGithub />,
+    Twitter: <FaTwitter />,
+    Instagram: <FaInstagram />,
+    Discord: <FaDiscord />,
+    LinkedIn: <FaLinkedin />,
+    StackOverflow: <FaStackOverflow />,
+    Other: <FaGlobe />,
+  };
 
   return (
     <div>
@@ -152,20 +160,8 @@ export default function Profile() {
                     rel="noopener noreferrer"
                     className="text-black dark:text-white"
                   >
-                    {link.platform === 'Github' ? (
-                      <FaGithub />
-                    ) : link.platform === 'Twitter' ? (
-                      <FaTwitter />
-                    ) : link.platform === 'Instagram' ? (
-                      <FaInstagram />
-                    ) : link.platform === 'Discord' ? (
-                      <FaDiscord />
-                    ) : link.platform === 'LinkedIn' ? (
-                      <FaLinkedin />
-                    ) : link.platform === 'StackOverflow' ? (
-                      <FaStackOverflow />
-                    ) : link.platform === 'Other' ? (
-                      <FaGlobe />
+                    {platformIcons.hasOwnProperty(link.platform) ? (
+                      platformIcons[link.platform]
                     ) : (
                       <div></div>
                     )}
@@ -239,60 +235,49 @@ export default function Profile() {
                             Social Links
                           </label>
 
-                          {socialLinks.map(({ platform, link }, index) => (
-                            <div key={index} className="flex items-center mb-2">
+                          {socialLinks.map((link, index) => (
+                            <div className="flex items-center mb-4" key={index}>
                               <select
-                                value={platform}
-                                onChange={(e) =>
-                                  setSocialLinks(
-                                    socialLinks.map((link, i) =>
-                                      i === index
-                                        ? {
-                                            ...link,
-                                            platform: e.target.value,
-                                          }
-                                        : link
-                                    )
-                                  )
-                                }
-                                defaultValue={platform}
-                                className="w-1/2 px-2 py-1 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
+                                className="rounded w-16 lg:w-32"
+                                value={link.platform}
+                                onChange={(e) => {
+                                  const newLinks = [...socialLinks];
+                                  newLinks[index].platform = e.target.value;
+                                  setSocialLinks(newLinks);
+                                }}
                               >
-                                <option value="">Select platform</option>
-                                <option value="Github">Github</option>
-                                <option value="Twitter">Twitter</option>
-                                <option value="Instagram">Instagram</option>
-                                <option value="Discord">Discord</option>
-                                <option value="LinkedIn">LinkedIn</option>
-                                <option value="StackOverflow">
-                                  StackOverflow
-                                </option>
-                                <option value="Other">Other</option>
+                                {Object.entries(platformIcons).map(
+                                  ([platform, icon]) => (
+                                    <option key={platform} value={platform}>
+                                      {icon} {platform}
+                                    </option>
+                                  )
+                                )}
                               </select>
+
                               <input
                                 type="text"
                                 placeholder="Link"
-                                value={link}
-                                onChange={(e) =>
-                                  setSocialLinks(
-                                    socialLinks.map((link, i) =>
-                                      i === index
-                                        ? { ...link, link: e.target.value }
-                                        : link
-                                    )
-                                  )
-                                }
-                                className="w-1/2 px-2 py-1 rounded-lg border border-gray-300 focus:outline-none focus:border-yellow-500"
+                                className="ml-2 w-full rounded"
+                                value={link.link}
+                                onChange={(e) => {
+                                  const newLinks = [...socialLinks];
+                                  newLinks[index].link = e.target.value;
+                                  setSocialLinks(newLinks);
+                                }}
                               />
-                              <button
-                                type="button"
-                                onClick={() => handleDeleteLink(index)}
-                                className="ml-2 text-red-600 bg-white rounded-full px-3 py-1"
-                              >
-                                ×
-                              </button>
+                              {socialLinks.length > 1 && (
+                                <button
+                                  type="button"
+                                  className="text-red-500 mr-2 bg-white rounded-full px-1 py-[1]"
+                                  onClick={() => handleDeleteLink(index)}
+                                >
+                                  ×
+                                </button>
+                              )}
                             </div>
                           ))}
+
                           <button
                             type="button"
                             onClick={handleAddLink}
