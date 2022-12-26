@@ -16,7 +16,7 @@ import {
 } from 'react-icons/fa';
 import { toast, Toaster } from 'react-hot-toast';
 import Router from 'next/router';
-import Team from '../components/team';
+import Team from '../components/Team';
 
 export default function Profile() {
   const [profile, setProfile] = useState([]);
