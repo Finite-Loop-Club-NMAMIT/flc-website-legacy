@@ -1,10 +1,10 @@
-import Hero from "../components/hero"
-import About from '../components/about'
-import Perks from '../components/perks'
-import Tech from '../components/tech'
-import Discord from '../components/discord'
-import Hackfest from "../components/hackfest/Hackfest"
-import DSAsprint from "../components/DSAsprint"
+import Hero from '../components/hero';
+import About from '../components/about';
+import Perks from '../components/perks';
+import Tech from '../components/tech';
+import Discord from '../components/discord';
+import Hackfest from '../components/hackfest/';
+import DSAsprint from '../components/sprint';
 
 export default function Home() {
   return (
@@ -24,5 +24,5 @@ export default function Home() {
       <Discord />
       <hr className="border-gray-500/50" />
     </div>
-  )
+  );
 }
