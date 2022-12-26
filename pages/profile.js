@@ -4,8 +4,16 @@ import { useSession, signOut, signIn, getSession } from 'next-auth/react';
 import Button from '../components/button';
 import { useState, useEffect } from 'react';
 import { Fade } from 'react-reveal';
-import { AiFillInstagram } from 'react-icons/ai';
 import { BsPatchCheckFill } from 'react-icons/bs';
+import {
+  FaGithub,
+  FaGlobe,
+  FaInstagram,
+  FaTwitter,
+  FaStackOverflow,
+  FaDiscord,
+  FaLinkedin,
+} from 'react-icons/fa';
 import { toast, Toaster } from 'react-hot-toast';
 import Router from 'next/router';
 import Team from '../components/Team';
@@ -14,29 +22,41 @@ export default function Profile() {
   const [profile, setProfile] = useState([]);
   const { data, status } = useSession();
   const [showModal, setShowModal] = useState(false);
+  const [socialLinks, setSocialLinks] = useState([{ platform: '', link: '' }]);
+
+  const handleAddLink = () => {
+    setSocialLinks([...socialLinks, { platform: '', link: '' }]);
+  };
+
+  const handleDeleteLink = (index) => {
+    setSocialLinks(socialLinks.filter((_, i) => i !== index));
+  };
 
   const handleSave = async (e) => {
-    // avoiding autorefresh to show toast
     e.preventDefault();
-    fetch('/api/update/user', {
-      body: JSON.stringify({
-        name: e.target[0].value,
-        bio: e.target[1].value,
-        links: e.target[2].value,
-      }),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((r) => {
-        if (r.status === 200) toast.success('Saved successfully!');
-        //refreshing after toast is shown
-        Router.reload();
+    const platforms = socialLinks.map((link) => link.platform);
+    if (new Set(platforms).size !== platforms.length) {
+      toast.error('You have added multiple links for the same platform');
+    } else {
+      fetch('/api/update/user', {
+        body: JSON.stringify({
+          name: e.target[0].value,
+          bio: e.target[1].value,
+          links: socialLinks,
+        }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      .catch((err) => {
-        toast.error(err);
-      });
+        .then((r) => {
+          if (r.status === 200) toast.success('Saved successfully!');
+          Router.reload();
+        })
+        .catch((err) => {
+          toast.error(err);
+        });
+    }
   };
 
   const fetchProfile = async () => {
@@ -44,6 +64,9 @@ export default function Profile() {
     const res = await fetch(`/api/read/users?q=${session.user.email}`);
     const user = await res.json();
     setProfile(user);
+    user.data[0].links?.length > 0 && setSocialLinks(user.data[0].links);
+    console.log(user.data[0].links);
+    console.log(socialLinks);
   };
 
   useEffect(() => {
@@ -120,17 +143,36 @@ export default function Profile() {
                 )}
               </span>
             </p>
-            <p className="font-bold dark:text-gray-300 text-gray-700 flex flex-row items-center gap-2">
-              Instagram:{' '}
-              <Link
-                href={`https://instagram.com/${profile.data[0].links}`}
-                passHref
-              >
-                <a target="_blank" rel="noopener noreferrer">
-                  <AiFillInstagram className="cursor-pointer text-2xl text-black dark:text-white" />
-                </a>
-              </Link>
-            </p>
+            <div className="flex flex-wrap mb-2 gap-2 text-lg">
+              {socialLinks.map((link, index) => (
+                <div key={index} className="cursor-pointer">
+                  <Link
+                    href={link.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-black dark:text-white"
+                  >
+                    {link.platform === 'Github' ? (
+                      <FaGithub />
+                    ) : link.platform === 'Twitter' ? (
+                      <FaTwitter />
+                    ) : link.platform === 'Instagram' ? (
+                      <FaInstagram />
+                    ) : link.platform === 'Discord' ? (
+                      <FaDiscord />
+                    ) : link.platform === 'LinkedIn' ? (
+                      <FaLinkedin />
+                    ) : link.platform === 'StackOverflow' ? (
+                      <FaStackOverflow />
+                    ) : link.platform === 'Other' ? (
+                      <FaGlobe />
+                    ) : (
+                      <div></div>
+                    )}
+                  </Link>
+                </div>
+              ))}
+            </div>
             <div className="flex gap-5">
               <Button onClick={() => signOut()}>
                 <a>Sign Out</a>
@@ -191,23 +233,73 @@ export default function Profile() {
 
                         <div>
                           <label
-                            htmlFor="insta"
+                            htmlFor="socialLinks"
                             className="text-sm font-medium"
                           >
-                            Instagram username (without @)
+                            Social Links
                           </label>
 
-                          <div className="relative mt-1">
-                            <input
-                              id="insta"
-                              name="insta"
-                              defaultValue={profile.data[0].links}
-                              className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-                              placeholder="Enter username (without @)"
-                            />
-
-                            <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
-                          </div>
+                          {socialLinks.map(({ platform, link }, index) => (
+                            <div key={index} className="flex items-center mb-2">
+                              <select
+                                value={platform}
+                                onChange={(e) =>
+                                  setSocialLinks(
+                                    socialLinks.map((link, i) =>
+                                      i === index
+                                        ? {
+                                            ...link,
+                                            platform: e.target.value,
+                                          }
+                                        : link
+                                    )
+                                  )
+                                }
+                                defaultValue={platform}
+                                className="w-1/2 px-2 py-1 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
+                              >
+                                <option value="">Select platform</option>
+                                <option value="Github">Github</option>
+                                <option value="Twitter">Twitter</option>
+                                <option value="Instagram">Instagram</option>
+                                <option value="Discord">Discord</option>
+                                <option value="LinkedIn">LinkedIn</option>
+                                <option value="StackOverflow">
+                                  StackOverflow
+                                </option>
+                                <option value="Other">Other</option>
+                              </select>
+                              <input
+                                type="text"
+                                placeholder="Link"
+                                value={link}
+                                onChange={(e) =>
+                                  setSocialLinks(
+                                    socialLinks.map((link, i) =>
+                                      i === index
+                                        ? { ...link, link: e.target.value }
+                                        : link
+                                    )
+                                  )
+                                }
+                                className="w-1/2 px-2 py-1 rounded-lg border border-gray-300 focus:outline-none focus:border-yellow-500"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteLink(index)}
+                                className="ml-2 text-red-600 bg-white rounded-full px-3 py-1"
+                              >
+                                ×
+                              </button>
+                            </div>
+                          ))}
+                          <button
+                            type="button"
+                            onClick={handleAddLink}
+                            className="text-yellow-600 bg-white rounded-full px-3 py-1"
+                          >
+                            +
+                          </button>
                         </div>
 
                         <div className="flex justify-center pt-2">
@@ -229,5 +321,3 @@ export default function Profile() {
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-

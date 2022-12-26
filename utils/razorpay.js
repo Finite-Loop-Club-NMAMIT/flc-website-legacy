@@ -15,7 +15,6 @@ export const initializeRazorpay = () => {
 };
 
 export const makePayment = async (email, name) => {
-    console.log("here...");
     const res = await initializeRazorpay();
 
     if (!res) {
@@ -26,7 +25,6 @@ export const makePayment = async (email, name) => {
     const data = await fetch("/api/razorpay", { method: "POST" }).then((t) =>
         t.json()
     );
-    console.log(data);
     var options = {
         key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
         name: "Finite Loop Club",

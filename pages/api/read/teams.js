@@ -48,7 +48,6 @@ export default async function handler(req, res) {
                         members: true,
                     },
                 })
-                console.log(Teams)
                 res.status(200).json({ message: 'Teams', data: Teams })
                 return
             }
