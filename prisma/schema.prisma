@@ -3,12 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id @unique @default(cuid())
   userId            String
   type              String
   provider          String
@@ -21,12 +22,10 @@ model Account {
   id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @unique @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
@@ -34,14 +33,14 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String    @id @unique @default(cuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
   role          String?   @default("user")
   bio           String?
-  links         Json?
+  links         Json
   isMember      Boolean   @default(false)
   isAdmin       Boolean   @default(false)
   teamId        Int?
@@ -65,7 +64,7 @@ model Members {
 }
 
 model Team {
-  id          Int    @id @default(autoincrement())
+  id          Int    @id @unique @default(autoincrement())
   name        String @unique
   description String
   Task        Task[]
@@ -73,7 +72,7 @@ model Team {
 }
 
 model Task {
-  id          Int      @id @default(autoincrement())
+  id          Int      @id @unique @default(autoincrement())
   name        String
   description String
   completed   Boolean  @default(false)
@@ -84,7 +83,7 @@ model Task {
 }
 
 model RegistrationPayment {
-  id          Int      @id @default(autoincrement())
+  id          Int      @id @unique @default(autoincrement())
   userId      String
   orderId     String   @unique
   amount      Float
