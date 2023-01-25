@@ -19,13 +19,11 @@ export default async function handler(req, res) {
                             {
                                 email: {
                                     contains: q,
-                                    mode: 'insensitive',
                                 },
                             },
                             {
                                 name: {
                                     contains: q,
-                                    mode: 'insensitive',
                                 }
                             },
                         ],
@@ -41,6 +39,7 @@ export default async function handler(req, res) {
         return
     }
     catch (error) {
+        console.log(error)
         res.status(500).json({ message: 'Server Error', error })
         return
     }
