@@ -5,12 +5,12 @@ CREATE TABLE `Account` (
     `type` VARCHAR(191) NOT NULL,
     `provider` VARCHAR(191) NOT NULL,
     `providerAccountId` VARCHAR(191) NOT NULL,
-    `refresh_token` VARCHAR(191) NULL,
-    `access_token` VARCHAR(191) NULL,
+    `refresh_token` TEXT NULL,
+    `access_token` TEXT NULL,
     `expires_at` INTEGER NULL,
     `token_type` VARCHAR(191) NULL,
     `scope` VARCHAR(191) NULL,
-    `id_token` VARCHAR(191) NULL,
+    `id_token` TEXT NULL,
     `session_state` VARCHAR(191) NULL,
 
     UNIQUE INDEX `Account_id_key`(`id`),
@@ -39,8 +39,8 @@ CREATE TABLE `User` (
     `emailVerified` DATETIME(3) NULL,
     `image` VARCHAR(191) NULL,
     `role` VARCHAR(191) NULL DEFAULT 'user',
-    `bio` VARCHAR(191) NULL,
-    `links` JSON NOT NULL,
+    `bio` TEXT NULL,
+    `links` TEXT NULL,
     `isMember` BOOLEAN NOT NULL DEFAULT false,
     `isAdmin` BOOLEAN NOT NULL DEFAULT false,
     `teamId` INTEGER NULL,
@@ -111,3 +111,6 @@ CREATE TABLE `RegistrationPayment` (
     UNIQUE INDEX `RegistrationPayment_orderId_key`(`orderId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
+
