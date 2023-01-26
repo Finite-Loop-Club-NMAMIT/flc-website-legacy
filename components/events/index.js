@@ -43,11 +43,8 @@ export default function Events() {
       <div className="flex flex-wrap gap-5 justify-center items-stretch my-5">
         {events.map((event, index) =>
           event.year === year || year === 'All' ? (
-            <Fade cascade>
-              <div
-                key={index}
-                className="max-w-sm bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md mx-5"
-              >
+            <Fade cascade key={index}>
+              <div className="max-w-sm bg-white bg-opacity-30 backdrop-filter backdrop-blur-lg rounded-lg shadow-md mx-5">
                 <a>
                   <Image
                     className="rounded-t-lg"

@@ -47,11 +47,8 @@ export default function Teams() {
         <div className="flex flex-wrap mt-10 gap-10 justify-center">
           {members.map((member, index) =>
             member.year === team ? (
-              <Fade cascade>
-                <div
-                  key={index}
-                  className="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4"
-                >
+              <Fade cascade key={index}>
+                <div className="w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4">
                   <div className="flex flex-col">
                     <div
                       href="#"

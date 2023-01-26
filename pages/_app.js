@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     return () => {
       nProgress.done();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <ThemeProvider attribute="class">
