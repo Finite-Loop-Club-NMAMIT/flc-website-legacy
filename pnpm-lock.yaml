@@ -11,6 +11,7 @@ specifiers:
   '@trpc/react-query': ^10.8.1
   '@trpc/server': ^10.8.1
   '@types/node': ^18.11.18
+  '@types/nprogress': ^0.2.0
   '@types/prettier': ^2.7.2
   '@types/react': ^18.0.26
   '@types/react-dom': ^18.0.10
@@ -50,6 +51,7 @@ dependencies:
   '@trpc/next': 10.9.0_agcdofckp5bsojf5gpkxjg6zzq
   '@trpc/react-query': 10.9.0_22wgxldzdfxutowffn2dykkd3i
   '@trpc/server': 10.9.0
+  '@types/nprogress': 0.2.0
   csstype: 3.0.10
   next: 13.1.2_pjwopsidmaokadturxaafygjp4
   next-auth: 4.18.10_7jnwqgtpcnwg4nzft4b6xlzlfi
@@ -767,6 +769,10 @@ packages:
   /@types/node/18.11.18:
     resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
     dev: true
+
+  /@types/nprogress/0.2.0:
+    resolution: {integrity: sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==}
+    dev: false
 
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}

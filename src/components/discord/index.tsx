@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Fade } from "react-awesome-reveal";
+import { Slide } from "react-awesome-reveal";
 import { type FunctionComponent } from "react";
 
 const Discord: FunctionComponent = () => {
@@ -20,7 +20,7 @@ const Discord: FunctionComponent = () => {
 
           <div className="relative flex items-center bg-gray-400 bg-opacity-30 backdrop-blur-lg backdrop-filter transition-colors duration-500 dark:bg-white">
             <span className="hidden lg:absolute lg:inset-y-0 lg:-left-16 lg:block lg:w-16 lg:bg-gray-400 lg:bg-opacity-30 lg:backdrop-blur-lg lg:backdrop-filter lg:dark:bg-white"></span>
-            <Fade direction="top-left" cascade>
+            <Slide direction="left">
               <div className="p-8 sm:p-16 lg:p-24">
                 <h2 className="text-2xl font-bold text-black sm:text-3xl">
                   Get access to our exclusive discord community
@@ -33,7 +33,7 @@ const Discord: FunctionComponent = () => {
                   events or even chill in VCs.
                 </p>
               </div>
-            </Fade>
+            </Slide>
           </div>
         </div>
       </div>

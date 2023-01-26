@@ -36,7 +36,7 @@ const Modal: FunctionComponent<ModalProps> = ({
       onClick={(e) => handleOnClose(e.target as HTMLDivElement)}
       className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-black bg-opacity-30 pt-56 backdrop-blur-lg md:pt-0"
     >
-      <Fade direction="top-left">
+      <Fade>
         <div className="p-4">
           <div className="relative max-w-5xl rounded-lg bg-white bg-opacity-30 p-6 shadow-sm backdrop-blur-lg backdrop-filter">
             <button

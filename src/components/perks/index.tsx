@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { perks } from "../constants";
-import { Fade } from "react-awesome-reveal";
+import {Fade } from "react-awesome-reveal";
 import { type FunctionComponent } from "react";
 
 const Perks: FunctionComponent = () => {
   return (
     <section className="bg-white text-black transition-colors duration-500 dark:bg-gray-900/10 dark:text-white">
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-28">
-        <Fade direction="top-left" cascade>
+        <Fade cascade>
           <div className="mx-auto max-w-lg text-center">
             <h2 className="heading text-3xl font-bold sm:text-4xl">
               Great for your awesome projects
@@ -30,7 +30,7 @@ const Perks: FunctionComponent = () => {
             </p>
           </div>
         </Fade>
-        <Fade direction="top-left" cascade>
+        <Fade cascade>
           <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {perks.map((perk, index) => (
               <a

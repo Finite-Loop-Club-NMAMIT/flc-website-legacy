@@ -9,12 +9,14 @@ const About: FunctionComponent = () => {
       <div className="mx-auto max-w-screen-xl bg-white px-4 py-16 transition-colors duration-500 dark:bg-black sm:px-6 lg:px-28">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="relative my-auto h-80 overflow-hidden rounded-lg lg:order-last lg:h-96">
-            <Image
-              alt="Team"
-              layout="fill"
-              src="/assets/team.jpeg"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+            <Fade>
+              <Image
+                alt="Team"
+                layout="fill"
+                src="/assets/team.jpeg"
+                className="absolute inset-0 h-full w-full transform object-cover transition duration-500 ease-in-out hover:scale-110"
+              />
+            </Fade>
           </div>
           <div className="lg:py-24">
             <Slide direction="left" cascade>
@@ -31,7 +33,7 @@ const About: FunctionComponent = () => {
                 </p>
               </div>
             </Slide>
-            <Fade direction="top-left">
+            <Slide direction="left">
               <div className="mt-5 flex flex-col gap-3 text-gray-600 dark:text-gray-400 md:text-lg">
                 {points.map((point, index) => (
                   <p key={index} className="inline-flex items-center gap-3">
@@ -39,7 +41,7 @@ const About: FunctionComponent = () => {
                   </p>
                 ))}
               </div>
-            </Fade>
+            </Slide>
           </div>
         </div>
       </div>
