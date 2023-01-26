@@ -23,7 +23,7 @@ export default function Hero() {
             </p>
             <div className="flex flex-wrap justify-center mt-8">
               {status != 'authenticated' ? (
-                <Button onClick={()=>signIn("google")}>
+                <Button onClick={() => signIn("google")}>
                   <a>
                     Sign In
                   </a>

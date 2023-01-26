@@ -1,53 +1,61 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id @unique @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String? @db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @unique @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String    @id @unique @default(cuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
   role          String?   @default("user")
-  bio           String?
-  links         Json?
+  bio           String?   @db.Text
+  links         String?   @db.Text
   isMember      Boolean   @default(false)
   isAdmin       Boolean   @default(false)
   teamId        Int?
   Team          Team?     @relation(fields: [teamId], references: [id], onDelete: Cascade)
   accounts      Account[]
   sessions      Session[]
+
+  @@index([teamId])
 }
 
 model VerificationToken {
@@ -65,7 +73,7 @@ model Members {
 }
 
 model Team {
-  id          Int    @id @default(autoincrement())
+  id          Int    @id @unique @default(autoincrement())
   name        String @unique
   description String
   Task        Task[]
@@ -73,7 +81,7 @@ model Team {
 }
 
 model Task {
-  id          Int      @id @default(autoincrement())
+  id          Int      @id @unique @default(autoincrement())
   name        String
   description String
   completed   Boolean  @default(false)
@@ -81,10 +89,12 @@ model Task {
   updatedAt   DateTime @updatedAt
   teamId      Int
   team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@index([teamId])
 }
 
 model RegistrationPayment {
-  id          Int      @id @default(autoincrement())
+  id          Int      @id @unique @default(autoincrement())
   userId      String
   orderId     String   @unique
   amount      Float
