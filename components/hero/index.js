@@ -23,16 +23,15 @@ export default function Hero() {
             </p>
             <div className="flex flex-wrap justify-center mt-8">
               {status != 'authenticated' ? (
-                <Button onClick={() => signIn("google")}>
-                  <a>
-                    Sign In
-                  </a>
+                <Button onClick={() => signIn('google')}>
+                  <a>Sign In</a>
                 </Button>
               ) : (
-                <Link href="/events">
-                  <a className="block bg-gray-50 w-auto px-12 py-3 font-medium text-black rounded shadow hover:text-gray-600 active:text-yellow-500 focus:outline-none focus:ring duration-300 hover:scale-[1.03]">
-                    Explore Events
-                  </a>
+                <Link
+                  href="/events"
+                  className="block bg-gray-50 w-auto px-12 py-3 font-medium text-black rounded shadow hover:text-gray-600 active:text-yellow-500 focus:outline-none focus:ring duration-300 hover:scale-[1.03]"
+                >
+                  Explore Events
                 </Link>
               )}
             </div>

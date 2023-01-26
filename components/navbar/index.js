@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Button from '../button';
 import { useSession, signIn } from 'next-auth/react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
-import { BiSun, BiMoon} from 'react-icons/bi';
+import { BiSun, BiMoon } from 'react-icons/bi';
 import { Links } from '../constants';
 import { useTheme } from 'next-themes';
 // import { toast, Toaster } from 'react-hot-toast';
@@ -14,7 +14,7 @@ import { Fade } from 'react-reveal';
 export default function Navbar() {
   const { data, status } = useSession();
   const [open, setOpen] = useState(false);
-  const {theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
@@ -26,6 +26,7 @@ export default function Navbar() {
       };
       fetchProfile();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   return (
@@ -45,11 +46,10 @@ export default function Navbar() {
                 width={50}
                 height={50}
                 alt="flc logo"
+                priority
               />
             </span>
-            <Link href="/">
-              <a>Finite Loop Club</a>
-            </Link>
+            <Link href="/">Finite Loop Club</Link>
           </div>
 
           <div
@@ -69,10 +69,11 @@ export default function Navbar() {
                 key={link.name}
                 className="md:ml-8 text-lg md:text-xl md:my-0 my-7"
               >
-                <Link href={link.link}>
-                  <a className="text-white hover:text-gray-200 duration-500">
-                    {link.name}
-                  </a>
+                <Link
+                  href={link.link}
+                  className="text-white hover:text-gray-200 duration-500"
+                >
+                  {link.name}
                 </Link>
               </li>
             ))}
@@ -111,7 +112,7 @@ export default function Navbar() {
               className="text-3xl  mx-0 my-5 lg:mx-3 text-white"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
-              {theme ? (theme === 'dark' ? <BiSun/> : <BiMoon/>) :<></>}
+              {theme ? theme === 'dark' ? <BiSun /> : <BiMoon /> : <></>}
             </button>
           </ul>
         </div>

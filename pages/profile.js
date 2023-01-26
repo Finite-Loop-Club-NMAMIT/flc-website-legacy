@@ -125,6 +125,7 @@ export default function Profile() {
               width={200}
               height={200}
               alt="Profile Picture"
+              priority
             />
             <a className="heading text-center text-2xl font-bold">
               {data.user.name}
@@ -175,7 +176,10 @@ export default function Profile() {
               </Button>
               <Button onClick={() => setShowModal(true)}>Edit Profile</Button>
             </div>
-            <Team userRole={profile?.data[0].role} />
+            <Team
+              userRole={profile?.data[0].role}
+              email={profile?.data[0].email}
+            />
 
             {showModal ? (
               <>

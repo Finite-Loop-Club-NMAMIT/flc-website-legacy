@@ -36,8 +36,7 @@ export default function Teams() {
                 ) : null}
                 <div className="flex items-center justify-center">
                   <span className="ml-3 text-xs lg:text-sm md:text-lg font-light lg:font-medium text-black dark:text-gray-200">
-                    {' '}
-                    {tab}{' '}
+                    {tab}
                   </span>
                 </div>
               </a>
@@ -75,27 +74,22 @@ export default function Teams() {
                           transition-opacity duration-300"
                       >
                         {member.linkedin && (
-                          <Link passHref href={member.linkedin}>
-                            <a
-                              target="_blank"
-                              rel="noreferrer noopener"
-                              className="flex justify-center items-center  rounded-full hover:bg-indigo-50 h-10 w-10 hover:text-blue-700"
-                            >
-                              <AiFillLinkedin className="text-2xl" />
-                            </a>
+                          <Link
+                            passHref
+                            href={member.linkedin}
+                            className="flex justify-center items-center  rounded-full hover:bg-indigo-50 h-10 w-10 hover:text-blue-700"
+                          >
+                            <AiFillLinkedin className="text-2xl" />
                           </Link>
                         )}
 
                         {member.github && (
-                          <Link passHref href={member.github}>
-                            <a
-                              target="_blank"
-                              rel="noreferrer noopener"
-                              href={member.github}
-                              className="flex justify-center items-center  rounded-full hover:bg-gray-50 h-10 w-10 hover:text-black"
-                            >
-                              <AiFillGithub className="text-2xl" />
-                            </a>
+                          <Link
+                            passHref
+                            href={member.github}
+                            className="flex justify-center items-center  rounded-full hover:bg-gray-50 h-10 w-10 hover:text-black"
+                          >
+                            <AiFillGithub className="text-2xl" />
                           </Link>
                         )}
                       </div>

@@ -12,6 +12,7 @@ export default function footer() {
             width={100}
             height={100}
             alt="flc_logo"
+            priority
           />
           <a className="ml-3 text-lg md:text-xl cursor-pointer flex items-center text-black dark:text-gray-100">
             Finite Loop Club
@@ -27,10 +28,11 @@ export default function footer() {
           <ul className="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
             {Links.map((link, index) => (
               <li key={index}>
-                <Link href={link.link}>
-                  <a className="text-black dark:text-gray-100 transition hover:text-gray-500 dark:hover:text-gray-200/75">
-                    {link.name}
-                  </a>
+                <Link
+                  href={link.link}
+                  className="text-black dark:text-gray-100 transition hover:text-gray-500 dark:hover:text-gray-200/75"
+                >
+                  {link.name}
                 </Link>
               </li>
             ))}
@@ -40,15 +42,12 @@ export default function footer() {
         <ul className="flex justify-center mt-12 gap-6 md:gap-8">
           {social.map((link, index) => (
             <li key={index}>
-              <Link href={link.link}>
-                <a
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  className="text-black dark:text-gray-100 transition hover:text-gray-200/75"
-                >
-                  <span className="sr-only">{link.name}</span>
-                  {link.icon}
-                </a>
+              <Link
+                href={link.link}
+                className="text-black dark:text-gray-100 transition hover:text-gray-200/75"
+              >
+                <span className="sr-only">{link.name}</span>
+                {link.icon}
               </Link>
             </li>
           ))}
