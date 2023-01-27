@@ -1,9 +1,12 @@
 import Image from "next/image";
-import React, { useState, useEffect, type FunctionComponent } from "react";
+import Link from "next/link";
+import React, { useState, type FunctionComponent } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { AiFillStar } from "react-icons/ai";
 import { BsPencilSquare } from "react-icons/bs";
+import { api } from "../../utils/api";
 import Button from "../button";
+import { type User } from "@prisma/client";
 
 type TeamProps = {
   userRole: string;
@@ -14,10 +17,18 @@ type CardProps = {
   teamLead: boolean;
   name: string;
   img: string;
+  username: string;
+};
+
+type Team = {
+  id: number;
+  name: string;
+  description: string;
+  members: User[];
 };
 
 const Team: FunctionComponent<TeamProps> = ({ userRole, email }) => {
-  const [teamData, setTeamData] = useState(null);
+  const [teamData, setTeamData] = useState<Team>({} as Team);
   const [name, setName] = React.useState("");
   const [description, setDescription] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -26,44 +37,18 @@ const Team: FunctionComponent<TeamProps> = ({ userRole, email }) => {
     setShowForm(true);
   };
 
-  const fetchTeam = async () => {
-    await fetch("/api/read/teams?q=" + email)
-      .then((res) => res.json())
-      .then((data) => {
-        setTeamData(data.data[0]);
-        setName(data.data[0].name);
-        setDescription(data.data[0].description);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    fetchTeam();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const updateTeam = async (name, description) => {
-    const res = await fetch("/api/update/team", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  const getTeamMembers = api.teamRouter.getTeamMembers.useQuery(
+    {
+      email: email,
+    },
+    {
+      onSuccess: (data) => {
+        if (data != undefined) setTeamData(data[0] as Team);
       },
-      body: JSON.stringify({
-        name,
-        description,
-        teamName: teamData.name,
-      }),
-    });
-    const data = await res.json();
-    console.log(data);
-    if (data.message === "Team Updated") {
-      toast.success("Team Updated");
-      fetchTeam();
-      setShowForm(false);
-    } else {
-      toast.error("Something went wrong");
     }
-  };
+  );
+
+  const updateTeam = api.teamRouter.updateTeamInfo.useMutation();
 
   return (
     teamData && (
@@ -83,47 +68,66 @@ const Team: FunctionComponent<TeamProps> = ({ userRole, email }) => {
           <p className="text-md py-2 text-gray-500 dark:text-gray-200">
             {teamData.description}
           </p>
-          {userRole === "team-lead" ? (
-            showForm ? (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  updateTeam(name, description);
-                }}
-                className="text-md mb-3"
-              >
-                <label htmlFor="name" className="text-md">
-                  Name:
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  className="w-full rounded-lg border-gray-200 p-4 pr-12 shadow-sm"
-                />
-                <br />
-                <label htmlFor="description" className="text-md">
-                  Description:
-                </label>
-                <textarea
-                  id="description"
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                  className="w-full rounded-lg border-gray-200 p-4 pr-12 shadow-sm"
-                />
-                <br />
-                <Button type="submit">Update</Button>
-              </form>
-            ) : null
-          ) : null}
+          {userRole === "team-lead" && showForm && (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                updateTeam.mutate(
+                  {
+                    teamId: teamData.id,
+                    name: name,
+                    description: description,
+                  },
+                  {
+                    onSuccess: () => {
+                      toast.success("Team Updated");
+                      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                      getTeamMembers.refetch();
+                      setShowForm(false);
+                    },
+                    onError: () => {
+                      toast.error("Error Updating Team");
+                    },
+                  }
+                );
+              }}
+              className="text-md mb-3"
+            >
+              <label htmlFor="name" className="text-md">
+                Name:
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                defaultValue={teamData.name}
+                onChange={(event) => setName(event.target.value)}
+                className="w-full rounded-lg border-gray-200 p-4 pr-12 shadow-sm"
+              />
+              <br />
+              <label htmlFor="description" className="text-md">
+                Description:
+              </label>
+              <textarea
+                id="description"
+                value={description}
+                defaultValue={teamData.description}
+                onChange={(event) => setDescription(event.target.value)}
+                className="w-full rounded-lg border-gray-200 p-4 pr-12 shadow-sm"
+              />
+              <br />
+              <Button>Update</Button>
+            </form>
+          )}
+
           <div className="mt-2 flex flex-wrap items-center justify-evenly gap-5 p-2 transition-all ">
             {teamData?.members?.map((member, index) => (
               <Card
                 key={index}
-                name={member.name}
-                img={member.image}
+                name={member.name as string}
+                img={member.image as string}
                 teamLead={member.role === "team-lead"}
+                username={member.username as string}
               />
             ))}
           </div>
@@ -135,7 +139,12 @@ const Team: FunctionComponent<TeamProps> = ({ userRole, email }) => {
 
 export default Team;
 
-const Card: FunctionComponent<CardProps> = ({ teamLead, img, name }) => {
+const Card: FunctionComponent<CardProps> = ({
+  teamLead,
+  img,
+  name,
+  username,
+}) => {
   return (
     <div className="pointer delay-50 h-[200px] w-48 transform cursor-pointer rounded-xl  bg-gray-200 p-3 text-center shadow-sm duration-300 ease-in-out hover:scale-105 hover:shadow-lg dark:bg-black dark:bg-opacity-10">
       <div className="mb-2 flex justify-center">
@@ -147,7 +156,9 @@ const Card: FunctionComponent<CardProps> = ({ teamLead, img, name }) => {
           height={80}
         />
       </div>
-      <h5 className="w-full font-semibold">{name}</h5>
+      <Link href={`/u/${username}`} className="w-full font-semibold">
+        {name}
+      </Link>
       {teamLead && (
         <div className="group fixed top-1 left-1 inline-flex text-xl text-yellow-500 ">
           <AiFillStar className="text-xl" />
