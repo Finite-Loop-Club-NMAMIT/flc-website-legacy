@@ -40,6 +40,7 @@ export default function Profile() {
       link: "",
     },
   ]);
+  const [infoText, setInfoText] = useState<string>("");
 
   const handleAddLink = () => {
     setSocialLinks([
@@ -63,6 +64,7 @@ export default function Profile() {
     {
       onSuccess: (data) => {
         setProfile(data as User);
+        setEditData({ ...editData, username: data?.username as string });
         if ((data?.links?.length as number) > 0) {
           setSocialLinks(
             JSON.parse(data?.links as string) as [
@@ -78,16 +80,42 @@ export default function Profile() {
   );
 
   const editProfile = api.userRouter.editUser.useMutation();
+  const isUsernameAvailable = api.userRouter.isUsernameAvailable.useQuery(
+    {
+      username: editData.username as string,
+    },
+    {
+      onSuccess: (data) => {
+        if (data === false) {
+          setInfoText("Username already taken");
+        } else {
+          setInfoText("Username available");
+        }
+      },
+    }
+  );
 
   const handleSave = (e: FormEvent) => {
     e.preventDefault();
     const platforms = socialLinks?.map((link) => link.platform);
     if (new Set(platforms).size !== platforms.length) {
       toast.error("You have added multiple links for the same platform");
+    } else if (
+      socialLinks?.filter((link) => link.platform === "Select a platform")
+        .length > 0
+    ) {
+      toast.error("You have not selected a platform for one of the links");
+    } else if (socialLinks?.filter((link) => link.link === "").length > 0) {
+      toast.error("You have not added a link for one of the platforms");
+    } else if (isUsernameAvailable.data === false) {
+      toast.error("User with that username already exists");
+    } else if ((editData.username?.length as number) > 15) {
+      toast.error("Username should be less than 15 characters");
     } else {
       try {
         editProfile.mutate(
           {
+            username: editData.username as string,
             name: editData.name as string,
             bio: editData.bio as string,
             links: JSON.stringify(
@@ -102,7 +130,9 @@ export default function Profile() {
               setShowModal(false);
               try {
                 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                ProfileInfo.refetch();
+                router.push(`/u/${editData.username as string}`).then(() => {
+                  router.reload(); //to re render navbar for new username
+                });
               } catch (error) {
                 toast.error("Something went wrong");
               }
@@ -187,6 +217,9 @@ export default function Profile() {
             <a className="heading text-center text-2xl font-bold">
               {profile.name as string}
             </a>
+            <p className="text-sm text-yellow-500">
+              @{profile.username as string}
+            </p>
             <p className="font-bold text-gray-700 dark:text-gray-300">
               Bio:{" "}
               <span className="text-black dark:text-white">
@@ -242,7 +275,7 @@ export default function Profile() {
 
             {showModal && (
               <>
-                <div className="fixed inset-0 z-10 overflow-y-auto">
+                <div className="fixed inset-0 z-10 overflow-y-auto h-[70%] mt-20">
                   <div
                     className="fixed inset-0 h-full w-full bg-black opacity-30"
                     onClick={() => setShowModal(false)}
@@ -273,6 +306,44 @@ export default function Profile() {
                               className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
                               placeholder="Enter name"
                             />
+
+                            <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label htmlFor="name" className="text-sm font-medium">
+                            Username
+                          </label>
+
+                          <div className="relative mt-1">
+                            <input
+                              id="username"
+                              name="username"
+                              max={15}
+                              defaultValue={profile.username as string}
+                              onChange={(e) => {
+                                setEditData({
+                                  ...editData,
+                                  username: e.target.value,
+                                });
+                                setInfoText("Checking...");
+                              }}
+                              className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                              placeholder="Enter username"
+                            />
+                            {infoText &&
+                              editData.username !== profile.username && (
+                                <span
+                                  className={`text-sm ${
+                                    isUsernameAvailable.data
+                                      ? "text-green-500"
+                                      : "text-red-500"
+                                  }`}
+                                >
+                                  {infoText}
+                                </span>
+                              )}
 
                             <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
                           </div>

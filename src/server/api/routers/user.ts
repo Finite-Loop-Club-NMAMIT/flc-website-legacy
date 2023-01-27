@@ -42,6 +42,7 @@ export const userRouter = createTRPCRouter({
   editUser: protectedProcedure
     .input(
       z.object({
+        username: z.string().optional(),
         name: z.string().optional(),
         bio: z.string().optional(),
         links: z.string().optional(),
@@ -54,11 +55,36 @@ export const userRouter = createTRPCRouter({
             id: ctx.session.user.id,
           },
           data: {
+            username: input.username,
             name: input.name,
             bio: input.bio,
             links: input.links,
           },
         });
+      } catch (error) {
+        console.log("error", error);
+      }
+    }),
+
+  isUsernameAvailable: publicProcedure
+    .input(
+      z.object({
+        username: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const user = await ctx.prisma.user.findUnique({
+          where: {
+            username: input.username,
+          },
+        });
+
+        if (user) {
+          return false;
+        }
+
+        return true;
       } catch (error) {
         console.log("error", error);
       }

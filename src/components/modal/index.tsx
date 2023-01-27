@@ -34,7 +34,7 @@ const Modal: FunctionComponent<ModalProps> = ({
     <div
       id="container"
       onClick={(e) => handleOnClose(e.target as HTMLDivElement)}
-      className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-black bg-opacity-30 pt-56 backdrop-blur-lg md:pt-0"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 pt-56 backdrop-blur-lg md:pt-0"
     >
       <Fade>
         <div className="p-4">
