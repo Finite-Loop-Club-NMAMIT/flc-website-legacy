@@ -1,7 +1,7 @@
 import { makePayment } from "../../utils/razorpay";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../button";
 import { useSession, signIn } from "next-auth/react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
@@ -9,28 +9,16 @@ import { BiSun, BiMoon } from "react-icons/bi";
 import { Links } from "../constants";
 import { useTheme } from "next-themes";
 import { type FunctionComponent } from "react";
+import { api } from "../../utils/api";
 
 const Navbar: FunctionComponent = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [profile, setProfile] = useState({});
-
   const { data, status } = useSession();
-
   const { theme, setTheme } = useTheme();
 
-  // useEffect(() => {
-  //   if (status == "authenticated") {
-  //     const fetchProfile = async () => {
-  //       const res = await fetch(
-  //         `/api/read/users?q=${data.user?.email as string}`
-  //       );
-  //       const user = await res.json();
-  //       setProfile(user.data[0]);
-  //     };
-  //     fetchProfile();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [status]);
+  const user = api.userRouter.getUserByEmail.useQuery({
+    email: data?.user?.email as string,
+  });
 
   return (
     <>
@@ -80,19 +68,23 @@ const Navbar: FunctionComponent = () => {
 
             {status === "authenticated" ? (
               <div className="flex w-[150px]  flex-col gap-3 md:ml-8 md:w-full md:flex-row">
-                {/* {!profile.isMember && profile.role === "member" && (
+                {!user.data?.isMember && user.data?.role === "member" && (
                   <Button
                     onClick={() => {
-                      makePayment(data.user.email, data.user.name);
+                      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                      makePayment(
+                        user.data?.email as string,
+                        user.data?.name as string
+                      );
                     }}
                   >
                     Register
                   </Button>
-                )} */}
+                )}
                 <div>
-                  <Link href="/profile">
+                  <Link href={`/u/${user.data?.username as string}`}>
                     <Image
-                      src={data.user?.image as string}
+                      src={user.data?.image as string}
                       width={40}
                       height={40}
                       className="cursor-pointer rounded-full"

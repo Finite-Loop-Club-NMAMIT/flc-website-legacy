@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
     logo: "https://res.cloudinary.com/dpfpk49oa/image/upload/v1661426777/logo2_fpkrl6.png",
   },
   events: {
-    async signIn({ user }) {
+    async signIn({ user, isNewUser }) {
       if (user.email?.endsWith("@nmamit.in")) {
         const member = await prisma.members.findUnique({
           where: {
@@ -39,6 +39,17 @@ export const authOptions: NextAuthOptions = {
             },
             data: {
               role: "member",
+            },
+          });
+        }
+
+        if (isNewUser) {
+          await prisma.user.update({
+            where: {
+              email: user.email,
+            },
+            data: {
+              username: user.email.split("@")[0],
             },
           });
         }
