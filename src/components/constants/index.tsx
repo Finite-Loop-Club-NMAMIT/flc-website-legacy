@@ -103,7 +103,13 @@ export const social = [
 
 export const eventTabs = ["All", "2022-23", "2021-22", "2020-21", "2017-20"];
 
-export const teamTabs = ["Faculty", "2022-23", "2021-22", "2020-21", "2017-20"];
+export const teamTabs = [
+  "Year2017to2020",
+  "Year2020to2021",
+  "Year2021to2022",
+  "Year2022to2023",
+  "Faculty",
+];
 
 export const events = [
   {

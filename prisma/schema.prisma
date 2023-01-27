@@ -103,3 +103,81 @@ model RegistrationPayment {
   updatedAt   DateTime @updatedAt
   paymentData Json?
 }
+
+enum Role {
+  Principal
+  AssistantProfessor
+  President
+  VicePresident
+  Secretary
+  JointSecretary
+  EventsHead
+  EventsCoHead
+  TalentAcquisitionHead
+  TechnicalHead
+  DigitalTechLead
+  EthicalHackingHead
+  ProgramAdvisor
+  ProgramLead
+  GraphicsHead
+  GraphicsCoHead
+  SocialMediaHead
+  SocialMediaCoHead
+  ContentHead
+  ContentCoHead
+  GraphicsTeam
+  SocialMediaTeam
+  ContentTeam
+  TechnicalContentHead
+  TechnicalTeam
+  CoreMember
+}
+
+enum CoreFilter {
+  Year2017to2020
+  Year2020to2021
+  Year2021to2022
+  Year2022to2023
+  Faculty
+}
+
+model Core {
+  id       Int        @id @unique @default(autoincrement())
+  name     String
+  role     Role
+  img      String
+  github   String?
+  linkedin String?
+  filter   CoreFilter
+}
+
+enum EventTypes {
+  Workshop
+  Seminar
+  Gaming
+  Talk
+  CyberSecurity
+  OpenSource
+  AndroidDevelopment
+  WebDevelopment
+}
+
+enum eventFiter {
+  Year2017to2020
+  Year2020to2021
+  Year2021to2022
+  Year2022to2023
+  All
+}
+
+model Event {
+  id          Int        @id @unique @default(autoincrement())
+  name        String
+  date        DateTime
+  attended    Int
+  type        EventTypes
+  image       String
+  organizer   String
+  description String
+  filter      eventFiter
+}
