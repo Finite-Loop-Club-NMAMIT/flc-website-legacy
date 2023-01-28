@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import Button from "../button";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useState, useEffect, useRef } from "react";
 import { Fade } from "react-awesome-reveal";
 import { BsPatchCheckFill } from "react-icons/bs";
 import {
@@ -19,8 +19,13 @@ import Team from "../team";
 import { api } from "../../utils/api";
 import { useRouter } from "next/router";
 import { type User } from "@prisma/client";
-import { AiOutlineShareAlt } from "react-icons/ai";
+import { AiFillCamera, AiOutlineShareAlt } from "react-icons/ai";
 import Error from "../error";
+import { env } from "../../env/client.mjs";
+
+interface CloudinaryResponse {
+  secure_url: string;
+}
 
 export default function Profile() {
   const router = useRouter();
@@ -41,6 +46,8 @@ export default function Profile() {
     },
   ]);
   const [infoText, setInfoText] = useState<string>("");
+
+  const fileInput = useRef<HTMLInputElement>(null);
 
   const handleAddLink = () => {
     setSocialLinks([
@@ -80,6 +87,8 @@ export default function Profile() {
   );
 
   const editProfile = api.userRouter.editUser.useMutation();
+  const updateProfilePicture =
+    api.userRouter.updateProfilePicture.useMutation();
   const isUsernameAvailable = api.userRouter.isUsernameAvailable.useQuery(
     {
       username: editData.username as string,
@@ -213,6 +222,68 @@ export default function Profile() {
               >
                 <AiOutlineShareAlt />
               </button>
+              <button
+                onClick={() => {
+                  fileInput.current?.click();
+                }}
+                className="absolute bottom-0 left-0 m-2 flex items-center rounded-full bg-yellow-400 p-2 font-bold text-black duration-500 hover:scale-[1.03] hover:bg-yellow-300"
+              >
+                <AiFillCamera />
+                <input
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const formData = new FormData();
+                    formData.append("file", file);
+                    formData.append("upload_preset", "profile_pictures");
+                    try {
+                      const loadingToast = toast.loading(
+                        "Uploading image, please wait..."
+                      );
+                      const response: Response = await fetch(
+                        `https://api.cloudinary.com/v1_1/${env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+                        {
+                          method: "POST",
+                          body: formData,
+                        }
+                      );
+
+                      if (!response.ok) {
+                        toast.error("Error uploading image");
+                        toast.dismiss(loadingToast);
+                        return;
+                      }
+
+                      const data: CloudinaryResponse =
+                        (await response.json()) as CloudinaryResponse;
+                      try {
+                        updateProfilePicture.mutate(
+                          {
+                            profilePicture: data.secure_url,
+                          },
+                          {
+                            onSuccess: () => {
+                              toast.success("Profile picture updated");
+                              // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                              ProfileInfo.refetch();
+                              toast.dismiss(loadingToast);
+                            },
+                          }
+                        );
+                      } catch (error) {
+                        toast.error("Error updating profile picture");
+
+                        toast.dismiss(loadingToast);
+                      }
+                    } catch (error) {
+                      toast.error("Something went wrong");
+                    }
+                  }}
+                  ref={fileInput}
+                  type="file"
+                  className="hidden"
+                />
+              </button>
             </div>
             <a className="heading text-center text-2xl font-bold">
               {profile.name as string}
@@ -275,7 +346,7 @@ export default function Profile() {
 
             {showModal && (
               <>
-                <div className="fixed inset-0 z-10 overflow-y-auto h-[70%] mt-20">
+                <div className="fixed inset-0 z-10 mt-20 h-[70%] overflow-y-auto">
                   <div
                     className="fixed inset-0 h-full w-full bg-black opacity-30"
                     onClick={() => setShowModal(false)}

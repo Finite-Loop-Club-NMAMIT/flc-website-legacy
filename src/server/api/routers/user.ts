@@ -89,4 +89,25 @@ export const userRouter = createTRPCRouter({
         console.log("error", error);
       }
     }),
+
+  updateProfilePicture: protectedProcedure
+    .input(
+      z.object({
+        profilePicture: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        return await ctx.prisma.user.update({
+          where: {
+            id: ctx.session.user.id,
+          },
+          data: {
+            image: input.profilePicture,
+          },
+        });
+      } catch (error) {
+        console.log("error", error);
+      }
+    }),
 });
