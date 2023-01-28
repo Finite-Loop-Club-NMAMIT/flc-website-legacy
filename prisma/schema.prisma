@@ -162,12 +162,11 @@ enum EventTypes {
   WebDevelopment
 }
 
-enum eventFiter {
+enum EventFilter {
   Year2017to2020
   Year2020to2021
   Year2021to2022
   Year2022to2023
-  All
 }
 
 model Event {
@@ -179,5 +178,5 @@ model Event {
   image       String
   organizer   String
   description String
-  filter      eventFiter
+  filter      EventFilter
 }

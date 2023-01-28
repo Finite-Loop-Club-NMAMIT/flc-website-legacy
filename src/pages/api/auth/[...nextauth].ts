@@ -4,6 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db";
+import { nanoid } from "nanoid";
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
@@ -44,14 +45,20 @@ export const authOptions: NextAuthOptions = {
         }
 
         if (isNewUser) {
-          await prisma.user.update({
-            where: {
-              email: user.email,
-            },
-            data: {
-              username: user.email.split("@")[0],
-            },
-          });
+          let username = user.email.split("@")[0];
+          let userCreated = false;
+
+          while (!userCreated) {
+            try {
+              await prisma.user.update({
+                where: { email: user.email },
+                data: { username },
+              });
+              userCreated = true;
+            } catch (err) {
+              username += nanoid();
+            }
+          }
         }
       }
     },

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Fade } from "react-awesome-reveal";
+import { Slide } from "react-awesome-reveal";
 import { type FunctionComponent } from "react";
 
 type ModalProps = {
@@ -9,8 +9,8 @@ type ModalProps = {
   img: string;
   desc: string;
   type: string;
-  date: string;
-  attended: string;
+  date: Date;
+  attended: number;
   organizer: string;
 };
 
@@ -34,9 +34,9 @@ const Modal: FunctionComponent<ModalProps> = ({
     <div
       id="container"
       onClick={(e) => handleOnClose(e.target as HTMLDivElement)}
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 pt-56 backdrop-blur-lg md:pt-0"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 pt-56 backdrop-blur-lg md:pt-0"
     >
-      <Fade>
+      <Slide direction="down">
         <div className="p-4">
           <div className="relative max-w-5xl rounded-lg bg-white bg-opacity-30 p-6 shadow-sm backdrop-blur-lg backdrop-filter">
             <button
@@ -66,10 +66,12 @@ const Modal: FunctionComponent<ModalProps> = ({
                 width={500}
               />
               <div className="flex flex-col gap-3 text-white">
-                <h2 className="text-lg font-medium lg:text-2xl">{name}</h2>
+                <h2 className="heading text-lg font-medium lg:text-2xl">
+                  {name}
+                </h2>
                 <a>Category: {type}</a>
-                <a>Date: {date}</a>
-                <a>Attended by: {attended}</a>
+                <a>Date: {date.toLocaleDateString()}</a>
+                <a>Attended by: {attended}+ Participants</a>
                 <a>Organizers: {organizer}</a>
                 <p className="mt-4 text-sm">
                   <a className="text-lg text-white">Description</a>
@@ -81,7 +83,7 @@ const Modal: FunctionComponent<ModalProps> = ({
             </div>
           </div>
         </div>
-      </Fade>
+      </Slide>
     </div>
   );
 };

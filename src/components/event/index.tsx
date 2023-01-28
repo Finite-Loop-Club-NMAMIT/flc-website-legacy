@@ -1,26 +1,29 @@
-import { events, eventTabs } from "../../components/constants";
-import { useState, useEffect, type FunctionComponent } from "react";
+import { eventTabs } from "../../components/constants";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Button from "../../components/button";
 import Modal from "../../components/modal";
-import { Fade } from "react-awesome-reveal";
+import { type FunctionComponent } from "react";
+import { type EventFilter } from "@prisma/client";
+import { api } from "../../utils/api";
 
-type ModalData = {
-  image: string;
+type ModalProps = {
+  visible: boolean;
+  onClose: () => void;
   name: string;
+  img: string;
   desc: string;
-  attended: string;
-  date: string;
-  organizer: string;
   type: string;
+  date: Date;
+  attended: number;
+  organizer: string;
 };
 
-const Events: FunctionComponent = () => {
-  const [toggleState, setToggleState] = useState<number>(0);
+const EventList: FunctionComponent = () => {
+  const [toggleState, setToggleState] = useState<number>(4);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [modalData, setModalData] = useState<ModalData>({} as ModalData);
-  const [year, setYear] = useState<string>("All");
-
+  const [modalData, setModalData] = useState<ModalProps>({} as ModalProps);
+  const [year, setYear] = useState(undefined as EventFilter | undefined);
   const handleOnClose = () => setShowModal(false);
 
   useEffect(() => {
@@ -28,15 +31,23 @@ const Events: FunctionComponent = () => {
     !showModal && (document.body.style.overflow = "unset");
   }, [showModal]);
 
+  const events = api.eventRouter.getEvents.useQuery({
+    filter: year as EventFilter,
+  });
+
   return (
-    <div>
+    <div className="">
       <ul className="flex flex-wrap justify-center">
         {eventTabs.map((tab, index) => (
           <li key={index}>
             <a
               onClick={() => {
                 setToggleState(index);
-                setYear(tab);
+                {
+                  tab === "All"
+                    ? setYear(undefined)
+                    : setYear(tab as EventFilter);
+                }
               }}
               className="relative block cursor-pointer p-4"
             >
@@ -46,19 +57,21 @@ const Events: FunctionComponent = () => {
               <div className="flex items-center justify-center">
                 <span className="ml-3 text-xs font-light text-black dark:text-white md:text-lg lg:text-sm lg:font-medium">
                   {" "}
-                  {tab}{" "}
+                  {tab.replace("Year", "").replace("to", " - ")}
                 </span>
               </div>
             </a>
           </li>
         ))}
       </ul>
-
       <div className="my-5 flex flex-wrap items-stretch justify-center gap-5">
-        {events.map((event, index) =>
-          event.year === year || year === "All" ? (
-            <Fade cascade key={index}>
-              <div className="mx-5 max-w-sm rounded-lg bg-white bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter">
+        {events.data &&
+          events.data.map((event, index) =>
+            event.filter === year || year === undefined ? (
+              <div
+                key={index}
+                className="mx-5 max-w-sm rounded-lg bg-white bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter"
+              >
                 <a>
                   <Image
                     className="rounded-t-lg"
@@ -77,31 +90,39 @@ const Events: FunctionComponent = () => {
                   <div
                     onClick={() => {
                       setShowModal(true);
-                      setModalData(event);
+                      setModalData({
+                        visible: true,
+                        onClose: handleOnClose,
+                        name: event.name,
+                        img: event.image,
+                        desc: event.description,
+                        type: event.type,
+                        date: event.date,
+                        attended: event.attended,
+                        organizer: event.organizer,
+                      });
                     }}
                   >
                     <Button>Know more</Button>
                   </div>
                 </div>
               </div>
-            </Fade>
-          ) : null
-        )}
+            ) : null
+          )}
+        <Modal
+          onClose={handleOnClose}
+          visible={showModal}
+          img={modalData.img}
+          name={modalData.name}
+          desc={modalData.desc}
+          attended={modalData.attended}
+          date={modalData.date}
+          organizer={modalData.organizer}
+          type={modalData.type}
+        />
       </div>
-
-      <Modal
-        onClose={handleOnClose}
-        visible={showModal}
-        img={modalData?.image}
-        name={modalData?.name}
-        desc={modalData?.desc}
-        attended={modalData?.attended}
-        date={modalData?.date}
-        organizer={modalData?.organizer}
-        type={modalData?.type}
-      />
     </div>
   );
 };
 
-export default Events;
+export default EventList;
