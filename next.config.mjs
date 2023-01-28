@@ -15,7 +15,11 @@ const config = {
     defaultLocale: "en",
   },
   images: {
-    domains: ["lh3.googleusercontent.com","www.finiteloop.co.in"],
+    domains: [
+      "lh3.googleusercontent.com",
+      "www.finiteloop.co.in",
+      "res.cloudinary.com",
+    ],
   },
 };
 export default config;
