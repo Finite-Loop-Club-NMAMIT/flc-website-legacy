@@ -10,12 +10,12 @@ import Loader from "../loader";
 
 const Core: FunctionComponent = () => {
   const [toggleState, setToggleState] = useState(3);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
   const [filter, setFilter] = useState<CoreFilter>(
     teamTabs[toggleState] as CoreFilter
   );
+
   const members = api.coreRouter.getCoreMembers.useQuery({
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     filter: filter,
   });
 

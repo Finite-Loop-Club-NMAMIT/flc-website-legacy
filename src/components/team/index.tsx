@@ -80,10 +80,16 @@ const Team: FunctionComponent<TeamProps> = ({ userRole, email }) => {
                   },
                   {
                     onSuccess: () => {
-                      toast.success("Team Updated");
-                      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                      getTeamMembers.refetch();
-                      setShowForm(false);
+                      getTeamMembers
+                        .refetch()
+                        .then(() => {
+                          toast.success("Team Updated");
+                          setShowForm(false);
+                        })
+                        .catch(() => {
+                          toast.error("Error fetching members");
+                          setShowForm(false);
+                        });
                     },
                     onError: () => {
                       toast.error("Error Updating Team");

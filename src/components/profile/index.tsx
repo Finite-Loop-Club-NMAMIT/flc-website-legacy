@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import Button from "../button";
-import { type FormEvent, useState, useEffect, useRef } from "react";
+import { type FormEvent, useState, useRef } from "react";
 import { Fade } from "react-awesome-reveal";
 import { BsPatchCheckFill } from "react-icons/bs";
 import {
@@ -31,7 +31,6 @@ export default function Profile() {
   const router = useRouter();
   const { data } = useSession();
   const username = router.query.username;
-  const [profile, setProfile] = useState<User>({} as User);
   const [editData, setEditData] = useState<User>({} as User);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [socialLinks, setSocialLinks] = useState<
@@ -70,7 +69,6 @@ export default function Profile() {
     },
     {
       onSuccess: (data) => {
-        setProfile(data as User);
         setEditData({ ...editData, username: data?.username as string });
         if ((data?.links?.length as number) > 0) {
           setSocialLinks(
@@ -104,6 +102,58 @@ export default function Profile() {
     }
   );
 
+  const handleProfileUpdate = async (e: FormEvent) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "profile_pictures");
+    try {
+      const loadingToast = toast.loading("Uploading image, please wait...");
+      const response: Response = await fetch(
+        `https://api.cloudinary.com/v1_1/${env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        toast.error("Error uploading image");
+        toast.dismiss(loadingToast);
+        return;
+      }
+
+      const data: CloudinaryResponse =
+        (await response.json()) as CloudinaryResponse;
+      try {
+        updateProfilePicture.mutate(
+          {
+            profilePicture: data.secure_url,
+          },
+          {
+            onSuccess: () => {
+              ProfileInfo.refetch()
+                .then(() => {
+                  toast.dismiss(loadingToast);
+                  toast.success("Profile picture updated");
+                })
+                .catch(() => {
+                  toast.dismiss(loadingToast);
+                  toast.error("Error updating profile picture");
+                });
+            },
+          }
+        );
+      } catch (error) {
+        toast.error("Error updating profile picture");
+        toast.dismiss(loadingToast);
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
+
   const handleSave = (e: FormEvent) => {
     e.preventDefault();
     const platforms = socialLinks?.map((link) => link.platform);
@@ -116,7 +166,10 @@ export default function Profile() {
       toast.error("You have not selected a platform for one of the links");
     } else if (socialLinks?.filter((link) => link.link === "").length > 0) {
       toast.error("You have not added a link for one of the platforms");
-    } else if (isUsernameAvailable.data === false) {
+    } else if (
+      isUsernameAvailable.data === false &&
+      !ProfileInfo.data?.username?.includes(editData.username as string)
+    ) {
       toast.error("User with that username already exists");
     } else if ((editData.username?.length as number) > 15) {
       toast.error("Username should be less than 15 characters");
@@ -137,14 +190,14 @@ export default function Profile() {
             onSuccess: () => {
               toast.success("Profile updated successfully");
               setShowModal(false);
-              try {
-                // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                router.push(`/u/${editData.username as string}`).then(() => {
+              router
+                .push(`/u/${editData.username as string}`)
+                .then(() => {
                   router.reload(); //to re render navbar for new username
+                })
+                .catch(() => {
+                  toast.error("Something went wrong");
                 });
-              } catch (error) {
-                toast.error("Something went wrong");
-              }
             },
           }
         );
@@ -195,14 +248,14 @@ export default function Profile() {
           </button>
         </div>
       )}
-      {!profile && <Error />}
-      {profile && (
+      {!ProfileInfo.data && <Error />}
+      {ProfileInfo.data && (
         <Fade cascade>
           <div className="my-10 flex flex-col items-center justify-center gap-5 p-5">
             <div className="relative">
               <Image
                 className="rounded-lg"
-                src={profile.image?.split("=")[0] as string}
+                src={ProfileInfo.data.image?.split("=")[0] as string}
                 width={200}
                 height={200}
                 alt="Profile Picture"
@@ -210,99 +263,56 @@ export default function Profile() {
               />
               <button
                 onClick={() => {
-                  try {
-                    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                    navigator.clipboard.writeText(window.location.href);
-                  } catch (error) {
-                    toast.error("Something went wrong");
-                  }
-                  toast.success("Copied to clipboard");
+                  navigator.clipboard
+                    .writeText(window.location.href)
+                    .then(() => {
+                      toast.success("Copied to clipboard");
+                    })
+                    .catch(() => {
+                      toast.error("Something went wrong");
+                    });
                 }}
                 className="absolute bottom-0 right-0 m-2 flex items-center rounded-full bg-yellow-400 p-2 font-bold text-black duration-500 hover:scale-[1.03] hover:bg-yellow-300"
               >
                 <AiOutlineShareAlt />
               </button>
-              <button
-                onClick={() => {
-                  fileInput.current?.click();
-                }}
-                className="absolute bottom-0 left-0 m-2 flex items-center rounded-full bg-yellow-400 p-2 font-bold text-black duration-500 hover:scale-[1.03] hover:bg-yellow-300"
-              >
-                <AiFillCamera />
-                <input
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const formData = new FormData();
-                    formData.append("file", file);
-                    formData.append("upload_preset", "profile_pictures");
-                    try {
-                      const loadingToast = toast.loading(
-                        "Uploading image, please wait..."
-                      );
-                      const response: Response = await fetch(
-                        `https://api.cloudinary.com/v1_1/${env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-                        {
-                          method: "POST",
-                          body: formData,
-                        }
-                      );
-
-                      if (!response.ok) {
-                        toast.error("Error uploading image");
-                        toast.dismiss(loadingToast);
-                        return;
-                      }
-
-                      const data: CloudinaryResponse =
-                        (await response.json()) as CloudinaryResponse;
-                      try {
-                        updateProfilePicture.mutate(
-                          {
-                            profilePicture: data.secure_url,
-                          },
-                          {
-                            onSuccess: () => {
-                              toast.success("Profile picture updated");
-                              // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                              ProfileInfo.refetch();
-                              toast.dismiss(loadingToast);
-                            },
-                          }
-                        );
-                      } catch (error) {
-                        toast.error("Error updating profile picture");
-
-                        toast.dismiss(loadingToast);
-                      }
-                    } catch (error) {
-                      toast.error("Something went wrong");
-                    }
+              {ProfileInfo.data.id === data?.user?.id && (
+                <button
+                  onClick={() => {
+                    fileInput.current?.click();
                   }}
-                  ref={fileInput}
-                  type="file"
-                  className="hidden"
-                />
-              </button>
+                  className="absolute bottom-0 left-0 m-2 flex items-center rounded-full bg-yellow-400 p-2 font-bold text-black duration-500 hover:scale-[1.03] hover:bg-yellow-300"
+                >
+                  <AiFillCamera />
+                  <input
+                    onChange={async (e) => await handleProfileUpdate(e)}
+                    ref={fileInput}
+                    type="file"
+                    className="hidden"
+                  />
+                </button>
+              )}
             </div>
             <a className="heading text-center text-2xl font-bold">
-              {profile.name as string}
+              {ProfileInfo.data.name as string}
             </a>
             <p className="text-sm text-yellow-500">
-              @{profile.username as string}
+              @{ProfileInfo.data.username as string}
             </p>
             <p className="font-bold text-gray-700 dark:text-gray-300">
               Bio:{" "}
               <span className="text-black dark:text-white">
-                {profile.bio ? profile.bio : "No bio provided."}
+                {ProfileInfo.data.bio
+                  ? ProfileInfo.data.bio
+                  : "No bio provided."}
               </span>
             </p>
             <p className="font-bold text-gray-700 dark:text-gray-300">
               Role:{" "}
               <span className="inline-flex items-center gap-1 text-black dark:text-white">
-                {profile.isMember ? (
+                {ProfileInfo.data.isMember ? (
                   <>
-                    <span className="uppercase">{profile.role}</span>
+                    <span className="uppercase">{ProfileInfo.data.role}</span>
                     <BsPatchCheckFill className="animate-pulse text-green-500" />
                   </>
                 ) : (
@@ -331,7 +341,7 @@ export default function Profile() {
                   </div>
                 ))}
             </div>
-            {data?.user?.id === profile.id && (
+            {data?.user?.id === ProfileInfo.data.id && (
               <div className="flex gap-5">
                 <Button onClick={() => signOut()}>
                   <a>Sign Out</a>
@@ -340,8 +350,8 @@ export default function Profile() {
               </div>
             )}
             <Team
-              userRole={profile.role as string}
-              email={profile.email as string}
+              userRole={ProfileInfo.data.role as string}
+              email={ProfileInfo.data.email as string}
             />
 
             {showModal && (
@@ -367,7 +377,7 @@ export default function Profile() {
                             <input
                               id="name"
                               name="name"
-                              defaultValue={profile.name as string}
+                              defaultValue={ProfileInfo.data.name as string}
                               onChange={(e) =>
                                 setEditData({
                                   ...editData,
@@ -392,7 +402,7 @@ export default function Profile() {
                               id="username"
                               name="username"
                               max={15}
-                              defaultValue={profile.username as string}
+                              defaultValue={ProfileInfo.data.username as string}
                               onChange={(e) => {
                                 setEditData({
                                   ...editData,
@@ -404,7 +414,8 @@ export default function Profile() {
                               placeholder="Enter username"
                             />
                             {infoText &&
-                              editData.username !== profile.username && (
+                              editData.username !==
+                                ProfileInfo.data.username && (
                                 <span
                                   className={`text-sm ${
                                     isUsernameAvailable.data
@@ -429,7 +440,7 @@ export default function Profile() {
                             <input
                               id="bio"
                               name="bio"
-                              defaultValue={profile.bio as string}
+                              defaultValue={ProfileInfo.data.bio as string}
                               onChange={(e) =>
                                 setEditData({
                                   ...editData,

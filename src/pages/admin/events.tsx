@@ -98,13 +98,15 @@ const Event: NextPage = () => {
             onSuccess: () => {
               setShowForm(false);
               toast.dismiss(loadingToast);
-              try {
-                //eslint-disable-next-line @typescript-eslint/no-floating-promises
-                events.refetch();
-              } catch (error) {
-                toast.error("Error fetching events");
-              }
-              toast.success("Event added successfully");
+
+              events
+                .refetch()
+                .then(() => {
+                  toast.success("Event added successfully");
+                })
+                .catch(() => {
+                  toast.error("Error fetching events");
+                });
             },
           }
         );

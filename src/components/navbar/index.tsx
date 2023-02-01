@@ -71,13 +71,12 @@ const Navbar: FunctionComponent = () => {
               <div className="flex w-[150px]  flex-col gap-3 md:ml-8 md:w-full md:flex-row">
                 {!user.data?.isMember && user.data?.role === "member" && (
                   <Button
-                    onClick={() => {
-                      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                      makePayment(
-                        user.data?.email as string,
-                        user.data?.name as string
-                      );
-                    }}
+                  // onClick={() => {
+                  //   makePayment(
+                  //     user.data?.email as string,
+                  //     user.data?.name as string
+                  //   );
+                  // }}
                   >
                     Register
                   </Button>

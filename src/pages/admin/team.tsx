@@ -86,14 +86,16 @@ const AddCore: NextPage = () => {
       },
       {
         onSuccess: () => {
-          try {
-            toast.success("Member added successfully");
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            members.refetch();
-          } catch (error) {
-            console.log(error);
-          }
-          setShowForm(false);
+          members
+            .refetch()
+            .then(() => {
+              toast.success("Member added successfully");
+              setShowForm(false);
+            })
+            .catch(() => {
+              toast.error("Error fetching events");
+              setShowForm(false);
+            });
         },
         onError: () => {
           toast.error("Error adding member");
