@@ -81,13 +81,16 @@ export default function Profile() {
           );
         }
       },
-      refetchOnWindowFocus: false,//prevents refetching during tab changes,etc
-    },
+      refetchOnWindowFocus: false, //prevents refetching during tab changes,etc
+    }
   );
   //re feteched when modal is closed or opened
-  useEffect(()=>{
-    ProfileInfo.refetch()
-  },[showModal])
+  useEffect(() => {
+    ProfileInfo.refetch().catch(() => {
+      toast.error("Error fetching profile");
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showModal]);
 
   const editProfile = api.userRouter.editUser.useMutation();
   const updateProfilePicture =
@@ -104,7 +107,7 @@ export default function Profile() {
           setInfoText("Username available");
         }
       },
-      refetchOnWindowFocus:false,
+      refetchOnWindowFocus: false,
     }
   );
 
