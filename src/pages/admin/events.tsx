@@ -6,7 +6,7 @@ import { env } from "../../env/client.mjs";
 import { api } from "../../utils/api";
 import { type Event } from "@prisma/client";
 import Button from "../../components/button";
-import BlurImage from "../../components/blurImage/index.jsx";
+import BlurImage from "../../components/blurImage";
 
 type Events = {
   data: Event[];
