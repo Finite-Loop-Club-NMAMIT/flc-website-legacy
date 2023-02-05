@@ -70,6 +70,8 @@ const Core: FunctionComponent = () => {
                             width={350}
                             height={350}
                             alt={member.name}
+                            style={{ objectFit: "cover", height: "350px" }}
+                            blurDataURL={member.img}
                           />
                         </div>
                         <div className="mt-6 text-center">

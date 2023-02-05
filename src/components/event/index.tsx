@@ -79,6 +79,8 @@ const EventList: FunctionComponent = () => {
                     width={500}
                     height={500}
                     alt="event-pic"
+                    style={{ objectFit: "cover", height: "500px" }}
+                    blurDataURL={event.image}
                   />
                 </a>
                 <div className="flex flex-col p-5 text-center">
