@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Analytics } from '@vercel/analytics/react';
 
 import { ThemeProvider } from "next-themes";
 import nProgress from "nprogress";
@@ -53,6 +54,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <Navbar />
         <Component {...pageProps} />
         <Footer />
+        <Analytics />
       </SessionProvider>
     </ThemeProvider>
   );
