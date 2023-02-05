@@ -1,18 +1,47 @@
-# Finite Loop Club - Official Repo
-
-<p align="left">
+<p align="center">
 <img src="https://res.cloudinary.com/dpfpk49oa/image/upload/v1661426779/logo1_gyjvor.png" width="501" height="94">
+<h3 align="center">Official website of Finite Loop Club!✨️</h3>
 </p>
+
+<p align="center">
+<a href="https://github.com/FiniteLoop-NMAMIT/flc-website/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/FiniteLoop-NMAMIT/flc-website"></a>
+<a href="https://github.com/FiniteLoop-NMAMIT/flc-website/"><img alt="GitHub stars" src="https://img.shields.io/github/last-commit/FiniteLoop-NMAMIT/flc-website"></a>
+</p>
+
+## Features
+
+- Admin panel to add/delete Events & Team page
+- Custom public user profile pages
+- Teams & tasks feature
+- Razorpay payment gateway integration
+- Beautiful frontend with modern UI
 
 ## Built with:
 
 <p align="left">
-<img src="https://ui-lib.com/blog/wp-content/uploads/2021/12/nextjs-boilerplate-logo.png" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://www.svgrepo.com/show/374118/tailwind.svg" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://www.svgrepo.com/show/374002/prisma.svg" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://www.svgrepo.com/show/354200/postgresql.svg" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://avatars.githubusercontent.com/u/7713209?s=280&v=4" height="50px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://ui-lib.com/blog/wp-content/uploads/2021/12/nextjs-boilerplate-logo.png" height="50px">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1024px-Typescript_logo_2020.svg.png?20221110153201" height="50px">
+<img src="https://www.svgrepo.com/show/374118/tailwind.svg" height="50px">
+<img src="https://pbs.twimg.com/profile_images/1504919223168077836/RSsCSpKf_400x400.jpg" height="50px">
+<img src="https://trpc.io/img/logo.svg" height="50px">
+<img src="https://www.svgrepo.com/show/374002/prisma.svg" height="50px">
 </p>
+
+- [**Next JS**](https://nextjs.org/): React-based framework for building server-side rendered and statically exported web apps.
+- [**Typescript**](https://www.typescriptlang.org/): Statically typed superset of JavaScript, adds type annotations to enhance code reliability & readability
+- [**TailwindCSS**](https://tailwindcss.com/): Utility-first CSS framework
+- [**Planetscale**](https://planetscale.com/): Highly scalable, globally distributed database
+- [**tRPC**](https://trpc.io/): Provides a simple, type-safe way to build APIs for TS & JS
+- [**zod**](https://zod.dev/): Type-safe, instance-based validation library for JavaScript.
+- [**React-query**](https://tanstack.com/query/latest): Library for fetching, caching and updating asynchronous data in React apps
+- [**Prisma ORM**](https://www.prisma.io/): Modern, type-safe ORM for Node.js and TS
+- [**Razorpay**](https://razorpay.com/): Payment gateway
+- [**React awesome reveal**](https://react-awesome-reveal.morello.dev/): Library for adding reveal animations to React components.
+- [**nProgress**](https://rstacruz.github.io/nprogress/): Slim progress bar library for the loading progress.
+- [**superjson**](https://github.com/blitz-js/superjson): Fast JSON serializer and deserializer.
+- [**react-hot-toast**](https://react-hot-toast.com/): Library for creating lightweight toasts
+  > **Note**
+  > This project was bootstrapped with [create-t3-app](https://create.t3.gg/)
 
 ### Running the Project
 
@@ -25,30 +54,28 @@ git clone https://github.com/FiniteLoop-NMAMIT/flc-website
 2. Install the dependencies:
 
 ```bash
-npm i
+pnpm i
 ```
 
-3. Create & start a DB on postgres. Run Prisma migrations which will create SQL tables from `schema.prisma`
+3. Create & start a DB on planetscale. Run Prisma migrations which will create SQL tables from `schema.prisma`
 
 ```bash
-npx prisma migrate dev
+pnpm exec prisma migrate dev
 ```
 
-4. Create an .env file in the root directory and fill the essential vars
+4. Copy and Rename the .env.example to .env, place it in the root directory and fill the essential vars.
 
-```env
-DATABASE_URL="..."
-GOOGLE_CLIENT_ID="..."
-GOOGLE_CLIENT_SECRET="..."
-AUTH_SECRET="..."
-RAZORPAY_KEY="..."
-RAZORPAY_SECRET="..."
+```bash
+cp .env.example .env
 ```
+
+> **Warning**
+> Do not rename the original .env.example, it is used to keep track for env vars list as .env with values is gitignored
 
 5. Run the development server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Open [port 3000 on localhost](http://localhost:3000) with your browser to see the result.
@@ -56,30 +83,12 @@ Open [port 3000 on localhost](http://localhost:3000) with your browser to see th
 Additional:
 
 ```bash
-npx prisma studio
+pnpm exec prisma studio
 ```
 
 to use Prisma Studio(visual editor).
 
 Open [port 5555 on localhost](http://localhost:5555) with your browser.
-
-### Dependencies
-
-```json
-    "@next-auth/prisma-adapter": "^1.0.4",
-    "@prisma/client": "^4.2.1",
-    "axios": "^0.27.2",
-    "next": "12.2.5",
-    "next-auth": "^4.10.3",
-    "next-auth-sanity": "^1.4.4",
-    "next-themes": "^0.2.1",
-    "razorpay": "^2.8.3",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-icons": "^4.4.0",
-    "react-reveal": "^1.2.2",
-    "shortid": "^2.2.16"
-```
 
 ## Contributing
 
@@ -109,7 +118,8 @@ git push origin branch-name-here.
 
 4. From your branch that you are working on, give a PR to our `develop` branch.
    Title the pull request with a short description of the changes made and the issue or bug number associated with your change. In the description of the pull request, explain the changes that you made, any issues you think exist with the pull request you made, and any questions you have for the maintainer.
-   > `!IMPORTANT`: Don't give a PR to the `main` branch, we accept PRs only on develop branch.
+   > **Warning**
+   > Don't give a PR to the `main` branch, we accept PRs only on develop branch.
 5. Wait for the pull request to be reviewed by a maintainer and make changes to the pull request if the reviewing maintainer recommends them.
 
 ### Contributors
