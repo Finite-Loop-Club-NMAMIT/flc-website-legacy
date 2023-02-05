@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import Button from "../button";
-import { type FormEvent, useState, useRef } from "react";
+import { type FormEvent, useState, useRef, useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 import { BsPatchCheckFill } from "react-icons/bs";
 import {
@@ -81,8 +81,13 @@ export default function Profile() {
           );
         }
       },
-    }
+      refetchOnWindowFocus: false,//prevents refetching during tab changes,etc
+    },
   );
+  //re feteched when modal is closed or opened
+  useEffect(()=>{
+    ProfileInfo.refetch()
+  },[showModal])
 
   const editProfile = api.userRouter.editUser.useMutation();
   const updateProfilePicture =
@@ -99,6 +104,7 @@ export default function Profile() {
           setInfoText("Username available");
         }
       },
+      refetchOnWindowFocus:false,
     }
   );
 
