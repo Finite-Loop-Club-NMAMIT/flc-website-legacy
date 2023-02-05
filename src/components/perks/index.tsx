@@ -20,6 +20,7 @@ const Perks: FunctionComponent = () => {
                 height={780}
                 src="/assets/skill-lab.jpeg"
                 className="rounded-lg"
+                blurDataURL="/assets/skill-lab.jpeg"
               />
             </div>
             <p className="mt-4">

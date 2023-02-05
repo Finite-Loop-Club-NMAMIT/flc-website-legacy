@@ -22,6 +22,7 @@ const Hackfest: FunctionComponent = () => {
                   height={500}
                   src="/assets/hackfest.jpg"
                   className="rounded-lg"
+                  blurDataURL="/assets/hackfest.jpg"
                 />
               </div>
               <div className="my-4 flex items-center justify-center">

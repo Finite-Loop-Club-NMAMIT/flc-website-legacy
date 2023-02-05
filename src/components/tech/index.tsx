@@ -4,12 +4,12 @@ import { Slide, Fade } from "react-awesome-reveal";
 
 const Tech: FunctionComponent = () => {
   const tech = [
-    { src: "nextjs.png" },
-    { src: "react.svg" },
-    { src: "laravel.svg" },
-    { src: "node.svg" },
-    { src: "tailwind.svg" },
-    { src: "python.svg" },
+    { src: "icons/nextjs.png" },
+    { src: "icons/react.svg" },
+    { src: "icons/laravel.svg" },
+    { src: "icons/node.svg" },
+    { src: "icons/tailwind.svg" },
+    { src: "icons/python.svg" },
   ];
   return (
     <section>
@@ -40,6 +40,7 @@ const Tech: FunctionComponent = () => {
                     width={100}
                     height={100}
                     alt="icon"
+                    blurDataURL="/assets/nextjs.png"
                     className="transition-all duration-300 hover:scale-110"
                   />
                 </a>

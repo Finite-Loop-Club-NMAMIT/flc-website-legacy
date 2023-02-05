@@ -15,6 +15,7 @@ const About: FunctionComponent = () => {
                 layout="fill"
                 src="/assets/team.jpeg"
                 className="absolute inset-0 h-full w-full transform object-cover transition duration-500 ease-in-out hover:scale-110"
+                blurDataURL="/assets/team.jpeg"
               />
             </Fade>
           </div>

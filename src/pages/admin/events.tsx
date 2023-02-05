@@ -251,6 +251,7 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                     width={50}
                     height={50}
                     className="rounded-full"
+                    blurDataURL={event.image}
                   />
                   <p className="text-center text-lg font-bold">{event.name}</p>
                   <div className="flex gap-5">

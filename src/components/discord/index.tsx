@@ -14,6 +14,7 @@ const Discord: FunctionComponent = () => {
                 layout="fill"
                 src="/assets/discord.png"
                 className="absolute inset-0 h-full w-full object-cover"
+                blurDataURL="/assets/discord.png"
               />
             </div>
           </div>

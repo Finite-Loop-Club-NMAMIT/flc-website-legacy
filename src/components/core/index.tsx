@@ -80,7 +80,7 @@ const Core: FunctionComponent = () => {
                           </h1>
 
                           <div className="textgray-600 mb-2 font-light dark:text-gray-300">
-                            {member.role}
+                            {member.role.replace(/([A-Z])/g, " $1")}
                           </div>
                           <div
                             className="flex items-center justify-center opacity-50 transition-opacity

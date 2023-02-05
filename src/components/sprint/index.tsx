@@ -22,6 +22,7 @@ const DSAsprint: FunctionComponent = () => {
                   height={500}
                   src="/assets/DSA sprint.jpg"
                   className="rounded-lg"
+                  blurDataURL="/assets/DSA sprint.jpg"
                 />
               </div>
               <div className="my-4 flex items-center justify-center">

@@ -36,6 +36,7 @@ const Navbar: FunctionComponent = () => {
                 height={50}
                 alt="flc logo"
                 priority
+                blurDataURL="/assets/flc_logo_crop.png"
               />
             </span>
             <Link href="/">Finite Loop Club</Link>
@@ -92,6 +93,7 @@ const Navbar: FunctionComponent = () => {
                         height={40}
                         className="cursor-pointer rounded-full"
                         alt="profile picture"
+                        blurDataURL="/assets/flc_logo_crop.png"
                       />
                     )}
                   </Link>

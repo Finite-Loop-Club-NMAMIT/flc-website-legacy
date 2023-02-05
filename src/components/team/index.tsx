@@ -160,6 +160,7 @@ const Card: FunctionComponent<CardProps> = ({
           className="rounded-[50%]"
           width={80}
           height={80}
+          blurDataURL={img}
         />
       </div>
       <Link href={`/u/${username}`} className="w-full font-semibold">

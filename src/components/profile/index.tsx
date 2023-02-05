@@ -260,6 +260,7 @@ export default function Profile() {
                 height={200}
                 alt="Profile Picture"
                 priority
+                blurDataURL={ProfileInfo.data.image as string}
               />
               <button
                 onClick={() => {

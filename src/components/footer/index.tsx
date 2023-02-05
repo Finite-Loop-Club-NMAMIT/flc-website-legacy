@@ -13,6 +13,7 @@ const Footer: FunctionComponent = () => {
             width={100}
             height={100}
             alt="flc_logo"
+            blurDataURL="/assets/flc_logo_crop.png"
             priority
           />
           <a className="ml-3 flex cursor-pointer items-center text-lg text-black dark:text-gray-100 md:text-xl">

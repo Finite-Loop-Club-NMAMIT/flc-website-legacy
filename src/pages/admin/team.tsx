@@ -199,6 +199,7 @@ const CoreMemberList: React.FC<CoreMemberListProps> = ({ members, filter }) => {
                     width={50}
                     height={50}
                     className="rounded-full"
+                    blurDataURL={member.img}
                   />
                   <p className="text-center text-lg font-bold">{member.name}</p>
                   <div className="flex gap-5">

@@ -64,6 +64,7 @@ const Modal: FunctionComponent<ModalProps> = ({
                 className="h-full w-full rounded-xl"
                 height={500}
                 width={500}
+                blurDataURL={img}
               />
               <div className="flex flex-col gap-3 text-white">
                 <h2 className="heading text-lg font-medium lg:text-2xl">
