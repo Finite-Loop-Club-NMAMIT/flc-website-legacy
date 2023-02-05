@@ -40,8 +40,8 @@
 - [**nProgress**](https://rstacruz.github.io/nprogress/): Slim progress bar library for the loading progress.
 - [**superjson**](https://github.com/blitz-js/superjson): Fast JSON serializer and deserializer.
 - [**react-hot-toast**](https://react-hot-toast.com/): Library for creating lightweight toasts
-  > **Note**
-  > This project was bootstrapped with [create-t3-app](https://create.t3.gg/)
+> **Note**
+> This project was bootstrapped with [create-t3-app](https://create.t3.gg/)
 
 ### Running the Project
 
@@ -52,15 +52,17 @@ git clone https://github.com/FiniteLoop-NMAMIT/flc-website
 ```
 
 2. Install the dependencies:
+> **Note**
+> Install pnpm if you do not have it already `npm i -g pnpm`
 
 ```bash
 pnpm i
 ```
 
-3. Create & start a DB on planetscale. Run Prisma migrations which will create SQL tables from `schema.prisma`
+3. Generate prisma client
 
 ```bash
-pnpm exec prisma migrate dev
+pnpm exec prisma generate
 ```
 
 4. Copy and Rename the .env.example to .env, place it in the root directory and fill the essential vars.
