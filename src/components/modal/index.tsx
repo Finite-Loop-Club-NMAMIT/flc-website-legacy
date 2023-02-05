@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Slide } from "react-awesome-reveal";
 import { type FunctionComponent } from "react";
+import BlurImage from "../blurImage";
 
 type ModalProps = {
   visible: boolean;
@@ -58,13 +58,12 @@ const Modal: FunctionComponent<ModalProps> = ({
             </button>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Image
+              <BlurImage
                 alt="Laptop"
                 src={img}
                 className="h-full w-full rounded-xl"
                 height={500}
                 width={500}
-                blurDataURL={img}
               />
               <div className="flex flex-col gap-3 text-white">
                 <h2 className="heading text-lg font-medium lg:text-2xl">

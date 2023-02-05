@@ -1,19 +1,18 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Links, social } from "../constants";
 import { type FunctionComponent } from "react";
+import BlurImage from "../blurImage";
 
 const Footer: FunctionComponent = () => {
   return (
     <footer className="bg-gray-50 text-black transition-colors duration-500 dark:bg-black dark:text-white">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center">
-          <Image
+          <BlurImage
             src="/assets/flc_logo_crop.png"
             width={100}
             height={100}
             alt="flc_logo"
-            blurDataURL="/assets/flc_logo_crop.png"
             priority
           />
           <a className="ml-3 flex cursor-pointer items-center text-lg text-black dark:text-gray-100 md:text-xl">

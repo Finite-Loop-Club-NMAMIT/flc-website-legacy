@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { perks } from "../constants";
 import {Fade } from "react-awesome-reveal";
 import { type FunctionComponent } from "react";
+import BlurImage from "../blurImage";
 
 const Perks: FunctionComponent = () => {
   return (
@@ -14,13 +14,12 @@ const Perks: FunctionComponent = () => {
             </h2>
 
             <div className="pt-8">
-              <Image
+              <BlurImage
                 alt="Team"
                 width={1040}
                 height={780}
                 src="/assets/skill-lab.jpeg"
                 className="rounded-lg"
-                blurDataURL="/assets/skill-lab.jpeg"
               />
             </div>
             <p className="mt-4">

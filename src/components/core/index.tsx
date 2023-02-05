@@ -1,12 +1,12 @@
 import { type FunctionComponent, useState } from "react";
 import { teamTabs } from "../constants";
-import Image from "next/image";
 import { AiFillLinkedin, AiFillGithub } from "react-icons/ai";
 import { Fade } from "react-awesome-reveal";
 import Link from "next/link";
 import { type CoreFilter } from "@prisma/client";
 import { api } from "../../utils/api";
 import Loader from "../loader";
+import BlurImage from "../blurImage";
 
 const Core: FunctionComponent = () => {
   const [toggleState, setToggleState] = useState(3);
@@ -64,14 +64,13 @@ const Core: FunctionComponent = () => {
                     <div className="mb-6 w-full px-6 sm:px-6 lg:px-4">
                       <div className="flex flex-col">
                         <div className="mx-auto transition duration-500 hover:scale-[1.03]">
-                          <Image
+                          <BlurImage
                             className="rounded-2xl object-cover drop-shadow-md transition-all delay-100 duration-200 hover:drop-shadow-2xl"
                             src={member.img}
                             width={350}
                             height={350}
                             alt={member.name}
                             style={{ objectFit: "cover", height: "350px" }}
-                            blurDataURL={member.img}
                           />
                         </div>
                         <div className="mt-6 text-center">

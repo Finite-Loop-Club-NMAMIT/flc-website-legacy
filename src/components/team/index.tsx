@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState, type FunctionComponent } from "react";
 import { toast, Toaster } from "react-hot-toast";
@@ -7,6 +6,7 @@ import { BsPencilSquare } from "react-icons/bs";
 import { api } from "../../utils/api";
 import Button from "../button";
 import { type User } from "@prisma/client";
+import BlurImage from "../blurImage";
 
 type TeamProps = {
   userRole: string;
@@ -154,13 +154,12 @@ const Card: FunctionComponent<CardProps> = ({
   return (
     <div className="pointer delay-50 h-[200px] w-48 transform cursor-pointer rounded-xl  bg-gray-200 p-3 text-center shadow-sm duration-300 ease-in-out hover:scale-105 hover:shadow-lg dark:bg-black dark:bg-opacity-10">
       <div className="mb-2 flex justify-center">
-        <Image
+        <BlurImage
           alt={name}
           src={img}
           className="rounded-[50%]"
           width={80}
           height={80}
-          blurDataURL={img}
         />
       </div>
       <Link href={`/u/${username}`} className="w-full font-semibold">

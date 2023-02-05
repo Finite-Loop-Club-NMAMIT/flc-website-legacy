@@ -1,12 +1,12 @@
 import { EventFilter, EventTypes } from "@prisma/client";
 import { type NextPage } from "next";
-import Image from "next/image";
 import { useState, type ReactElement } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { env } from "../../env/client.mjs";
 import { api } from "../../utils/api";
 import { type Event } from "@prisma/client";
 import Button from "../../components/button";
+import BlurImage from "../../components/blurImage/index.jsx";
 
 type Events = {
   data: Event[];
@@ -245,13 +245,12 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                   key={event.id}
                   className="mx-auto my-2 flex w-1/2 flex-row items-center justify-between gap-5 rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-300 dark:hover:bg-gray-800"
                 >
-                  <Image
+                  <BlurImage
                     src={event.image}
                     alt={event.name}
                     width={50}
                     height={50}
                     className="rounded-full"
-                    blurDataURL={event.image}
                   />
                   <p className="text-center text-lg font-bold">{event.name}</p>
                   <div className="flex gap-5">
