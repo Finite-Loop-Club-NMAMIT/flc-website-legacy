@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { points } from "../constants";
 import { Slide, Fade } from "react-awesome-reveal";
 import { type FunctionComponent } from "react";
+import BlurImage from "../blurImage";
 
 const About: FunctionComponent = () => {
   return (
@@ -10,12 +10,12 @@ const About: FunctionComponent = () => {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="relative my-auto h-80 overflow-hidden rounded-lg lg:order-last lg:h-96">
             <Fade>
-              <Image
+              <BlurImage
                 alt="Team"
-                layout="fill"
                 src="/assets/team.jpeg"
                 className="absolute inset-0 h-full w-full transform object-cover transition duration-500 ease-in-out hover:scale-110"
-                blurDataURL="/assets/team.jpeg"
+                width={500}
+                height={500}
               />
             </Fade>
           </div>

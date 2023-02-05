@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { type FunctionComponent } from "react";
 import { Slide, Fade } from "react-awesome-reveal";
+import BlurImage from "../blurImage";
 
 const Tech: FunctionComponent = () => {
   const tech = [
@@ -35,12 +35,11 @@ const Tech: FunctionComponent = () => {
                   key={index}
                   className="flex justify-center rounded-xl border border-yellow-400 p-4 text-center shadow-sm duration-300 hover:border-yellow-200 hover:shadow-xl hover:shadow-yellow-300/25"
                 >
-                  <Image
+                  <BlurImage
                     src={`/assets/${item.src}`}
                     width={100}
                     height={100}
                     alt="icon"
-                    blurDataURL="/assets/nextjs.png"
                     className="transition-all duration-300 hover:scale-110"
                   />
                 </a>

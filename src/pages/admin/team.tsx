@@ -1,12 +1,12 @@
 import withAdminRoute from "../../components/hoc/withAdminRoute";
 import { type NextPage } from "next";
 import { api } from "../../utils/api";
-import Image from "next/image";
 import { type Core, CoreFilter, Role } from "@prisma/client";
 import Button from "../../components/button";
 import { type ReactElement, useState, type FormEvent } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { env } from "../../env/client.mjs";
+import BlurImage from "../../components/blurImage";
 
 type Members = {
   data: Core[];
@@ -193,13 +193,12 @@ const CoreMemberList: React.FC<CoreMemberListProps> = ({ members, filter }) => {
                   key={member.id}
                   className="mx-auto my-2 flex w-1/2 flex-row items-center justify-between gap-5 rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-300 dark:hover:bg-gray-800"
                 >
-                  <Image
+                  <BlurImage
                     src={member.img}
                     alt={member.name}
                     width={50}
                     height={50}
                     className="rounded-full"
-                    blurDataURL={member.img}
                   />
                   <p className="text-center text-lg font-bold">{member.name}</p>
                   <div className="flex gap-5">

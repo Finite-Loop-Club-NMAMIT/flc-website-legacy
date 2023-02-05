@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { Fade } from "react-awesome-reveal";
 import { FiExternalLink } from "react-icons/fi";
 import { HackFestPhases, hackfestPhases } from "../constants/";
 import { type FunctionComponent } from "react";
+import BlurImage from "../blurImage";
 
 const Hackfest: FunctionComponent = () => {
   return (
@@ -16,13 +16,12 @@ const Hackfest: FunctionComponent = () => {
               </h2>
 
               <div className="flex justify-center pt-8">
-                <Image
+                <BlurImage
                   alt="Team"
                   width={400}
                   height={500}
                   src="/assets/hackfest.jpg"
                   className="rounded-lg"
-                  blurDataURL="/assets/hackfest.jpg"
                 />
               </div>
               <div className="my-4 flex items-center justify-center">

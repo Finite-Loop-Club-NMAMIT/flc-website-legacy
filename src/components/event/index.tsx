@@ -1,11 +1,12 @@
 import { eventTabs } from "../../components/constants";
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import BlurImage from "../blurImage";
 import Button from "../../components/button";
 import Modal from "../../components/modal";
 import { type FunctionComponent } from "react";
 import { type EventFilter } from "@prisma/client";
 import { api } from "../../utils/api";
+import Loader from "../../components/loader";
 
 type ModalProps = {
   visible: boolean;
@@ -65,6 +66,7 @@ const EventList: FunctionComponent = () => {
         ))}
       </ul>
       <div className="my-5 flex flex-wrap items-stretch justify-center gap-5">
+        {events.isLoading && <Loader />}
         {events.data &&
           events.data.map((event, index) =>
             event.filter === year || year === undefined ? (
@@ -73,14 +75,13 @@ const EventList: FunctionComponent = () => {
                 className="mx-5 max-w-sm rounded-lg bg-white bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter"
               >
                 <a>
-                  <Image
-                    className="rounded-t-lg"
+                  <BlurImage
                     src={event.image}
                     width={500}
                     height={500}
                     alt="event-pic"
                     style={{ objectFit: "cover", height: "500px" }}
-                    blurDataURL={event.image}
+                    className="rounded-t-lg"
                   />
                 </a>
                 <div className="flex flex-col p-5 text-center">

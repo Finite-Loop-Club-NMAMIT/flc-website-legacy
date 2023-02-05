@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { type FunctionComponent } from "react";
 import { Fade } from "react-awesome-reveal";
 import { FiExternalLink } from "react-icons/fi";
+import BlurImage from "../blurImage";
 import { DSAPhases, sprintPhases } from "../constants/";
 
 const DSAsprint: FunctionComponent = () => {
@@ -16,13 +16,12 @@ const DSAsprint: FunctionComponent = () => {
               </h2>
 
               <div className="flex justify-center pt-8">
-                <Image
+                <BlurImage
                   alt="Team"
                   width={400}
                   height={500}
                   src="/assets/DSA sprint.jpg"
                   className="rounded-lg"
-                  blurDataURL="/assets/DSA sprint.jpg"
                 />
               </div>
               <div className="my-4 flex items-center justify-center">

@@ -1,6 +1,5 @@
-import { makePayment } from "../../utils/razorpay";
+// import { makePayment } from "../../utils/razorpay";
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import Button from "../button";
 import { useSession, signIn } from "next-auth/react";
@@ -11,6 +10,7 @@ import { useTheme } from "next-themes";
 import { type FunctionComponent } from "react";
 import { api } from "../../utils/api";
 import Loader from "../loader";
+import Image from "next/image";
 
 const Navbar: FunctionComponent = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -36,7 +36,6 @@ const Navbar: FunctionComponent = () => {
                 height={50}
                 alt="flc logo"
                 priority
-                blurDataURL="/assets/flc_logo_crop.png"
               />
             </span>
             <Link href="/">Finite Loop Club</Link>
@@ -93,7 +92,6 @@ const Navbar: FunctionComponent = () => {
                         height={40}
                         className="cursor-pointer rounded-full"
                         alt="profile picture"
-                        blurDataURL="/assets/flc_logo_crop.png"
                       />
                     )}
                   </Link>

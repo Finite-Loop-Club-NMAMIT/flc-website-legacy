@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Slide } from "react-awesome-reveal";
 import { type FunctionComponent } from "react";
+import BlurImage from "../blurImage";
 
 const Discord: FunctionComponent = () => {
   return (
@@ -9,12 +9,12 @@ const Discord: FunctionComponent = () => {
         <div className="grid grid-cols-1 lg:h-screen lg:grid-cols-2">
           <div className="relative z-10 lg:py-16">
             <div className="relative h-64 sm:h-80 lg:h-full">
-              <Image
+              <BlurImage
                 alt="Discord"
-                layout="fill"
                 src="/assets/discord.png"
                 className="absolute inset-0 h-full w-full object-cover"
-                blurDataURL="/assets/discord.png"
+                width={500}
+                height={500}
               />
             </div>
           </div>

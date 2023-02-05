@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import Button from "../button";
@@ -22,6 +21,7 @@ import { type User } from "@prisma/client";
 import { AiFillCamera, AiOutlineShareAlt } from "react-icons/ai";
 import Error from "../error";
 import { env } from "../../env/client.mjs";
+import BlurImage from "../blurImage";
 
 interface CloudinaryResponse {
   secure_url: string;
@@ -259,14 +259,13 @@ export default function Profile() {
         <Fade cascade>
           <div className="my-10 flex flex-col items-center justify-center gap-5 p-5">
             <div className="relative">
-              <Image
+              <BlurImage
                 className="rounded-lg"
                 src={ProfileInfo.data.image?.split("=")[0] as string}
                 width={200}
                 height={200}
                 alt="Profile Picture"
                 priority
-                blurDataURL={ProfileInfo.data.image as string}
               />
               <button
                 onClick={() => {
