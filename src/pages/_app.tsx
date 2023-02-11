@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 import { ThemeProvider } from "next-themes";
 import nProgress from "nprogress";
@@ -40,7 +40,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   }, []);
 
   return (
-    <ThemeProvider attribute="class">
+    <ThemeProvider attribute="class" defaultTheme="dark">
       <SessionProvider session={session}>
         <Head>
           <title>Finite Loop Club - NMAMIT</title>
@@ -48,7 +48,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
             name="description"
             content="Finite Loop is a Coding Club, which aims to give a good perspective of development, and encourages students to realize their ideas. We encourage students to participate in competitive programming and thus, inspire the next."
           />
-
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Navbar />

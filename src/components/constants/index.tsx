@@ -349,3 +349,89 @@ export const hackfestPhases = [
     isNext: false,
   },
 ];
+
+export const hackfestTeams = [
+  {
+    name: "AI Autocrats",
+    domain: "AIML",
+  },
+  {
+    name: "Hash 101",
+    domain: "Cybersecurity",
+  },
+  {
+    name: "Crypto-Wave",
+    domain: "Blockchain",
+  },
+  {
+    name: "Webslingers",
+    domain: "Frontend",
+  },
+  {
+    name: "FRONT-END FOLKS",
+    domain: "Frontend",
+  },
+  {
+    name: "Bit Legion",
+    domain: "App",
+  },
+  {
+    name: "Elucidators",
+    domain: "App",
+  },
+  {
+    name: "Error_not_found.html",
+    domain: "Fullstack",
+  },
+  {
+    name: "Tech turtles",
+    domain: "Fullstack",
+  },
+  {
+    name: "ARACHNIDS",
+    domain: "Fullstack",
+  },
+  {
+    name: "Bit to Bytes",
+    domain: "Fullstack",
+  },
+  {
+    name: "THE-GOOFY-GEEKS",
+    domain: "Fullstack",
+  },
+  {
+    name: "404Error",
+    domain: "Fullstack",
+  },
+  {
+    name: "TechnoFlash",
+    domain: "Fullstack",
+  },
+  {
+    name: "Kookie Byte",
+    domain: "Fullstack",
+  },
+];
+
+export const hackfestFAQ = [
+  {
+    title: "Why is Project expo delayed?",
+    answer: `The expo which was supposed to happen in december end was postponed to January because of Semester ends of 3rd years which eventually extended the submission deadline.
+      Complications occured when another event was scheduled on 28th Jan. We tried our best to find a suitable date for the event but due to the unavailability of 2nd years and a free unbooked venue
+      we cannot make it happen anytime soon.`,
+  },
+  {
+    title: "When will be project expo?",
+    answer:
+      "We held a small meeting with the team leads to discuss the date and complications happened so far. Discussion finally boiled down to having it when 2nd years will be back to college, which is April end.",
+  },
+  {
+    title: "Who has shortlisted the teams?",
+    answer:
+      "The core team members evaluated the submissions individually and scored the teams based on different criterias. After a final meeting, we shortlisted the teams based on Average score and remarks.",
+  },
+  {
+    title: "Why is my team not in the list?",
+    answer: "It's probably because your project did not meet the requirements of the given Problem statement. Feel free to DM us on discord for more details.",
+  },
+];
