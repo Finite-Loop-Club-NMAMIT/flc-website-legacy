@@ -40,7 +40,7 @@ const Teams = () => {
               index <= revealIndex
                 ? "scale-100  text-yellow-500 blur-0"
                 : "scale-110 blur-lg"
-            } text-md m-2 w-96 max-w-xs rounded-xl border border-gray-500 p-5 font-bold duration-700 ease-in-out lg:text-xl`}
+            } text-md m-2 w-96 max-w-xs rounded-xl border border-gray-500 p-5 font-bold duration-700 ease-in-out hover:scale-[1.05] lg:text-xl`}
           >
             {team.name}
             <span

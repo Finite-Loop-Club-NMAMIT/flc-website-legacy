@@ -415,6 +415,10 @@ export const hackfestTeams = [
 
 export const hackfestFAQ = [
   {
+    title: "What if my team is not shortlisted?",
+    answer: "You get a chance to present your pitch and solution during expo to other teams and mentors."
+  },
+  {
     title: "Why is Project expo delayed?",
     answer: `The expo which was supposed to happen in december end was postponed to January because of Semester ends of 3rd years which eventually extended the submission deadline.
       Complications occured when another event was scheduled on 28th Jan. We tried our best to find a suitable date for the event but due to the unavailability of 2nd years and a free unbooked venue
