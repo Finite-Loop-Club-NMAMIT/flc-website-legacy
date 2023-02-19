@@ -22,6 +22,7 @@ import { AiFillCamera, AiOutlineShareAlt } from "react-icons/ai";
 import Error from "../error";
 import { env } from "../../env/client.mjs";
 import BlurImage from "../blurImage";
+import IDCard from "../idcard";
 
 interface CloudinaryResponse {
   secure_url: string;
@@ -226,6 +227,8 @@ export default function Profile() {
     Other: <FaGlobe />,
   };
 
+  const isSelfProfile: boolean = data?.user?.id === ProfileInfo?.data?.id;
+
   return (
     <div>
       <div>
@@ -350,7 +353,17 @@ export default function Profile() {
                   </div>
                 ))}
             </div>
-            {data?.user?.id === ProfileInfo.data.id && (
+            {ProfileInfo.data.isMember && isSelfProfile && (
+              <IDCard
+                image={ProfileInfo.data.image?.split("=")[0] as string}
+                name={ProfileInfo.data.name as string}
+                username={ProfileInfo.data.username as string}
+                role={ProfileInfo.data.role as string}
+                email={ProfileInfo.data.email as string}
+              />
+            )}
+
+            {isSelfProfile && (
               <div className="flex gap-5">
                 <Button onClick={() => signOut()}>
                   <a>Sign Out</a>
@@ -367,7 +380,7 @@ export default function Profile() {
               <>
                 <div className="fixed inset-0 z-10 mt-20 h-[70%] overflow-y-auto">
                   <div
-                    className="fixed inset-0 h-full w-full bg-black opacity-30"
+                    className="fixed inset-0 h-full w-full bg-black opacity-30 dark:opacity-70"
                     onClick={() => setShowModal(false)}
                   ></div>
                   <div className="flex min-h-screen items-center px-4 py-8">

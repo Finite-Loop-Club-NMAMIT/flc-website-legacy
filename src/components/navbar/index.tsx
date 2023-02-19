@@ -49,8 +49,8 @@ const Navbar: FunctionComponent = () => {
           </div>
 
           <ul
-            className={`absolute left-0 w-full bg-black bg-opacity-80 pb-10 pl-9 transition-all duration-500 ease-in  md:static md:z-auto md:flex md:w-auto md:items-center md:bg-white md:bg-opacity-0 md:pb-0 md:pl-0 ${
-              open ? "top-16" : "top-[-490px]"
+            className={`absolute left-0 w-full bg-black bg-opacity-40 pb-12 pl-9 transition-all duration-500 ease-in  md:static md:z-auto md:flex md:w-auto md:items-center md:bg-white md:bg-opacity-0 md:pb-0 md:pl-0 ${
+              open ? "top-[5.6rem]" : "top-[-490px]"
             }`}
           >
             {Links.map((link) => (
