@@ -23,13 +23,13 @@ const Navbar: FunctionComponent = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 z-50 w-full bg-black bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter">
-        <div className="flex items-center justify-between py-4 px-7 md:flex-row md:px-10">
+      <div className="fixed top-0 left-0 z-40 w-full bg-black bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter">
+        <div className="flex items-center justify-between py-2 px-3 md:flex-row md:px-5">
           <div
             className="flex cursor-pointer items-center text-xl font-bold text-white
       md:text-2xl"
           >
-            <span className="mr-1 pt-2 text-3xl text-white">
+            <span className="mr-1 text-2xl text-white">
               <Image
                 src="/assets/flc_logo_crop.png"
                 width={50}
@@ -56,14 +56,18 @@ const Navbar: FunctionComponent = () => {
             {Links.map((link) => (
               <li
                 key={link.name}
-                className="my-7 text-lg md:my-0 md:ml-8 md:text-xl"
+                className="my-6  text-lg md:my-0 md:ml-8 md:text-xl"
               >
                 <Link
                   href={link.link}
-                  className="text-white duration-500 hover:text-gray-200"
+                  className="text-white group transition-all duration-300 ease-in-out"
                 >
+                  <span className='px-0 py-1 bg-left-bottom bg-gradient-to-r from-yellow-400  via-yellow-300 to-yellow-400  bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out'>
                   {link.name}
+  </span>
+                 
                 </Link>
+               
               </li>
             ))}
 
@@ -79,6 +83,7 @@ const Navbar: FunctionComponent = () => {
                   // }}
                   >
                     Register
+                    <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-sky-600">Hello</span>
                   </Button>
                 )}
                 <div>

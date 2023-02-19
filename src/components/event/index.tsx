@@ -72,7 +72,7 @@ const EventList: FunctionComponent = () => {
             event.filter === year || year === undefined ? (
               <div
                 key={index}
-                className="mx-5 max-w-sm rounded-lg bg-white bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter"
+                className="mx-5 relative  w-[360px] rounded-lg bg-white bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter"
               >
                 <a>
                   <BlurImage
@@ -80,10 +80,11 @@ const EventList: FunctionComponent = () => {
                     width={500}
                     height={500}
                     alt="event-pic"
-                    style={{ objectFit: "cover", height: "500px" }}
-                    className="rounded-t-lg"
+                    style={{width:"100%",height: "380px" }}
+                    className="rounded-t-lg w-full "
                   />
                 </a>
+                
                 <div className="flex flex-col p-5 text-center">
                   <a>
                     <h5 className="mb-5 text-xl font-bold tracking-tight text-black dark:text-white">
@@ -91,6 +92,7 @@ const EventList: FunctionComponent = () => {
                     </h5>
                   </a>
                   <div
+                    
                     onClick={() => {
                       setShowModal(true);
                       setModalData({
@@ -122,6 +124,7 @@ const EventList: FunctionComponent = () => {
           date={modalData.date}
           organizer={modalData.organizer}
           type={modalData.type}
+          
         />
       </div>
     </div>
