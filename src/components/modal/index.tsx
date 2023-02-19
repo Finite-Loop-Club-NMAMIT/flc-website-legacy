@@ -12,6 +12,7 @@ type ModalProps = {
   date: Date;
   attended: number;
   organizer: string;
+  
 };
 
 const Modal: FunctionComponent<ModalProps> = ({
@@ -34,18 +35,18 @@ const Modal: FunctionComponent<ModalProps> = ({
     <div
       id="container"
       onClick={(e) => handleOnClose(e.target as HTMLDivElement)}
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 pt-56 backdrop-blur-lg md:pt-0"
-    >
-      <Slide direction="down">
+      className="fixed inset-0 flex justify-center bg-black bg-opacity-70 backdrop-blur-lg p-1 md:p-5 z-50 overflow-y-scroll "
+   >
+      <Slide direction="down" >
         <div className="p-4">
-          <div className="relative max-w-5xl rounded-lg bg-white bg-opacity-30 p-6 shadow-sm backdrop-blur-lg backdrop-filter">
+          <div className="relative  max-w-5xl rounded-xl bg-white bg-opacity-30 p-6 shadow-sm backdrop-blur-lg backdrop-filter ">
             <button
               onClick={onClose}
-              className="borde absolute -top-1 -right-1 rounded-full bg-white bg-opacity-70 p-1 text-black"
+              className=" border absolute  top-0 right-0 rounded-full bg-opacity-70 p-1 text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-3 w-3"
+                className="h-4 w-4"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -61,7 +62,7 @@ const Modal: FunctionComponent<ModalProps> = ({
               <BlurImage
                 alt="Laptop"
                 src={img}
-                className="h-full w-full rounded-xl"
+                className="max-h-[550px] w-full rounded-xl"
                 height={500}
                 width={500}
               />
