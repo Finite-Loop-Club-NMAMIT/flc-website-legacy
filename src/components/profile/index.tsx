@@ -232,7 +232,7 @@ export default function Profile() {
         <Toaster />
       </div>
       {ProfileInfo.isLoading && (
-        <div className="m-24 flex flex-col items-center justify-center gap-6 text-center lg:m-56">
+        <div className="m-24 flex flex-col items-center justify-center gap-6 text-center relative z-10 lg:m-56">
           <button
             disabled
             type="button"
