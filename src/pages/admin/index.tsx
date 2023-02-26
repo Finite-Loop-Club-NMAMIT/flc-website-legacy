@@ -1,24 +1,34 @@
-import withAdminRoute from "../../components/hoc/withAdminRoute";
-import { type NextPage } from "next";
-import Button from "../../components/button";
-import Link from "next/link";
+import withAdminRoute from '../../components/hoc/withAdminRoute'
+import { type NextPage } from 'next'
+import Link from 'next/link'
+import { BsFillCalendarEventFill, BsFillGearFill } from 'react-icons/bs'
+import { RiTeamFill } from 'react-icons/ri'
 
 const AdminPage: NextPage = () => {
+  const box =
+    'flex flex-col items-center justify-center gap-2 rounded-3xl border px-20 py-10 dark:border-gray-400 dark:hover:border-gray-500 dark:hover:bg-gray-800 hover:bg-gray-100 hover:border-gray-300 transition-all duration-300'
+
   return (
     <div>
-      <h4 className="heading mb-5 text-center text-2xl font-bold">
+      <h4 className='heading mb-5 text-center text-lg md:text-3xl font-bold'>
         Welcome to Admin Dashboard
       </h4>
-      <div className="mb-5 flex flex-col items-center justify-center gap-5">
-        <Link href="/admin/events">
-          <Button>Events</Button>
+      <div className='mb-5 flex flex-col items-center justify-center gap-5 md:flex-row'>
+        <Link className={box} href='/admin/events'>
+          <BsFillCalendarEventFill size={50} />
+          <a className='text-center text-md md:text-2xl'>Events</a>
         </Link>
-        <Link href="/admin/team">
-          <Button>Core team</Button>
+        <Link className={box} href='/admin/team'>
+          <RiTeamFill size={50} />
+          <a className='text-center text-md md:text-2xl'>Team</a>
+        </Link>
+        <Link className={box} href='/admin/others'>
+          <BsFillGearFill size={50} />
+          <a className='text-center text-md md:text-2xl'>Others</a>
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default withAdminRoute(AdminPage);
+export default withAdminRoute(AdminPage)
