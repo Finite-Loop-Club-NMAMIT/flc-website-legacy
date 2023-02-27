@@ -235,7 +235,7 @@ export default function Profile() {
         <Toaster />
       </div>
       {ProfileInfo.isLoading && (
-        <div className="m-24 flex flex-col items-center justify-center gap-6 text-center relative z-10 lg:m-56">
+        <div className="relative z-10 m-24 flex flex-col items-center justify-center gap-6 text-center lg:m-56">
           <button
             disabled
             type="button"
@@ -375,184 +375,182 @@ export default function Profile() {
               userRole={ProfileInfo.data.role as string}
               email={ProfileInfo.data.email as string}
             />
-
-            {showModal && (
-              <>
-                <div className="fixed inset-0 z-10 mt-20 h-[70%] overflow-y-auto">
-                  <div
-                    className="fixed inset-0 h-full w-full bg-black opacity-30 dark:opacity-70"
-                    onClick={() => setShowModal(false)}
-                  ></div>
-                  <div className="flex min-h-screen items-center px-4 py-8">
-                    <div className="relative mx-auto w-full max-w-lg rounded-md bg-white bg-opacity-50 p-4 shadow-lg backdrop-blur-lg backdrop-filter">
-                      <form
-                        onSubmit={(e) => handleSave(e)}
-                        className="mb-0 space-y-4 p-8"
-                      >
-                        <p className="text-lg font-medium">Edit your Profile</p>
-                        <div>
-                          <label htmlFor="name" className="text-sm font-medium">
-                            Name
-                          </label>
-
-                          <div className="relative mt-1">
-                            <input
-                              id="name"
-                              name="name"
-                              defaultValue={ProfileInfo.data.name as string}
-                              onChange={(e) =>
-                                setEditData({
-                                  ...editData,
-                                  name: e.target.value,
-                                })
-                              }
-                              className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-                              placeholder="Enter name"
-                            />
-
-                            <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
-                          </div>
-                        </div>
-
-                        <div>
-                          <label htmlFor="name" className="text-sm font-medium">
-                            Username
-                          </label>
-
-                          <div className="relative mt-1">
-                            <input
-                              id="username"
-                              name="username"
-                              max={15}
-                              defaultValue={ProfileInfo.data.username as string}
-                              onChange={(e) => {
-                                setEditData({
-                                  ...editData,
-                                  username: e.target.value,
-                                });
-                                setInfoText("Checking...");
-                              }}
-                              className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-                              placeholder="Enter username"
-                            />
-                            {infoText &&
-                              editData.username !==
-                                ProfileInfo.data.username && (
-                                <span
-                                  className={`text-sm ${
-                                    isUsernameAvailable.data
-                                      ? "text-green-500"
-                                      : "text-red-500"
-                                  }`}
-                                >
-                                  {infoText}
-                                </span>
-                              )}
-
-                            <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
-                          </div>
-                        </div>
-
-                        <div>
-                          <label htmlFor="bio" className="text-sm font-medium">
-                            Bio
-                          </label>
-
-                          <div className="relative mt-1">
-                            <input
-                              id="bio"
-                              name="bio"
-                              defaultValue={ProfileInfo.data.bio as string}
-                              onChange={(e) =>
-                                setEditData({
-                                  ...editData,
-                                  bio: e.target.value,
-                                })
-                              }
-                              className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-                              placeholder="Enter bio"
-                            />
-
-                            <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
-                          </div>
-                        </div>
-
-                        <div>
-                          <label
-                            htmlFor="socialLinks"
-                            className="text-sm font-medium"
-                          >
-                            Social Links
-                          </label>
-
-                          {socialLinks &&
-                            socialLinks?.map((link, index) => (
-                              <div
-                                className="mb-4 flex items-center gap-3"
-                                key={index}
-                              >
-                                <select
-                                  className="w-16 rounded-lg border-gray-200 p-1 text-sm shadow-sm lg:w-32"
-                                  value={link.platform}
-                                  onChange={(e) => {
-                                    const newLinks = [...socialLinks];
-                                    newLinks[index]!.platform = e.target.value;
-                                    setSocialLinks(newLinks);
-                                  }}
-                                >
-                                  <option value="">Select a Platform</option>
-                                  {Object.entries(platformIcons).map(
-                                    ([platform, icon]) => (
-                                      <option key={platform} value={platform}>
-                                        {icon} {platform}
-                                      </option>
-                                    )
-                                  )}
-                                </select>
-
-                                <input
-                                  type="text"
-                                  placeholder="Link"
-                                  className="ml-2 w-full rounded-lg border-gray-200 p-1 text-sm shadow-sm"
-                                  value={link.link}
-                                  onChange={(e) => {
-                                    const newLinks = [...socialLinks];
-                                    newLinks[index]!.link = e.target.value;
-                                    setSocialLinks(newLinks);
-                                  }}
-                                />
-                                {socialLinks.length > 1 && (
-                                  <button
-                                    type="button"
-                                    className="mr-2 rounded-full bg-white px-3 py-1 text-red-500"
-                                    onClick={() => handleDeleteLink(index)}
-                                  >
-                                    ×
-                                  </button>
-                                )}
-                              </div>
-                            ))}
-
-                          <button
-                            type="button"
-                            onClick={handleAddLink}
-                            className="rounded-full bg-white px-3 py-1 text-yellow-600"
-                          >
-                            +
-                          </button>
-                        </div>
-
-                        <div className="flex justify-center pt-2">
-                          <Button>Save Profile</Button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
           </div>
         </Fade>
+      )}
+      {ProfileInfo.data && showModal && (
+        <>
+          <div className="fixed inset-0 z-10 mt-20 h-[70%] overflow-y-auto">
+            <div
+              className="fixed inset-0 h-full w-full bg-black opacity-30 dark:opacity-70"
+              onClick={() => setShowModal(false)}
+            ></div>
+            <div className="flex min-h-screen items-center px-4 py-8">
+              <div className="relative mx-auto w-full max-w-lg rounded-md bg-white bg-opacity-50 p-4 shadow-lg backdrop-blur-lg backdrop-filter">
+                <form
+                  onSubmit={(e) => handleSave(e)}
+                  className="mb-0 space-y-4 p-8"
+                >
+                  <p className="text-lg font-medium">Edit your Profile</p>
+                  <div>
+                    <label htmlFor="name" className="text-sm font-medium">
+                      Name
+                    </label>
+
+                    <div className="relative mt-1">
+                      <input
+                        id="name"
+                        name="name"
+                        defaultValue={ProfileInfo.data.name as string}
+                        onChange={(e) =>
+                          setEditData({
+                            ...editData,
+                            name: e.target.value,
+                          })
+                        }
+                        className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                        placeholder="Enter name"
+                      />
+
+                      <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="name" className="text-sm font-medium">
+                      Username
+                    </label>
+
+                    <div className="relative mt-1">
+                      <input
+                        id="username"
+                        name="username"
+                        max={15}
+                        defaultValue={ProfileInfo.data.username as string}
+                        onChange={(e) => {
+                          setEditData({
+                            ...editData,
+                            username: e.target.value,
+                          });
+                          setInfoText("Checking...");
+                        }}
+                        className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                        placeholder="Enter username"
+                      />
+                      {infoText &&
+                        editData.username !== ProfileInfo.data.username && (
+                          <span
+                            className={`text-sm ${
+                              isUsernameAvailable.data
+                                ? "text-green-500"
+                                : "text-red-500"
+                            }`}
+                          >
+                            {infoText}
+                          </span>
+                        )}
+
+                      <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="bio" className="text-sm font-medium">
+                      Bio
+                    </label>
+
+                    <div className="relative mt-1">
+                      <input
+                        id="bio"
+                        name="bio"
+                        defaultValue={ProfileInfo.data.bio as string}
+                        onChange={(e) =>
+                          setEditData({
+                            ...editData,
+                            bio: e.target.value,
+                          })
+                        }
+                        className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                        placeholder="Enter bio"
+                      />
+
+                      <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="socialLinks"
+                      className="text-sm font-medium"
+                    >
+                      Social Links
+                    </label>
+
+                    {socialLinks &&
+                      socialLinks?.map((link, index) => (
+                        <div
+                          className="mb-4 flex items-center gap-3"
+                          key={index}
+                        >
+                          <select
+                            className="w-16 rounded-lg border-gray-200 p-1 text-sm shadow-sm lg:w-32"
+                            value={link.platform}
+                            onChange={(e) => {
+                              const newLinks = [...socialLinks];
+                              newLinks[index]!.platform = e.target.value;
+                              setSocialLinks(newLinks);
+                            }}
+                          >
+                            <option value="">Select a Platform</option>
+                            {Object.entries(platformIcons).map(
+                              ([platform, icon]) => (
+                                <option key={platform} value={platform}>
+                                  {icon} {platform}
+                                </option>
+                              )
+                            )}
+                          </select>
+
+                          <input
+                            type="text"
+                            placeholder="Link"
+                            className="ml-2 w-full rounded-lg border-gray-200 p-1 text-sm shadow-sm"
+                            value={link.link}
+                            onChange={(e) => {
+                              const newLinks = [...socialLinks];
+                              newLinks[index]!.link = e.target.value;
+                              setSocialLinks(newLinks);
+                            }}
+                          />
+                          {socialLinks.length > 1 && (
+                            <button
+                              type="button"
+                              className="mr-2 rounded-full bg-white px-3 py-1 text-red-500"
+                              onClick={() => handleDeleteLink(index)}
+                            >
+                              ×
+                            </button>
+                          )}
+                        </div>
+                      ))}
+
+                    <button
+                      type="button"
+                      onClick={handleAddLink}
+                      className="rounded-full bg-white px-3 py-1 text-yellow-600"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <div className="flex justify-center pt-2">
+                    <Button>Save Profile</Button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
