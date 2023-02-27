@@ -234,7 +234,7 @@ export default function Profile() {
       <div>
         <Toaster />
       </div>
-      {ProfileInfo.isLoading && (
+      {ProfileInfo.isLoading ? (
         <div className="relative z-10 m-24 flex flex-col items-center justify-center gap-6 text-center lg:m-56">
           <button
             disabled
@@ -259,8 +259,9 @@ export default function Profile() {
             Loading...
           </button>
         </div>
-      )}
-      {!ProfileInfo.data && <Error />}
+      ) : !ProfileInfo.data ? (
+        <Error />
+      ) : null}
       {ProfileInfo.data && (
         <Fade cascade>
           <div className="my-10 flex flex-col items-center justify-center gap-5 p-5">
