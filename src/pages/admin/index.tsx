@@ -10,7 +10,7 @@ const AdminPage: NextPage = () => {
 
   return (
     <div>
-      <h4 className='heading mb-5 text-center text-lg md:text-3xl font-bold'>
+      <h4 className='heading mb-5 text-center text-2xl md:text-3xl font-bold'>
         Welcome to Admin Dashboard
       </h4>
       <div className='mb-5 flex flex-col items-center justify-center gap-5 md:flex-row'>
