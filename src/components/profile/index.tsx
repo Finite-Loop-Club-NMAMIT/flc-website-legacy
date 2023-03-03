@@ -69,6 +69,7 @@ export default function Profile() {
       username: username as string,
     },
     {
+      enabled: !!username,
       onSuccess: (data) => {
         setEditData({ ...editData, username: data?.username as string });
         if ((data?.links?.length as number) > 0) {
@@ -100,6 +101,7 @@ export default function Profile() {
       username: editData.username as string,
     },
     {
+      enabled: showModal,
       onSuccess: (data) => {
         if (data === false) {
           setInfoText("Username already taken");

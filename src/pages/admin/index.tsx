@@ -16,15 +16,15 @@ const AdminPage: NextPage = () => {
       <div className='mb-5 flex flex-col items-center justify-center gap-5 md:flex-row'>
         <Link className={box} href='/admin/events'>
           <BsFillCalendarEventFill size={50} />
-          <a className='text-center text-md md:text-2xl'>Events</a>
+          <div className='text-center text-md md:text-2xl'>Events</div>
         </Link>
         <Link className={box} href='/admin/team'>
           <RiTeamFill size={50} />
-          <a className='text-center text-md md:text-2xl'>Team</a>
+          <div className='text-center text-md md:text-2xl'>Team</div>
         </Link>
         <Link className={box} href='/admin/others'>
           <BsFillGearFill size={50} />
-          <a className='text-center text-md md:text-2xl'>Others</a>
+          <div className='text-center text-md md:text-2xl'>Others</div>
         </Link>
       </div>
     </div>

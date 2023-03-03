@@ -9,10 +9,15 @@ interface Props {
 
 const withAdminRoute = <P extends object>(Page: NextPage<P>) => {
   const HOC = (props: P & Props) => {
-    const { data: session } = useSession();
-    const user = api.userRouter.getUserByEmail.useQuery({
-      email: session?.user?.email as string,
-    });
+    const { data: session, status } = useSession();
+    const user = api.userRouter.getUserByEmail.useQuery(
+      {
+        email: session?.user?.email as string,
+      },
+      {
+        enabled: status === "authenticated",
+      }
+    );
     if (!session || !user.data?.isAdmin) return <Error />;
     return <Page {...props} />;
   };
@@ -20,4 +25,3 @@ const withAdminRoute = <P extends object>(Page: NextPage<P>) => {
 };
 
 export default withAdminRoute;
-

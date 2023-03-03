@@ -198,6 +198,12 @@ const CoreMemberList: React.FC<CoreMemberListProps> = ({ members, filter }) => {
                     alt={member.name}
                     width={50}
                     height={50}
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: "center center",
+                      width: "50px",
+                      height: "50px",
+                    }}
                     className="rounded-full"
                   />
                   <p className="text-center text-lg font-bold">{member.name}</p>
