@@ -19,7 +19,7 @@ const Navbar: FunctionComponent = () => {
 
   const user = api.userRouter.getUserByEmail.useQuery({
     email: data?.user?.email as string,
-  },{refetchOnWindowFocus:false});
+  });
 
   return (
     <>

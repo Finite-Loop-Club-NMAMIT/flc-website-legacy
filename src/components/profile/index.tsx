@@ -82,7 +82,6 @@ export default function Profile() {
           );
         }
       },
-      refetchOnWindowFocus: false, //prevents refetching during tab changes,etc
     }
   );
   //re feteched when modal is closed or opened
@@ -108,7 +107,6 @@ export default function Profile() {
           setInfoText("Username available");
         }
       },
-      refetchOnWindowFocus: false,
     }
   );
 
