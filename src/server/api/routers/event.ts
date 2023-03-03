@@ -1,21 +1,11 @@
 import { z } from "zod";
+import { addEventInput, getEventsInput } from "../../../types";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const eventRouter = createTRPCRouter({
   getEvents: publicProcedure
-    .input(
-      z.object({
-        filter: z.optional(
-          z.enum([
-            "Year2017to2020",
-            "Year2020to2021",
-            "Year2021to2022",
-            "Year2022to2023",
-          ]) || undefined
-        ),
-      })
-    )
+    .input(getEventsInput)
     .query(async ({ ctx, input }) => {
       try {
         return await ctx.prisma.event.findMany({
@@ -37,32 +27,7 @@ export const eventRouter = createTRPCRouter({
   }),
 
   addEvent: protectedProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        date: z.date(),
-        attended: z.number(),
-        type: z.enum([
-          "Workshop",
-          "Seminar",
-          "Gaming",
-          "Talk",
-          "CyberSecurity",
-          "OpenSource",
-          "AndroidDevelopment",
-          "WebDevelopment",
-        ]),
-        image: z.string(),
-        organizer: z.string(),
-        description: z.string(),
-        filter: z.enum([
-          "Year2017to2020",
-          "Year2020to2021",
-          "Year2021to2022",
-          "Year2022to2023",
-        ]),
-      })
-    )
+    .input(addEventInput)
     .mutation(async ({ ctx, input }) => {
       try {
         return await ctx.prisma.event.create({

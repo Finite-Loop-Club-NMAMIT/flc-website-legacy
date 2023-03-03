@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { editUserInput } from "../../../types";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
@@ -40,14 +41,7 @@ export const userRouter = createTRPCRouter({
     }),
 
   editUser: protectedProcedure
-    .input(
-      z.object({
-        username: z.string().optional(),
-        name: z.string().optional(),
-        bio: z.string().optional(),
-        links: z.string().optional(),
-      })
-    )
+    .input(editUserInput)
     .mutation(async ({ ctx, input }) => {
       try {
         return await ctx.prisma.user.update({

@@ -1,20 +1,11 @@
 import { z } from "zod";
+import { addCoreMemberInput, getCoreMembersInput } from "../../../types";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const coreRouter = createTRPCRouter({
   getCoreMembers: publicProcedure
-    .input(
-      z.object({
-        filter: z.enum([
-          "Year2017to2020",
-          "Year2020to2021",
-          "Year2021to2022",
-          "Year2022to2023",
-          "Faculty",
-        ]),
-      })
-    )
+    .input(getCoreMembersInput)
     .query(async ({ ctx, input }) => {
       try {
         return await ctx.prisma.core.findMany({
@@ -36,52 +27,7 @@ export const coreRouter = createTRPCRouter({
   }),
 
   addCoreMember: protectedProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        role: z.enum([
-          "Principal",
-          "AssistantProfessor",
-          "President",
-          "VicePresident",
-          "Treasurer",
-          "DocumentationHead",
-          "PublicityHead",
-          "Secretary",
-          "JointSecretary",
-          "EventsHead",
-          "EventsCoHead",
-          "TalentAcquisitionHead",
-          "TechnicalHead",
-          "DigitalTechLead",
-          "EthicalHackingHead",
-          "ProgramAdvisor",
-          "ProgramLead",
-          "GraphicsHead",
-          "GraphicsCoHead",
-          "SocialMediaHead",
-          "SocialMediaCoHead",
-          "ContentHead",
-          "ContentCoHead",
-          "GraphicsTeam",
-          "SocialMediaTeam",
-          "ContentTeam",
-          "TechnicalContentHead",
-          "TechnicalTeam",
-          "CoreMember",
-        ]),
-        img: z.string(),
-        github: z.string().optional(),
-        linkedin: z.string().optional(),
-        filter: z.enum([
-          "Year2017to2020",
-          "Year2020to2021",
-          "Year2021to2022",
-          "Year2022to2023",
-          "Faculty",
-        ]),
-      })
-    )
+    .input(addCoreMemberInput)
     .mutation(async ({ ctx, input }) => {
       try {
         return await ctx.prisma.core.create({
