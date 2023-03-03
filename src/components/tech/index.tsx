@@ -15,7 +15,7 @@ const Tech: FunctionComponent = () => {
     <section>
       <div className="max-w-screen-xl bg-white px-4 py-16 text-black transition-colors duration-500 dark:bg-black dark:text-white sm:px-6 lg:px-28">
         <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:items-center lg:gap-x-16">
-          <Slide direction="left" cascade>
+          <Slide triggerOnce direction="left" cascade>
             <div className="mx-auto max-w-lg text-center lg:mx-0 lg:text-left">
               <h2 className="heading text-3xl font-bold sm:text-4xl">
                 Work on new Trending Tech Stack
@@ -28,7 +28,7 @@ const Tech: FunctionComponent = () => {
               </p>
             </div>
           </Slide>
-          <Fade>
+          <Fade triggerOnce>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
               {tech.map((item, index) => (
                 <a

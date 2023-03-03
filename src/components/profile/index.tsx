@@ -263,7 +263,7 @@ export default function Profile() {
         <Error />
       ) : null}
       {ProfileInfo.data && (
-        <Fade cascade>
+        <Fade triggerOnce cascade>
           <div className="my-10 flex flex-col items-center justify-center gap-5 p-5">
             <div className="relative">
               <BlurImage

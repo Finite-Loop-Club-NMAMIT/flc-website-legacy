@@ -10,7 +10,7 @@ const Hero: FunctionComponent = () => {
   return (
     <section className="bg-white text-black transition-colors duration-500 dark:bg-gray-900/10 dark:text-white">
       <div className="max-w-screen-xl px-4 py-32 lg:flex lg:items-center lg:justify-center">
-        <Fade cascade>
+        <Fade triggerOnce cascade>
           <div className="mx-auto max-w-xl text-center">
             <h1 className="text-3xl font-extrabold sm:text-5xl">
               Welcome to

@@ -23,7 +23,7 @@ const Core: FunctionComponent = () => {
     <>
       <div className="mb-10">
         <div className="mb-10 flex flex-wrap justify-center text-center">
-          <Fade>
+          <Fade triggerOnce>
             <div className="w-full px-4">
               <h1 className="heading mb-3 text-4xl font-bold">Meet the Team</h1>
               <p className="text-lg text-black dark:text-gray-200">
