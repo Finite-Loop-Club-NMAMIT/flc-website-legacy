@@ -12,7 +12,7 @@ const About: FunctionComponent = () => {
             <Fade>
               <BlurImage
                 alt="Team"
-                src="/assets/team.jpeg"
+                src="/assets/team.jpg"
                 className="absolute inset-0 h-full w-full transform object-cover transition duration-500 ease-in-out hover:scale-110"
                 width={500}
                 height={500}
