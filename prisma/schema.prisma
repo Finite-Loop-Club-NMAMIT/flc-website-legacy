@@ -9,6 +9,7 @@ datasource db {
   relationMode      = "prisma"
 }
 
+// Data Models
 model Account {
   id                String  @id @unique @default(cuid())
   userId            String
@@ -39,21 +40,22 @@ model Session {
 }
 
 model User {
-  id            String    @id @unique @default(cuid())
+  id            String        @id @unique @default(cuid())
   name          String?
-  email         String?   @unique
-  username      String?   @unique
+  email         String?       @unique
+  username      String?       @unique
   emailVerified DateTime?
   image         String?
-  role          String?   @default("user")
-  bio           String?   @db.Text
-  links         String?   @db.Text
-  isMember      Boolean   @default(false)
-  isAdmin       Boolean   @default(false)
+  role          String?       @default("user")
+  bio           String?       @db.Text
+  links         String?       @db.Text
+  isMember      Boolean       @default(false)
+  isAdmin       Boolean       @default(false)
   teamId        Int?
-  Team          Team?     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  Team          Team?         @relation(fields: [teamId], references: [id], onDelete: Cascade)
   accounts      Account[]
   sessions      Session[]
+  Certificate   Certificate[]
 
   @@index([teamId])
 }
@@ -104,6 +106,45 @@ model RegistrationPayment {
   paymentData Json?
 }
 
+model Core {
+  id       Int        @id @unique @default(autoincrement())
+  name     String
+  role     Role
+  img      String
+  github   String?
+  linkedin String?
+  filter   CoreFilter
+}
+
+model Event {
+  id          Int           @id @unique @default(autoincrement())
+  name        String
+  date        DateTime
+  attended    Int
+  type        EventTypes
+  image       String
+  organizer   String
+  description String        @db.Text
+  filter      EventFilter
+  Certificate Certificate[]
+}
+
+model Certificate {
+  id      Int              @id @unique @default(autoincrement())
+  user    User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  date    DateTime         @default(now())
+  type    CertificateTypes
+  event   Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId Int
+  year    EventFilter
+  desc    String?          @db.Text
+
+  @@index([eventId])
+  @@index([userId])
+}
+
+// Enums
 enum Role {
   Principal
   AssistantProfessor
@@ -144,16 +185,6 @@ enum CoreFilter {
   Faculty
 }
 
-model Core {
-  id       Int        @id @unique @default(autoincrement())
-  name     String
-  role     Role
-  img      String
-  github   String?
-  linkedin String?
-  filter   CoreFilter
-}
-
 enum EventTypes {
   Workshop
   Seminar
@@ -172,14 +203,10 @@ enum EventFilter {
   Year2022to2023
 }
 
-model Event {
-  id          Int        @id @unique @default(autoincrement())
-  name        String
-  date        DateTime
-  attended    Int
-  type        EventTypes
-  image       String
-  organizer   String
-  description String    @db.Text
-  filter      EventFilter
+enum CertificateTypes {
+  HackfestParticipation
+  Participation
+  Winner
+  RunnerUp
+  SpecialRecognition
 }
