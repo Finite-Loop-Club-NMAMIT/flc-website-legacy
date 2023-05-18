@@ -20,6 +20,7 @@
     "@trpc/react-query": "^10.26.0",
     "@trpc/server": "^10.26.0",
     "@vercel/analytics": "^1.0.1",
+    "@vercel/og": "^0.5.4",
     "axios": "^1.4.0",
     "csstype": "3.1.2",
     "form-data": "^4.0.0",

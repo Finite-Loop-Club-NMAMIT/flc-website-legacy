@@ -6,6 +6,7 @@ import Link from "next/link";
 import ParticipationCertificate from "../../components/certificates/participation";
 import Loader from "../../components/loader";
 import Image from "next/image";
+import Head from "next/head";
 
 const Certificate: NextPage = () => {
   const router = useRouter();
@@ -18,8 +19,28 @@ const Certificate: NextPage = () => {
     }
   );
 
+  const imgURL = `http://localhost:3000/api/og?event=${
+    CertificateQuery.data?.event.name as string
+  }&user=${CertificateQuery.data?.user.name as string}`;
+
   return (
     <div>
+      <Head>
+        <title>Certificate | {CertificateQuery.data?.event.name}</title>
+        <meta
+          property="og:title"
+          content={`Certificate - ${
+            CertificateQuery.data?.user.name as string
+          }`}
+        />
+        <meta
+          property="og:description"
+          content={`Certificate for ${
+            CertificateQuery.data?.event.name as string
+          }`}
+        />
+        <meta property="og:image" content={imgURL} />
+      </Head>
       {CertificateQuery.isLoading && (
         <div className="flex h-screen w-screen items-center justify-center">
           <Loader />
