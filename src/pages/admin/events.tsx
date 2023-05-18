@@ -222,6 +222,7 @@ const Event: NextPage = () => {
       <div className="flex justify-center">
         <Button onClick={() => setShowForm(true)}>Add event</Button>
       </div>
+      <EventList events={events as Events} filter="Year2023to2024" />
       <EventList events={events as Events} filter="Year2022to2023" />
       <EventList events={events as Events} filter="Year2021to2022" />
       <EventList events={events as Events} filter="Year2020to2021" />

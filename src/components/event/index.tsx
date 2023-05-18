@@ -21,7 +21,7 @@ type ModalProps = {
 };
 
 const EventList: FunctionComponent = () => {
-  const [toggleState, setToggleState] = useState<number>(4);
+  const [toggleState, setToggleState] = useState<number>(eventTabs.length - 1);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalData, setModalData] = useState<ModalProps>({} as ModalProps);
   const [year, setYear] = useState(undefined as EventFilter | undefined);

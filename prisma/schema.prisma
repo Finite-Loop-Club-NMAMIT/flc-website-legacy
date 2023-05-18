@@ -130,14 +130,13 @@ model Event {
 }
 
 model Certificate {
-  id      Int              @id @unique @default(autoincrement())
+  id      String           @id @unique @default(cuid())
   user    User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
   date    DateTime         @default(now())
   type    CertificateTypes
   event   Event            @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId Int
-  year    EventFilter
   desc    String?          @db.Text
 
   @@index([eventId])

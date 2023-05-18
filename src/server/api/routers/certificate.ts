@@ -1,16 +1,20 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { awardCertificateInput } from "../../../types";
 
 export const certificateRouter = createTRPCRouter({
-  getCertificateById: protectedProcedure
-    .input(z.object({ id: z.number() }))
+  getCertificateById: publicProcedure
+    .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
       try {
         return await ctx.prisma.certificate.findFirst({
           where: {
             id: input.id,
+          },
+          include: {
+            user: true,
+            event: true,
           },
         });
       } catch (error) {
