@@ -60,26 +60,24 @@ const ParticipationCertificate = ({
           </h3>
         </div>
 
-        <div>
-          <div className="mt-10 flex flex-col items-center justify-center">
-            <div className="flex items-center justify-center flex-col">
-              <Image
-                src="/assets/signature.png"
-                width={100}
-                height={100}
-                alt="signature"
-                className="h-10 w-10 md:h-20 md:w-20 bg-gray-50 dark:invert"
-                priority
-              />
+        <div className="mt-10 flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
+            <Image
+              src="/assets/signature.png"
+              width={100}
+              height={100}
+              alt="signature"
+              className="h-10 w-10 bg-gray-50 dark:invert md:h-20 md:w-20"
+              priority
+            />
 
-              <div className="flex flex-col items-center justify-center">
-                <p className="text-xs text-gray-800 dark:text-gray-300 sm:text-lg lg:text-xl">
-                  <span className="border-b-2">Shashank Shetty</span>
-                </p>
-                <p className="mt-1 text-xs text-gray-800 dark:text-gray-300">
-                  Faculty Coordinator, Finite Loop Club
-                </p>
-              </div>
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-xs text-gray-800 dark:text-gray-300 sm:text-lg lg:text-xl">
+                <span className="border-b-2">Shashank Shetty</span>
+              </p>
+              <p className="mt-1 text-xs text-gray-800 dark:text-gray-300">
+                Faculty Coordinator, Finite Loop Club
+              </p>
             </div>
           </div>
         </div>

@@ -19,7 +19,7 @@ const Certificate: NextPage = () => {
     }
   );
 
-  const imgURL = `http://localhost:3000/api/og?event=${
+  const imgURL = `https://finiteloop.co.in/api/og?event=${
     CertificateQuery.data?.event.name as string
   }&user=${CertificateQuery.data?.user.name as string}`;
 
