@@ -7,6 +7,7 @@ import { api } from "../../utils/api";
 import { type Event } from "@prisma/client";
 import Button from "../../components/button";
 import BlurImage from "../../components/blurImage";
+import withAdminRoute from "../../components/hoc/withAdminRoute";
 
 type Events = {
   data: Event[];
@@ -308,4 +309,4 @@ const FormModal: React.FC<FormModalProps> = ({
   );
 };
 
-export default Event;
+export default withAdminRoute(Event)

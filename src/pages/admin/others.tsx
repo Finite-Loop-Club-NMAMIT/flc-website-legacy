@@ -1,6 +1,7 @@
 import { type NextPage } from 'next'
 import { Toaster, toast } from 'react-hot-toast'
 import { BiExport } from 'react-icons/bi'
+import withAdminRoute from '../../components/hoc/withAdminRoute'
 
 const Others: NextPage = () => {
   const fileName = `FLC ${
@@ -46,4 +47,4 @@ const Others: NextPage = () => {
   )
 }
 
-export default Others
+export default withAdminRoute(Others)
