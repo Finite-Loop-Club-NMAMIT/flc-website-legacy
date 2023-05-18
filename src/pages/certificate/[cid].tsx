@@ -31,6 +31,7 @@ const Certificate: NextPage = () => {
             {(CertificateQuery.data.type === "TeamParticipation" ||
               CertificateQuery.data.type === "SoloParticipation") && (
               <ParticipationCertificate
+                cid={cid as string}
                 name={CertificateQuery.data.user.name as string}
                 eventName={CertificateQuery.data.event.name}
                 date={CertificateQuery.data.event.date}
@@ -76,7 +77,9 @@ const Certificate: NextPage = () => {
                 : CertificateQuery.data.type === "RunnerUp"
                 ? "has been runner up"
                 : CertificateQuery.data.type === "SpecialRecognition"
-                ? `has been awarded a Special recognition for ${CertificateQuery.data.desc as string}`
+                ? `has been awarded a Special recognition for ${
+                    CertificateQuery.data.desc as string
+                  }`
                 : "has participated"}{" "}
               <span className="font-bold text-yellow-500 dark:text-yellow-300">
                 {CertificateQuery.data.event.name}
