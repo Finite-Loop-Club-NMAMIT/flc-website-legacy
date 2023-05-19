@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { api } from "../../utils/api";
 import Button from "../../components/button";
 import Link from "next/link";
-import ParticipationCertificate from "../../components/certificates/participation";
+import CertificateTemplate from "../../components/certificate";
 import Image from "next/image";
 import Head from "next/head";
 import { createServerSideHelpers } from "@trpc/react-query/server";
@@ -23,12 +23,48 @@ const Certificate: NextPage = () => {
     }
   );
 
+  const getCertificateTypeText = () => {
+    const { data } = CertificateQuery;
+    if (!data) return "";
+
+    const { type, desc } = data;
+
+    switch (type) {
+      case "TeamParticipation":
+        return `and their team has participated`;
+      case "Winner":
+        return `has won`;
+      case "RunnerUp":
+        return `has been runner up`;
+      case "SpecialRecognition":
+        return `has been awarded a Special recognition for ${desc as string}`;
+      default:
+        return `has participated`;
+    }
+  };
+
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString("en-IN", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const metaDesc = `This certificate verifies that ${
+    CertificateQuery.data?.user.name as string
+  } ${getCertificateTypeText()} ${
+    CertificateQuery.data?.event.name as string
+  } on ${formatDate(CertificateQuery.data?.event.date as Date)}.`;
+
   const eventName = encodeURIComponent(
     CertificateQuery.data?.event.name as string
   );
-
   const userName = encodeURIComponent(
     CertificateQuery.data?.user.name as string
+  );
+  const eventDate = encodeURIComponent(
+    formatDate(CertificateQuery.data?.event.date as Date)
   );
 
   return (
@@ -36,58 +72,51 @@ const Certificate: NextPage = () => {
       <Head>
         <meta
           property="og:title"
-          content={`Certificate - ${
+          content={`Certificate of ${
             CertificateQuery.data?.user.name as string
-          }`}
+          } - ${CertificateQuery.data?.event.name as string}`}
         />
-        <meta
-          property="og:description"
-          content={`Certificate for ${
-            CertificateQuery.data?.event.name as string
-          }`}
-        />
+        <meta property="og:description" content={metaDesc} />
         <meta
           property="og:image"
-          content={`${env.NEXT_PUBLIC_URL}/api/og?event=${eventName}&user=${userName}`}
+          content={`${env.NEXT_PUBLIC_URL}/api/og?event=${eventName}&user=${userName}&date=${eventDate}`}
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
       </Head>
       {CertificateQuery.isSuccess && CertificateQuery.data && (
         <>
-          <div>
-            {(CertificateQuery.data.type === "TeamParticipation" ||
-              CertificateQuery.data.type === "SoloParticipation") && (
-              <ParticipationCertificate
+          {(CertificateQuery.data.type === "TeamParticipation" ||
+            CertificateQuery.data.type === "SoloParticipation") && (
+            <div>
+              <CertificateTemplate
                 cid={cid as string}
                 name={CertificateQuery.data.user.name as string}
                 eventName={CertificateQuery.data.event.name}
                 date={CertificateQuery.data.event.date}
               />
-            )}
-          </div>
+            </div>
+          )}
           <section className="mx-5 mb-10 mt-5 lg:mx-10">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                Certificate Recipient:
-              </h1>
-              <div className="mt-5 w-fit rounded-lg bg-gray-50 p-5 shadow-lg transition-transform duration-300 hover:scale-[1.05] dark:bg-gray-700">
-                <Link
-                  href={`/u/${CertificateQuery.data.user.username as string}`}
-                  className="flex gap-5"
-                >
-                  <Image
-                    src={CertificateQuery.data.user.image as string}
-                    width={50}
-                    height={50}
-                    alt="user_image"
-                    className="rounded-full"
-                  />
-                  <h2 className="mt-2 text-gray-900 dark:text-gray-100 lg:text-xl">
-                    {CertificateQuery.data.user.name}
-                  </h2>
-                </Link>
-              </div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              Certificate Recipient:
+            </h1>
+            <div className="mt-5 w-fit rounded-lg bg-gray-50 p-5 shadow-lg transition-transform duration-300 hover:scale-[1.05] dark:bg-gray-700">
+              <Link
+                href={`/u/${CertificateQuery.data.user.username as string}`}
+                className="flex gap-5"
+              >
+                <Image
+                  src={CertificateQuery.data.user.image as string}
+                  width={50}
+                  height={50}
+                  alt="user_image"
+                  className="rounded-full"
+                />
+                <h2 className="mt-2 text-gray-900 dark:text-gray-100 lg:text-xl">
+                  {CertificateQuery.data.user.name}
+                </h2>
+              </Link>
             </div>
             <div className="mt-5">
               This certificate above verifies that{" "}
@@ -97,32 +126,13 @@ const Certificate: NextPage = () => {
               >
                 {CertificateQuery.data.user.name}
               </Link>{" "}
-              {CertificateQuery.data.type === "TeamParticipation"
-                ? "and their team"
-                : ""}{" "}
-              {CertificateQuery.data.type === "Winner"
-                ? "has won"
-                : CertificateQuery.data.type === "RunnerUp"
-                ? "has been runner up"
-                : CertificateQuery.data.type === "SpecialRecognition"
-                ? `has been awarded a Special recognition for ${
-                    CertificateQuery.data.desc as string
-                  }`
-                : "has participated"}{" "}
+              {getCertificateTypeText()}{" "}
               <span className="font-bold text-yellow-500 dark:text-yellow-300">
                 {CertificateQuery.data.event.name}
               </span>{" "}
               on{" "}
               <span className="font-bold text-yellow-500 dark:text-yellow-300">
-                {new Date(CertificateQuery.data.event.date).toLocaleDateString(
-                  "en-IN",
-                  {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  }
-                )}
-                .
+                {formatDate(CertificateQuery.data.event.date)}.
               </span>
             </div>
           </section>
@@ -179,6 +189,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       trpcState: ssg.dehydrate(),
     },
+    revalidate: 60 * 5, // 5 minutes
   };
 };
 

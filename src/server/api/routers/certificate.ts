@@ -28,7 +28,19 @@ export const certificateRouter = createTRPCRouter({
       try {
         return await ctx.prisma.certificate.create({
           data: {
-            ...input,
+            desc: input.desc,
+            date: new Date(),
+            type: input.type,
+            user: {
+              connect: {
+                id: input.userId,
+              },
+            },
+            event: {
+              connect: {
+                id: input.eventId,
+              },
+            },
           },
         });
       } catch (error) {

@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { BsDownload } from "react-icons/bs";
 
-const ParticipationCertificate = ({
+const CertificateTemplate = ({
   cid,
   name,
   eventName,
@@ -19,21 +18,32 @@ const ParticipationCertificate = ({
           Certificate ID: <span className="font-bold">{cid}</span>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <div className="flex items-center justify-center">
+          <div className="mb-5 flex w-full flex-col-reverse items-center justify-between gap-5 md:w-1/2 md:flex-row md:gap-0">
+            <div className="flex">
+              <Image
+                src="/assets/flc_logo_crop.png"
+                width={70}
+                height={70}
+                alt="flc_logo"
+                className="h-10 w-10"
+                priority
+              />
+              <a className="ml-3 flex cursor-pointer items-center text-lg text-black dark:text-gray-100 md:text-xl">
+                Finite Loop Club
+              </a>
+            </div>
+
             <Image
-              src="/assets/flc_logo_crop.png"
-              width={70}
-              height={70}
-              alt="flc_logo"
-              className="h-10 w-10 md:h-20 md:w-20"
+              src="/assets/nitte-nmamit-logo.png"
+              width={200}
+              height={200}
+              alt="nmamit_logo"
+              className="dark:brightness-200"
               priority
             />
-            <a className="ml-3 flex cursor-pointer items-center text-lg text-black dark:text-gray-100 md:text-xl">
-              Finite Loop Club
-            </a>
           </div>
 
-          <h1 className="mt-5 text-lg font-bold text-yellow-500 dark:text-yellow-300 sm:text-2xl lg:text-4xl">
+          <h1 className="mt-5 text-lg font-bold text-yellow-500 dark:text-yellow-300 sm:text-2xl lg:text-5xl font-serif">
             Certificate of Participation
           </h1>
         </div>
@@ -42,21 +52,23 @@ const ParticipationCertificate = ({
             This certifies that
           </p>
           <h2 className="mt-2 text-sm font-bold text-gray-900 dark:text-gray-100 sm:text-xl lg:text-2xl">
-            <span className="border-b-2">{name}</span>
+            <span className="border-b-2 font-serif">{name}</span>
           </h2>
           <p className="mt-4 text-xs text-gray-800 dark:text-gray-300 sm:text-lg lg:text-xl">
             has successfully participated in
           </p>
-          <h3 className="mt-2 text-sm font-bold text-gray-900 dark:text-gray-100 sm:text-xl lg:text-2xl">
+          <h3 className="mt-2 text-sm font-bold text-gray-900 dark:text-gray-100 sm:text-xl lg:text-2xl font-serif">
             {eventName}{" "}
             <span className="font-normal text-gray-800 dark:text-gray-300">
               on{" "}
             </span>
+            <span className="font-serif">
             {new Date(date).toLocaleDateString("en-IN", {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}
+            </span>
           </h3>
         </div>
 
@@ -86,4 +98,4 @@ const ParticipationCertificate = ({
   );
 };
 
-export default ParticipationCertificate;
+export default CertificateTemplate;

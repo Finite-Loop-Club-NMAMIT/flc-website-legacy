@@ -10,6 +10,7 @@ export default function handler(req: NextApiRequest) {
   const { searchParams } = new URL(req.url as string);
   const eventName = searchParams.get("event");
   const userName = searchParams.get("user");
+  const eventDate = searchParams.get("date");
 
   return new ImageResponse(
     (
@@ -48,13 +49,12 @@ export default function handler(req: NextApiRequest) {
         <div tw="flex flex-col items-center justify-center">
           <div tw="flex flex-col items-center justify-center">
             <img
-              src="https://finiteloop.co.in/assets/signature.png"
+              src={`${env.CLIENT_URL}/assets/signature.png`}
               width={100}
               height={100}
               alt="signature"
               tw="h-10 w-10 bg-gray-50 md:h-20 md:w-20"
             />
-
             <div tw="flex flex-col items-center justify-center">
               <p tw="text-xs text-gray-800 sm:text-lg lg:text-xl">
                 <span tw="border-b-2">Shashank Shetty</span>
