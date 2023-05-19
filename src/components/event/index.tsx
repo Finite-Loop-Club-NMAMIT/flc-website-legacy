@@ -68,11 +68,17 @@ const EventList: FunctionComponent = () => {
       <div className="my-5 flex flex-wrap items-stretch justify-center gap-5">
         {events.isLoading && <Loader />}
         {events.data &&
-          events.data.map((event, index) =>
-            event.filter === year || year === undefined ? (
+          events.data
+            .filter((event) => event.filter === year || year === undefined)
+            .sort((a, b) => {
+              const dateA = new Date(a.date).getTime();
+              const dateB = new Date(b.date).getTime();
+              return dateB - dateA;
+            })
+            .map((event, index) => (
               <div
                 key={index}
-                className="mx-5 relative  w-[360px] rounded-lg bg-white bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter"
+                className="relative mx-5 w-[360px] rounded-lg bg-white bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter"
               >
                 <a>
                   <BlurImage
@@ -80,11 +86,11 @@ const EventList: FunctionComponent = () => {
                     width={500}
                     height={500}
                     alt="event-pic"
-                    style={{width:"100%",height: "380px" }}
-                    className="rounded-t-lg w-full "
+                    style={{ width: "100%", height: "380px" }}
+                    className="w-full rounded-t-lg"
                   />
                 </a>
-                
+
                 <div className="flex flex-col p-5 text-center">
                   <a>
                     <h5 className="mb-5 text-xl font-bold tracking-tight text-black dark:text-white">
@@ -92,7 +98,6 @@ const EventList: FunctionComponent = () => {
                     </h5>
                   </a>
                   <div
-                    
                     onClick={() => {
                       setShowModal(true);
                       setModalData({
@@ -112,8 +117,8 @@ const EventList: FunctionComponent = () => {
                   </div>
                 </div>
               </div>
-            ) : null
-          )}
+            ))}
+
         <Modal
           onClose={handleOnClose}
           visible={showModal}
@@ -124,7 +129,6 @@ const EventList: FunctionComponent = () => {
           date={modalData.date}
           organizer={modalData.organizer}
           type={modalData.type}
-          
         />
       </div>
     </div>
