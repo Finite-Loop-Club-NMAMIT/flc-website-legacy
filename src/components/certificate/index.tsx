@@ -1,3 +1,4 @@
+import { type CertificateTypes } from "@prisma/client";
 import Image from "next/image";
 
 const CertificateTemplate = ({
@@ -5,11 +6,15 @@ const CertificateTemplate = ({
   name,
   eventName,
   date,
+  type,
+  desc,
 }: {
   cid: string;
   name: string;
   eventName: string;
   date: Date;
+  type: CertificateTypes;
+  desc?: string;
 }) => {
   return (
     <section className="px-5 lg:px-10">
@@ -43,8 +48,13 @@ const CertificateTemplate = ({
             />
           </div>
 
-          <h1 className="mt-5 text-lg font-bold text-yellow-500 dark:text-yellow-300 sm:text-2xl lg:text-5xl font-serif">
-            Certificate of Participation
+          <h1 className="mt-5 font-serif text-lg font-bold text-yellow-500 dark:text-yellow-300 sm:text-2xl lg:text-5xl">
+            Certificate of{" "}
+            {type === "Winner" || type === "RunnerUp"
+              ? "Achievement"
+              : type === "SpecialRecognition"
+              ? "Special Recognition"
+              : "Participation"}
           </h1>
         </div>
         <div className="flex flex-col justify-center text-center">
@@ -55,19 +65,31 @@ const CertificateTemplate = ({
             <span className="border-b-2 font-serif">{name}</span>
           </h2>
           <p className="mt-4 text-xs text-gray-800 dark:text-gray-300 sm:text-lg lg:text-xl">
-            has successfully participated in
+            has{" "}
+            {type === "Winner" || type === "RunnerUp"
+              ? "won"
+              : type === "SpecialRecognition"
+              ? "been awarded a Special Recognition"
+              : "participated"}{" "}
+            {type === "Winner"
+              ? "First Place"
+              : type === "RunnerUp"
+              ? "Second Place"
+              : ""}{" "}
+            {type === "SpecialRecognition" && `for ${desc as string}`} in the
+            event
           </p>
-          <h3 className="mt-2 text-sm font-bold text-gray-900 dark:text-gray-100 sm:text-xl lg:text-2xl font-serif">
+          <h3 className="mt-2 font-serif text-sm font-bold text-gray-900 dark:text-gray-100 sm:text-xl lg:text-2xl">
             {eventName}{" "}
             <span className="font-normal text-gray-800 dark:text-gray-300">
               on{" "}
             </span>
             <span className="font-serif">
-            {new Date(date).toLocaleDateString("en-IN", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+              {new Date(date).toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </span>
           </h3>
         </div>

@@ -66,6 +66,10 @@ const Certificate: NextPage = () => {
   const eventDate = encodeURIComponent(
     formatDate(CertificateQuery.data?.event.date as Date)
   );
+  const type = encodeURIComponent(CertificateQuery.data?.type as string);
+  const desc = encodeURIComponent(
+    CertificateQuery.data?.desc ? CertificateQuery.data?.desc : ""
+  );
 
   return (
     <div>
@@ -79,7 +83,7 @@ const Certificate: NextPage = () => {
         <meta property="og:description" content={metaDesc} />
         <meta
           property="og:image"
-          content={`${env.NEXT_PUBLIC_URL}/api/og?event=${eventName}&user=${userName}&date=${eventDate}`}
+          content={`${env.NEXT_PUBLIC_URL}/api/og?event=${eventName}&user=${userName}&date=${eventDate}&type=${type}&desc=${desc}`}
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -94,6 +98,8 @@ const Certificate: NextPage = () => {
                 name={CertificateQuery.data.user.name as string}
                 eventName={CertificateQuery.data.event.name}
                 date={CertificateQuery.data.event.date}
+                type={CertificateQuery.data.type}
+                desc={CertificateQuery.data.desc as string}
               />
             </div>
           )}
