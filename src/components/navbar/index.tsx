@@ -17,9 +17,12 @@ const Navbar: FunctionComponent = () => {
   const { data, status } = useSession();
   const { theme, setTheme } = useTheme();
 
-  const user = api.userRouter.getUserByEmail.useQuery({
-    email: data?.user?.email as string,
-  });
+  const user = api.userRouter.getUserByEmail.useQuery(
+    {
+      email: data?.user?.email as string,
+    },
+    { enabled: status === "authenticated" }
+  );
 
   return (
     <>
@@ -50,7 +53,7 @@ const Navbar: FunctionComponent = () => {
 
           <ul
             className={`absolute left-0 w-full bg-black bg-opacity-40 pb-12 pl-9 transition-all duration-500 ease-in  md:static md:z-auto md:flex md:w-auto md:items-center md:bg-white md:bg-opacity-0 md:pb-0 md:pl-0 ${
-              open ? "top-[5.6rem]" : "top-[-490px]"
+              open ? "top-[100%]" : "top-[-490px]"
             }`}
           >
             {Links.map((link) => (
@@ -60,14 +63,12 @@ const Navbar: FunctionComponent = () => {
               >
                 <Link
                   href={link.link}
-                  className="text-white group transition-all duration-300 ease-in-out"
+                  className="group text-white transition-all duration-300 ease-in-out"
                 >
-                  <span className='px-0 py-1 bg-left-bottom bg-gradient-to-r from-yellow-400  via-yellow-300 to-yellow-400  bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out'>
-                  {link.name}
-  </span>
-                 
+                  <span className="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-400 bg-[length:0%_2px]  bg-left-bottom bg-no-repeat  px-0 py-1 transition-all duration-500 ease-out group-hover:bg-[length:100%_2px]">
+                    {link.name}
+                  </span>
                 </Link>
-               
               </li>
             ))}
 
@@ -83,7 +84,9 @@ const Navbar: FunctionComponent = () => {
                   // }}
                   >
                     Register
-                    <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-sky-600">Hello</span>
+                    <span className="block h-0.5 max-w-0 bg-sky-600 transition-all duration-500 group-hover:max-w-full">
+                      Hello
+                    </span>
                   </Button>
                 )}
                 <div>

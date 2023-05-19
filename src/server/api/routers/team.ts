@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { updateTeamInput } from "../../../types";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
@@ -32,13 +33,7 @@ export const teamRouter = createTRPCRouter({
     }),
 
   updateTeamInfo: protectedProcedure
-    .input(
-      z.object({
-        teamId: z.number(),
-        name: z.string(),
-        description: z.string(),
-      })
-    )
+    .input(updateTeamInput)
     .mutation(async ({ ctx, input }) => {
       try {
         return await ctx.prisma.team.update({

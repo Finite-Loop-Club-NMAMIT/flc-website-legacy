@@ -180,28 +180,34 @@ const AddCore: NextPage = () => {
 const CoreMemberList: React.FC<CoreMemberListProps> = ({ members, filter }) => {
   const deleteCoreMember = api.coreRouter.deleteCoreMember.useMutation();
   return (
-    <div>
-      <p className="my-5 text-center text-xl font-bold">
+    <div className="mb-5 flex flex-col items-center justify-center px-5">
+      <p className="my-5 w-fit rounded-lg border border-yellow-500 p-1 text-center text-xl font-bold">
         {filter.replace("Year", "").replace("to", " - ")}
       </p>
-      <div className="mt-2 flex flex-col justify-center">
+      <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {members.data &&
           members.data.map((member) => {
             if (member.filter === filter) {
               return (
                 <div
                   key={member.id}
-                  className="mx-auto my-2 flex w-1/2 flex-row items-center justify-between gap-5 rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-300 dark:hover:bg-gray-800"
+                  className="flex flex-col items-center justify-between rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-200/50 dark:hover:bg-gray-800"
                 >
                   <BlurImage
                     src={member.img}
                     alt={member.name}
                     width={50}
                     height={50}
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: "center center",
+                      width: "50px",
+                      height: "50px",
+                    }}
                     className="rounded-full"
                   />
                   <p className="text-center text-lg font-bold">{member.name}</p>
-                  <div className="flex gap-5">
+                  <div className="mt-3">
                     <Button
                       onClick={() => {
                         deleteCoreMember.mutate(

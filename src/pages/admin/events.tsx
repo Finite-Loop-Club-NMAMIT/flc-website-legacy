@@ -7,6 +7,7 @@ import { api } from "../../utils/api";
 import { type Event } from "@prisma/client";
 import Button from "../../components/button";
 import BlurImage from "../../components/blurImage";
+import withAdminRoute from "../../components/hoc/withAdminRoute";
 
 type Events = {
   data: Event[];
@@ -221,6 +222,7 @@ const Event: NextPage = () => {
       <div className="flex justify-center">
         <Button onClick={() => setShowForm(true)}>Add event</Button>
       </div>
+      <EventList events={events as Events} filter="Year2023to2024" />
       <EventList events={events as Events} filter="Year2022to2023" />
       <EventList events={events as Events} filter="Year2021to2022" />
       <EventList events={events as Events} filter="Year2020to2021" />
@@ -232,8 +234,8 @@ const Event: NextPage = () => {
 const EventList: React.FC<EventListProps> = ({ events, filter }) => {
   const deleteEvent = api.eventRouter.deleteEvent.useMutation();
   return (
-    <div>
-      <p className="my-5 text-center text-xl font-bold">
+    <div className="flex flex-col items-center justify-center mb-5 px-5">
+      <p className="my-5 w-fit rounded-lg border border-yellow-500 p-1 text-center text-xl font-bold">
         {filter.replace("Year", "").replace("to", " - ")}
       </p>
       <div className="mt-2 flex flex-col justify-center">
@@ -243,7 +245,7 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
               return (
                 <div
                   key={event.id}
-                  className="mx-auto my-2 flex w-1/2 flex-row items-center justify-between gap-5 rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-300 dark:hover:bg-gray-800"
+                  className="my-2 flex flex-col items-center justify-between gap-5 rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-200/50 dark:hover:bg-gray-800 md:flex-row"
                 >
                   <BlurImage
                     src={event.image}
@@ -253,7 +255,7 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                     className="rounded-full"
                   />
                   <p className="text-center text-lg font-bold">{event.name}</p>
-                  <div className="flex gap-5">
+                  <div>
                     <Button
                       onClick={() => {
                         deleteEvent.mutate(
@@ -308,4 +310,4 @@ const FormModal: React.FC<FormModalProps> = ({
   );
 };
 
-export default Event;
+export default withAdminRoute(Event)

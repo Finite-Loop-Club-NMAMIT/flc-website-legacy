@@ -37,7 +37,7 @@ const Modal: FunctionComponent<ModalProps> = ({
       onClick={(e) => handleOnClose(e.target as HTMLDivElement)}
       className="fixed inset-0 flex justify-center bg-black bg-opacity-70 backdrop-blur-lg p-1 md:p-5 z-50 overflow-y-scroll "
    >
-      <Slide direction="down" >
+      <Slide triggerOnce direction="down" >
         <div className="p-4">
           <div className="relative  max-w-5xl rounded-xl bg-white bg-opacity-30 p-6 shadow-sm backdrop-blur-lg backdrop-filter ">
             <button

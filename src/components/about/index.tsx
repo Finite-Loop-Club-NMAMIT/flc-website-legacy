@@ -9,10 +9,10 @@ const About: FunctionComponent = () => {
       <div className="mx-auto max-w-screen-xl bg-white px-4 py-16 transition-colors duration-500 dark:bg-black sm:px-6 lg:px-28">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="relative my-auto h-80 overflow-hidden rounded-lg lg:order-last lg:h-96">
-            <Fade>
+            <Fade triggerOnce>
               <BlurImage
                 alt="Team"
-                src="/assets/team.jpeg"
+                src="/assets/team.jpg"
                 className="absolute inset-0 h-full w-full transform object-cover transition duration-500 ease-in-out hover:scale-110"
                 width={500}
                 height={500}
@@ -20,7 +20,7 @@ const About: FunctionComponent = () => {
             </Fade>
           </div>
           <div className="lg:py-24">
-            <Slide direction="left" cascade>
+            <Slide triggerOnce direction="left" cascade>
               <div>
                 <h2 className="heading text-3xl font-bold sm:text-4xl">
                   About Us
@@ -34,7 +34,7 @@ const About: FunctionComponent = () => {
                 </p>
               </div>
             </Slide>
-            <Slide direction="left">
+            <Slide triggerOnce direction="left">
               <div className="mt-5 flex flex-col gap-3 text-gray-600 dark:text-gray-400 md:text-lg">
                 {points.map((point, index) => (
                   <p key={index} className="inline-flex items-center gap-3">

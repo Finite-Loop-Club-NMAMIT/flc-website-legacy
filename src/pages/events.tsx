@@ -5,7 +5,7 @@ import { type NextPage } from "next";
 const Events: NextPage = () => {
   return (
     <>
-      <Fade>
+      <Fade triggerOnce>
         <div className="flex flex-col items-center justify-center gap-3 px-10 pb-5">
           <h1 className="heading text-5xl font-bold">Events</h1>
           <p className="text-center text-black dark:text-gray-50 lg:w-1/2 lg:text-xl">
