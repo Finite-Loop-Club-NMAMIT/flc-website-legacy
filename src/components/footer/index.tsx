@@ -5,7 +5,7 @@ import BlurImage from "../blurImage";
 
 const Footer: FunctionComponent = () => {
   return (
-    <footer className="bg-gray-50 text-black transition-colors duration-500 relative dark:bg-black dark:text-white">
+    <footer className="bg-gray-50 text-black transition-colors duration-500 relative dark:bg-gray-900/10 dark:text-white">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center">
           <BlurImage

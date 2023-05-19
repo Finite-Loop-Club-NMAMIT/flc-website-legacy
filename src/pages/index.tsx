@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import About from "../components/about";
-import { TestimonialList } from "../components/constants";
 import Discord from "../components/discord";
 import Hackfest from "../components/hackfest";
 import Hero from "../components/hero";
@@ -21,16 +20,7 @@ const Home: NextPage = () => {
         <hr className="border-gray-500/50" />
         <DSAsprint />
         <hr className="border-gray-500/50" />
-        {TestimonialList.map((testimonial, id) => (
-          <Testimonials
-            key={id}
-            image={testimonial.image}
-            name={testimonial.name}
-            position={testimonial.position}
-            company={testimonial.company}
-            testimonial={testimonial.testimonial}
-          />
-        ))}
+        <Testimonials />
         <hr className="border-gray-500/50" />
         <Perks />
         <hr className="border-gray-500/50" />

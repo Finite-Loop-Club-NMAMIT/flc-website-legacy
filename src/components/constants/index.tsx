@@ -461,7 +461,7 @@ export const TestimonialList = [
   {
     image: "/assets/testimonials/rahul.jpeg",
     name: "Rahul Sheregar",
-    position: "Software Engineer | Sony Interactive Entertainment (SARD)",
+    position: "Software Engineer",
     company: "Sony India Software Center PrivateLTD.",
     testimonial: `
     Finite Loop gave me all the technical and non technical experience required for my IT career. Finite
@@ -500,7 +500,7 @@ export const TestimonialList = [
     image: "/assets/testimonials/pooja.jpeg",
     name: "Pooja Shetty",
     position: "Associate Software Engineer ",
-    company: "Robert Bosch Engineering and Bussiness Solutions Pvt. Ltd. ",
+    company: "Robert Bosch Engineering Pvt. Ltd.",
     testimonial: `
     The Finiteloop Club has not only shaped me as a student, but also a professional. Being part of the
     club has helped build my confidence in being a leader, given me great people to connect with, and
