@@ -25,6 +25,7 @@ export const serverSchema = z.object({
   GOOGLE_CLIENT_SECRET: z.string(),
   RAZORPAY_KEY: z.string(),
   RAZORPAY_SECRET: z.string(),
+  CLIENT_URL: z.string().url(),
 });
 
 /**
@@ -43,6 +44,7 @@ export const serverEnv = {
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   RAZORPAY_KEY: process.env.RAZORPAY_KEY,
   RAZORPAY_SECRET: process.env.RAZORPAY_SECRET,
+  CLIENT_URL: process.env.CLIENT_URL,
 };
 
 /**
@@ -52,6 +54,7 @@ export const serverEnv = {
  */
 export const clientSchema = z.object({
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string(),
+  NEXT_PUBLIC_URL: z.string().url(),
 });
 
 /**
@@ -63,4 +66,5 @@ export const clientSchema = z.object({
 export const clientEnv = {
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
 };

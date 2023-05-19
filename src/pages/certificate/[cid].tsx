@@ -1,12 +1,16 @@
-import { type NextPage } from "next";
+import { type GetStaticProps, type NextPage } from "next";
 import { useRouter } from "next/router";
 import { api } from "../../utils/api";
 import Button from "../../components/button";
 import Link from "next/link";
 import ParticipationCertificate from "../../components/certificates/participation";
-import Loader from "../../components/loader";
 import Image from "next/image";
 import Head from "next/head";
+import { createServerSideHelpers } from "@trpc/react-query/server";
+import { appRouter } from "../../server/api/root";
+import { prisma } from "../../server/db";
+import superjson from "superjson";
+import { env } from "../../env/client.mjs";
 
 const Certificate: NextPage = () => {
   const router = useRouter();
@@ -19,14 +23,17 @@ const Certificate: NextPage = () => {
     }
   );
 
-  const imgURL = `https://finiteloop.co.in/api/og?event=${
+  const eventName = encodeURIComponent(
     CertificateQuery.data?.event.name as string
-  }&user=${CertificateQuery.data?.user.name as string}`;
+  );
+
+  const userName = encodeURIComponent(
+    CertificateQuery.data?.user.name as string
+  );
 
   return (
     <div>
       <Head>
-        <title>Certificate | {CertificateQuery.data?.event.name}</title>
         <meta
           property="og:title"
           content={`Certificate - ${
@@ -39,13 +46,13 @@ const Certificate: NextPage = () => {
             CertificateQuery.data?.event.name as string
           }`}
         />
-        <meta property="og:image" content={imgURL} />
+        <meta
+          property="og:image"
+          content={`${env.NEXT_PUBLIC_URL}/api/og?event=${eventName}&user=${userName}`}
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
       </Head>
-      {CertificateQuery.isLoading && (
-        <div className="flex h-screen w-screen items-center justify-center">
-          <Loader />
-        </div>
-      )}
       {CertificateQuery.isSuccess && CertificateQuery.data && (
         <>
           <div>
@@ -140,6 +147,46 @@ const Certificate: NextPage = () => {
       )}
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const ssg = createServerSideHelpers({
+    router: appRouter,
+    ctx: {
+      prisma,
+      session: {
+        user: {
+          id: "",
+          name: null,
+          image: null,
+          email: null,
+        },
+        expires: "",
+      },
+    },
+    transformer: superjson,
+  });
+
+  const cid = context.params?.cid as string;
+
+  if (typeof cid !== "string") {
+    throw new Error("Invalid Certificate ID");
+  }
+
+  await ssg.certificateRouter.getCertificateById.prefetch({ id: cid });
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  };
+};
+
+export const getStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
 };
 
 export default Certificate;
