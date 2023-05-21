@@ -82,14 +82,20 @@ const CertificateTemplate = ({
           <h3 className="mt-2 font-serif text-sm font-bold text-gray-900 dark:text-gray-100 sm:text-xl lg:text-2xl">
             {eventName}{" "}
             <span className="font-normal text-gray-800 dark:text-gray-300">
-              on{" "}
+              {eventName === "Hackfest S01" ? "from" : "on"}{" "}
             </span>
             <span className="font-serif">
-              {new Date(date).toLocaleDateString("en-IN", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {!(eventName === "Hackfest S01") &&
+                new Date(date).toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+
+              {/* Need date range only for Hackfest S01 [Hardcode] */}
+              {eventName === "Hackfest S01" && (
+                <>11 November - 25 December, 2022</>
+              )}
             </span>
           </h3>
         </div>
