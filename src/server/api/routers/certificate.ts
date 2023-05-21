@@ -26,6 +26,17 @@ export const certificateRouter = createTRPCRouter({
     .input(awardCertificateInput)
     .mutation(async ({ ctx, input }) => {
       try {
+        const isAdmin = await ctx.prisma.user.findFirst({
+          where: {
+            id: ctx.session.user.id,
+            isAdmin: true,
+          },
+        });
+
+        if (!isAdmin) {
+          throw new Error("You are not an admin");
+        }
+
         return await ctx.prisma.certificate.create({
           data: {
             desc: input.desc,

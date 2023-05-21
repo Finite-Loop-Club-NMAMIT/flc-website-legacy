@@ -36,6 +36,17 @@ export const teamRouter = createTRPCRouter({
     .input(updateTeamInput)
     .mutation(async ({ ctx, input }) => {
       try {
+        const isTeamLead = await ctx.prisma.user.findFirst({
+          where: {
+            id: ctx.session.user.id,
+            role: "team-lead",
+          },
+        });
+
+        if (!isTeamLead) {
+          throw new Error("You are not a team lead");
+        }
+
         return await ctx.prisma.team.update({
           where: {
             id: input.teamId,

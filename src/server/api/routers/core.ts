@@ -30,6 +30,17 @@ export const coreRouter = createTRPCRouter({
     .input(addCoreMemberInput)
     .mutation(async ({ ctx, input }) => {
       try {
+        const isAdmin = await ctx.prisma.user.findFirst({
+          where: {
+            id: ctx.session.user.id,
+            isAdmin: true,
+          },
+        });
+
+        if (!isAdmin) {
+          throw new Error("You are not an admin");
+        }
+
         return await ctx.prisma.core.create({
           data: {
             name: input.name,
@@ -53,6 +64,17 @@ export const coreRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
+        const isAdmin = await ctx.prisma.user.findFirst({
+          where: {
+            id: ctx.session.user.id,
+            isAdmin: true,
+          },
+        });
+
+        if (!isAdmin) {
+          throw new Error("You are not an admin");
+        }
+        
         return await ctx.prisma.core.delete({
           where: {
             id: input.id,
