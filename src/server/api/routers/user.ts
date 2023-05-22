@@ -40,6 +40,58 @@ export const userRouter = createTRPCRouter({
       }
     }),
 
+  getMembers: protectedProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+        cursor: z.string().nullish(),
+        skip: z.number().optional(),
+        searchTerms: z.string().optional(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { limit, skip, searchTerms, cursor } = input;
+      const users = await ctx.prisma.user.findMany({
+        take: limit + 1,
+        skip: skip,
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: {
+          id: "asc",
+        },
+        where: {
+          isMember: true,
+          role: "member",
+          OR: [
+            {
+              username: {
+                contains: searchTerms,
+              },
+            },
+            {
+              name: {
+                contains: searchTerms,
+              },
+            },
+            {
+              email: {
+                contains: searchTerms,
+              },
+            },
+          ],
+        },
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (users.length > limit) {
+        const nextItem = users.pop();
+        nextCursor = nextItem?.id;
+      }
+      return {
+        users,
+        nextCursor,
+      };
+    }),
+
   editUser: protectedProcedure
     .input(editUserInput)
     .mutation(async ({ ctx, input }) => {

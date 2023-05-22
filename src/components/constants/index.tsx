@@ -182,7 +182,7 @@ export const HackFestPhases = [
     announced on the same day. Each team member of
     Winning and Runner up team will be awarded with
     exciting prizes.`,
-    date: "Coming Soon",
+    date: "20th May, 2023",
     icon: <RiNumber5 className="inline text-3xl text-yellow-500" />,
     link: false,
     id: 5,
@@ -346,7 +346,7 @@ export const hackfestPhases = [
   },
   {
     id: 5,
-    isCompleted: false,
+    isCompleted: true,
     isNext: false,
   },
 ];
