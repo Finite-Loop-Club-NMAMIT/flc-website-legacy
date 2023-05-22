@@ -1,9 +1,7 @@
-import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
-import Button from "../button";
-import { type FormEvent, useState, useRef, useEffect } from "react";
+import { useSession } from "next-auth/react";
+
+import { type FormEvent, useState, useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
-import { BsPatchCheckFill } from "react-icons/bs";
 import {
   FaGithub,
   FaGlobe,
@@ -12,19 +10,24 @@ import {
   FaStackOverflow,
   FaDiscord,
   FaLinkedin,
+  FaUser,
+  FaEdit,
+  FaIdCard,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import { toast, Toaster } from "react-hot-toast";
 import Team from "../team";
 import { api } from "../../utils/api";
 import { useRouter } from "next/router";
 import { type User } from "@prisma/client";
-import { AiFillCamera, AiOutlineShareAlt } from "react-icons/ai";
 import Error from "../error";
 import { env } from "../../env/client.mjs";
-import BlurImage from "../blurImage";
 import IDCard from "../idcard";
 import EditProfileModal from "./editProfileModal";
 import LoadingBox from "./loadingBox";
+import ProfileUI from "./profileUI";
+import { TbFileCertificate } from "react-icons/tb";
+import BottomNav from "./bottomNav";
 
 interface CloudinaryResponse {
   secure_url: string;
@@ -47,7 +50,6 @@ export default function Profile() {
       link: "",
     },
   ]);
-  const fileInput = useRef<HTMLInputElement>(null);
 
   const ProfileInfo = api.userRouter.getProfile.useQuery(
     {
@@ -145,11 +147,49 @@ export default function Profile() {
 
   const isSelfProfile: boolean = data?.user?.id === ProfileInfo?.data?.id;
 
+  const tabs = [
+    {
+      name: "Profile",
+      icon: <FaUser />,
+    },
+    {
+      name: "Edit",
+      icon: <FaEdit />,
+    },
+    {
+      name: "ID Card",
+      icon: <FaIdCard />,
+    },
+    {
+      name: "Certificates",
+      icon: <TbFileCertificate />,
+    },
+    {
+      name: "Sign Out",
+      icon: <FaSignOutAlt />,
+    },
+  ];
+
+  const [activeTab, setActiveTab] = useState<number>(0);
+
+  const visibleTabs = tabs.filter((tab, index) => {
+    if (index === 1 || index === 4) {
+      return isSelfProfile;
+    }
+    return true;
+  });
+
   return (
     <div>
-      <div>
-        <Toaster />
-      </div>
+      <Toaster />
+
+      <BottomNav
+        isSelfProfile={isSelfProfile}
+        setActiveTab={setActiveTab}
+        setShowModal={setShowModal}
+        visibleTabs={visibleTabs}
+      />
+
       {ProfileInfo.isLoading ? (
         <LoadingBox />
       ) : !ProfileInfo.data ? (
@@ -158,96 +198,16 @@ export default function Profile() {
       {ProfileInfo.data && (
         <Fade triggerOnce cascade>
           <div className="my-10 flex flex-col items-center justify-center gap-5 p-5">
-            <div className="relative">
-              <BlurImage
-                className="rounded-lg"
-                src={ProfileInfo.data.image?.split("=")[0] as string}
-                width={200}
-                height={200}
-                alt="Profile Picture"
-                priority
+            {(activeTab === 0 || activeTab === 1 || activeTab === 4) && (
+              <ProfileUI
+                ProfileInfo={ProfileInfo.data}
+                handleProfileUpdate={handleProfileUpdate}
+                socialLinks={socialLinks}
+                platformIcons={platformIcons}
+                isSelfProfile={isSelfProfile}
               />
-              <button
-                onClick={() => {
-                  navigator.clipboard
-                    .writeText(window.location.href)
-                    .then(() => {
-                      toast.success("Copied to clipboard");
-                    })
-                    .catch(() => {
-                      toast.error("Something went wrong");
-                    });
-                }}
-                className="absolute bottom-0 right-0 m-2 flex items-center rounded-full bg-yellow-400 p-2 font-bold text-black duration-500 hover:scale-[1.03] hover:bg-yellow-300"
-              >
-                <AiOutlineShareAlt />
-              </button>
-              {ProfileInfo.data.id === data?.user?.id && (
-                <button
-                  onClick={() => {
-                    fileInput.current?.click();
-                  }}
-                  className="absolute bottom-0 left-0 m-2 flex items-center rounded-full bg-yellow-400 p-2 font-bold text-black duration-500 hover:scale-[1.03] hover:bg-yellow-300"
-                >
-                  <AiFillCamera />
-                  <input
-                    onChange={async (e) => await handleProfileUpdate(e)}
-                    ref={fileInput}
-                    type="file"
-                    className="hidden"
-                  />
-                </button>
-              )}
-            </div>
-            <a className="heading text-center text-2xl font-bold">
-              {ProfileInfo.data.name as string}
-            </a>
-            <p className="text-sm text-yellow-500">
-              @{ProfileInfo.data.username as string}
-            </p>
-            <p className="font-bold text-gray-700 dark:text-gray-300">
-              Bio:{" "}
-              <span className="text-black dark:text-white">
-                {ProfileInfo.data.bio
-                  ? ProfileInfo.data.bio
-                  : "No bio provided."}
-              </span>
-            </p>
-            <p className="font-bold text-gray-700 dark:text-gray-300">
-              Role:{" "}
-              <span className="inline-flex items-center gap-1 text-black dark:text-white">
-                {ProfileInfo.data.isMember ? (
-                  <>
-                    <span className="uppercase">{ProfileInfo.data.role}</span>
-                    <BsPatchCheckFill className="animate-pulse text-green-500" />
-                  </>
-                ) : (
-                  "Unofficial Member"
-                )}
-              </span>
-            </p>
-            <div className="mb-2 flex flex-wrap gap-2 text-lg">
-              {socialLinks?.length !== 0 &&
-                socialLinks?.map((link, index) => (
-                  <div key={index} className="cursor-pointer">
-                    <Link
-                      href={link.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-black dark:text-white"
-                    >
-                      {platformIcons.hasOwnProperty(link.platform) ? (
-                        platformIcons[
-                          link.platform as keyof typeof platformIcons
-                        ]
-                      ) : (
-                        <div></div>
-                      )}
-                    </Link>
-                  </div>
-                ))}
-            </div>
-            {ProfileInfo.data.isMember && isSelfProfile && (
+            )}
+            {ProfileInfo.data.isMember && isSelfProfile && activeTab === 2 && (
               <IDCard
                 image={ProfileInfo.data.image?.split("=")[0] as string}
                 name={ProfileInfo.data.name as string}
@@ -257,14 +217,6 @@ export default function Profile() {
               />
             )}
 
-            {isSelfProfile && (
-              <div className="flex gap-5">
-                <Button onClick={() => signOut()}>
-                  <a>Sign Out</a>
-                </Button>
-                <Button onClick={() => setShowModal(true)}>Edit Profile</Button>
-              </div>
-            )}
             <Team
               userRole={ProfileInfo.data.role as string}
               email={ProfileInfo.data.email as string}

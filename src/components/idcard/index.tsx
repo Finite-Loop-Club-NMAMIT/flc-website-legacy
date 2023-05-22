@@ -19,12 +19,12 @@ const IDCard: FunctionComponent<IDCardProps> = ({
   role,
   email,
 }) => {
-  const [showIdCard, setShowIdCard] = useState(false);
+  // const [showIdCard, setShowIdCard] = useState(false);
   const printRef = useRef(null);
 
-  const toggleIdCard = () => {
-    setShowIdCard(!showIdCard);
-  };
+  // const toggleIdCard = () => {
+  //   setShowIdCard(!showIdCard);
+  // };
 
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
@@ -38,95 +38,92 @@ const IDCard: FunctionComponent<IDCardProps> = ({
 
   return (
     <div
-      className={`flex flex-col justify-between rounded-md border-2 border-gray-300 shadow-md transition-all duration-500 ease-in-out ${
-        showIdCard ? "w-full sm:w-96" : "w-72"
-      }`}
+      className="flex flex-col justify-between rounded-md border-2 border-gray-300 shadow-md transition-all duration-500 ease-in-out "
+      // ${showIdCard ? "w-full sm:w-96" : "w-72"}
     >
       <div className="flex items-center justify-between p-4">
         <div
           className="cursor-pointer font-bold text-yellow-500"
-          onClick={toggleIdCard}
+          // onClick={toggleIdCard}
         >
           Digital ID Card
         </div>
         <div className="flex flex-row items-center">
-          <button
+          {/* <button
             className="mx-2 hover:text-yellow-500 focus:outline-none"
             onClick={toggleIdCard}
           >
             {showIdCard ? <BsFillEyeSlashFill /> : <BsFillEyeFill />}
+          </button> */}
+          {/* {showIdCard && ( */}
+          <button
+            className="mx-2 hover:text-yellow-500 focus:outline-none"
+            onClick={handleDownload}
+          >
+            <BsDownload />
           </button>
-          {showIdCard && (
-            <button
-              className="mx-2 hover:text-yellow-500 focus:outline-none"
-              onClick={handleDownload}
-            >
-              <BsDownload />
-            </button>
-          )}
+          {/* )} */}
         </div>
       </div>
-      {showIdCard && (
-        <>
-          <hr />
-          <div className="p-4" ref={printRef}>
-            <div>
-              <div className="flex w-full items-center gap-3 px-3">
-                <Image
-                  src="/assets/flc_logo_crop.png"
-                  width={50}
-                  height={50}
-                  alt="logo"
-                />
-                <div className="text-xl font-bold text-yellow-500">FLC</div>
-                <div className="text-md flex-1 text-right font-semibold">
-                  {`${
-                    new Date().getFullYear() - 1
-                  } - ${new Date().getFullYear()}`}
-                </div>
+      {/* {showIdCard && ( */}
+      <>
+        <hr />
+        <div className="p-4" ref={printRef}>
+          <div>
+            <div className="flex w-full items-center gap-3 px-3">
+              <Image
+                src="/assets/flc_logo_crop.png"
+                width={50}
+                height={50}
+                alt="logo"
+              />
+              <div className="text-xl font-bold text-yellow-500">FLC</div>
+              <div className="text-md flex-1 text-right font-semibold">
+                {`${
+                  new Date().getFullYear() - 1
+                } - ${new Date().getFullYear()}`}
               </div>
-              <div className="flex flex-col items-center justify-center">
-                <Image
-                  src={image}
-                  width={128}
-                  height={128}
-                  alt="profile"
-                  className="rounded-full border-2 border-gray-500 dark:border-gray-300"
-                />
-                <div className="mt-5 text-xl font-bold">{name}</div>
-                <div className="font-thin">
-                  {email.startsWith("4nm")
-                    ? email.split("@")[0]?.toUpperCase()
-                    : ""}
-                </div>
-                <div className="mt-2 rounded-full border border-yellow-500 px-3 uppercase">
-                  {role}
-                </div>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                src={image}
+                width={128}
+                height={128}
+                alt="profile"
+                className="rounded-full border-2 border-gray-500 dark:border-gray-300"
+              />
+              <div className="mt-5 text-xl font-bold">{name}</div>
+              <div className="font-thin">
+                {email.startsWith("4nm")
+                  ? email.split("@")[0]?.toUpperCase()
+                  : ""}
               </div>
-              <div className="m-4 flex justify-center">
-                <QRCodeSVG
-                  value={`https://finiteloop.co.in/u/${username}`}
-                  size={100}
-                  includeMargin
-                />
+              <div className="mt-2 rounded-full border border-yellow-500 px-3 uppercase">
+                {role}
               </div>
-              <hr />
-              <div className="my-3 text-center">
-                <div className="text-xs font-thin">
-                  <strong>
-                    Finite Loop Club, NMAM Institute of Technology
-                  </strong>
-                  <br />
-                  Nitte, Karkala Taluk, Udupi - 574110
-                  <br />
-                  Karnataka, India
-                  <br />
-                </div>
+            </div>
+            <div className="m-4 flex justify-center">
+              <QRCodeSVG
+                value={`https://finiteloop.co.in/u/${username}`}
+                size={100}
+                includeMargin
+              />
+            </div>
+            <hr />
+            <div className="my-3 text-center">
+              <div className="text-xs font-thin">
+                <strong>Finite Loop Club, NMAM Institute of Technology</strong>
+                <br />
+                Nitte, Karkala Taluk, Udupi - 574110
+                <br />
+                Karnataka, India
+                <br />
               </div>
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </>
+      {/* )} */}
     </div>
   );
 };
