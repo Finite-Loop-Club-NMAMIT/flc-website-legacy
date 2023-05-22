@@ -35,7 +35,7 @@ const AwardCertificates: NextPage = () => {
     if (!selectedUsers.length)
       return toast.error("Please select atleast one user");
     if (selectedAward === CertificateTypes.SpecialRecognition && !desc)
-      return toast.error("Please enter a description");
+      return toast.error("Please enter a reason for special recognition");
     const loadingToast = toast.loading("Awarding certificates...");
     try {
       const input = {

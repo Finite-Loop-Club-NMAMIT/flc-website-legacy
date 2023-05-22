@@ -1,5 +1,9 @@
 import { type CertificateTypes } from "@prisma/client";
 import Image from "next/image";
+import { useRef } from "react";
+import { BiDownload } from "react-icons/bi";
+import { useReactToPrint } from "react-to-print";
+import Button from "../button";
 
 const CertificateTemplate = ({
   cid,
@@ -16,9 +20,24 @@ const CertificateTemplate = ({
   type: CertificateTypes;
   desc?: string;
 }) => {
+  const printRef = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+    pageStyle: `@page { size: 1100px 1100px !important; }`,
+    copyStyles: true,
+  });
+
+  const handleDownload = () => {
+    if (printRef.current) handlePrint();
+  };
+
   return (
     <section className="px-5 lg:px-10">
-      <div className="relative border-4 border-yellow-500 bg-gray-50 py-28 dark:bg-black lg:border-8">
+      <div
+        className="relative border-4 border-yellow-500 bg-gray-50 py-28 dark:bg-black lg:border-8"
+        ref={printRef}
+      >
         <div className="absolute right-2 top-2 hidden bg-gray-50 p-2 text-xs text-gray-900 dark:bg-black dark:text-gray-300 sm:block sm:text-sm">
           Certificate ID: <span className="font-bold">{cid}</span>
         </div>
@@ -121,6 +140,15 @@ const CertificateTemplate = ({
             </div>
           </div>
         </div>
+      </div>
+      <div className="flex w-full justify-start">
+        <Button
+          className="mt-5 flex items-center gap-3"
+          onClick={handleDownload}
+        >
+          <BiDownload />
+          Download Certificate
+        </Button>
       </div>
     </section>
   );
