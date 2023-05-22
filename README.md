@@ -10,8 +10,13 @@
 
 ## Features
 
-- Admin panel to add/delete Events & Team page
 - Custom public user profile pages
+- Admin panel
+  - Create/Delete Core team members
+  - Create/Delete Events
+  - Award certificates to participants and winners
+  - Create teams and members [coming soon]
+  - Other functions [Export data, etc.]
 - Teams & tasks feature
 - Razorpay payment gateway integration
 - Beautiful frontend with modern UI
