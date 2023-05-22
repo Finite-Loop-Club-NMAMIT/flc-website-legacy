@@ -6,8 +6,9 @@ import { env } from "../../env/client.mjs";
 import { api } from "../../utils/api";
 import { type Event } from "@prisma/client";
 import Button from "../../components/button";
-import BlurImage from "../../components/blurImage";
 import withAdminRoute from "../../components/hoc/withAdminRoute";
+import Image from "next/image";
+import { MdDeleteOutline } from "react-icons/md";
 
 type Events = {
   data: Event[];
@@ -117,10 +118,18 @@ const Event: NextPage = () => {
     }
   };
 
+  const eventFilters = [
+    "Year2023to2024",
+    "Year2022to2023",
+    "Year2021to2022",
+    "Year2020to2021",
+    "Year2017to2020",
+  ];
+
   return (
     <div>
       <Toaster />
-      <h4 className="heading mb-5 text-center text-2xl font-bold">
+      <h4 className="heading mb-5 text-center text-2xl font-bold lg:text-4xl">
         Events List
       </h4>
       <FormModal showForm={showForm} setShowForm={setShowForm}>
@@ -222,11 +231,9 @@ const Event: NextPage = () => {
       <div className="flex justify-center">
         <Button onClick={() => setShowForm(true)}>Add event</Button>
       </div>
-      <EventList events={events as Events} filter="Year2023to2024" />
-      <EventList events={events as Events} filter="Year2022to2023" />
-      <EventList events={events as Events} filter="Year2021to2022" />
-      <EventList events={events as Events} filter="Year2020to2021" />
-      <EventList events={events as Events} filter="Year2017to2020" />
+      {eventFilters.map((filter) => (
+        <EventList key={filter} events={events as Events} filter={filter} />
+      ))}
     </div>
   );
 };
@@ -234,29 +241,47 @@ const Event: NextPage = () => {
 const EventList: React.FC<EventListProps> = ({ events, filter }) => {
   const deleteEvent = api.eventRouter.deleteEvent.useMutation();
   return (
-    <div className="flex flex-col items-center justify-center mb-5 px-5">
+    <div className="mb-5 flex flex-col items-center justify-center px-5">
       <p className="my-5 w-fit rounded-lg border border-yellow-500 p-1 text-center text-xl font-bold">
         {filter.replace("Year", "").replace("to", " - ")}
       </p>
-      <div className="mt-2 flex flex-col justify-center">
+      <div className="mt-2 flex flex-wrap justify-center gap-5">
         {events.data &&
           events.data.map((event) => {
             if (event.filter === filter) {
               return (
                 <div
                   key={event.id}
-                  className="my-2 flex flex-col items-center justify-between gap-5 rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-200/50 dark:hover:bg-gray-800 md:flex-row"
+                  style={{
+                    width: "250px",
+                  }}
+                  className="my-2 flex flex-col justify-center gap-3 rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-200/30 dark:hover:bg-gray-800/30 transition-colors duration-300"
                 >
-                  <BlurImage
+                  <Image 
                     src={event.image}
                     alt={event.name}
-                    width={50}
-                    height={50}
-                    className="rounded-full"
+                    width={150}
+                    height={150}
+                    className="rounded-lg flex justify-center w-full basis-2/4"
                   />
-                  <p className="text-center text-lg font-bold">{event.name}</p>
-                  <div>
-                    <Button
+
+                  <div className="text-center basis-1/4">
+                    <p className="text-center text-lg font-bold">
+                      {event.name}
+                    </p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      {new Date(event.date).toLocaleDateString("en-IN", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </p>
+                  </div>
+
+                  <div className="flex justify-center">
+                    <button
+                      className="flex items-center gap-2 rounded-lg bg-red-500 px-2 py-1 text-white hover:bg-red-600"
                       onClick={() => {
                         deleteEvent.mutate(
                           {
@@ -274,8 +299,8 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                         );
                       }}
                     >
-                      Delete
-                    </Button>
+                      <MdDeleteOutline /> Delete
+                    </button>
                   </div>
                 </div>
               );
@@ -310,4 +335,4 @@ const FormModal: React.FC<FormModalProps> = ({
   );
 };
 
-export default withAdminRoute(Event)
+export default withAdminRoute(Event);

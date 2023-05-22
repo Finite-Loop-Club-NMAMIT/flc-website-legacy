@@ -6,7 +6,7 @@ import Button from "../../components/button";
 import { type ReactElement, useState, type FormEvent } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { env } from "../../env/client.mjs";
-import BlurImage from "../../components/blurImage";
+import Image from "next/image";
 
 type Members = {
   data: Core[];
@@ -193,7 +193,7 @@ const CoreMemberList: React.FC<CoreMemberListProps> = ({ members, filter }) => {
                   key={member.id}
                   className="flex flex-col items-center justify-between rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-200/50 dark:hover:bg-gray-800"
                 >
-                  <BlurImage
+                  <Image
                     src={member.img}
                     alt={member.name}
                     width={50}

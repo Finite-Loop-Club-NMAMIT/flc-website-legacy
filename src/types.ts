@@ -116,7 +116,7 @@ export const addEventInput = z.object({
 
 // Certificate
 export const awardCertificateInput = z.object({
-  userId: z.string(),
+  userIds: z.array(z.string()), // Update to accept an array of user IDs
   eventId: z.number(),
   desc: z.string().optional(),
   type: z.enum([

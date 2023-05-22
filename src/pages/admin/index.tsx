@@ -3,6 +3,8 @@ import { type NextPage } from 'next'
 import Link from 'next/link'
 import { BsFillCalendarEventFill, BsFillGearFill } from 'react-icons/bs'
 import { RiTeamFill } from 'react-icons/ri'
+import { TbFileCertificate } from 'react-icons/tb'
+import { IoIosPeople } from 'react-icons/io'
 
 const AdminPage: NextPage = () => {
   const box =
@@ -19,6 +21,14 @@ const AdminPage: NextPage = () => {
           <div className='text-center text-md md:text-2xl'>Events</div>
         </Link>
         <Link className={box} href='/admin/team'>
+          <IoIosPeople size={50} />
+          <div className='text-center text-md md:text-2xl'>Core</div>
+        </Link>
+        <Link className={box} href='/admin/award'>
+          <TbFileCertificate size={50} />
+          <div className='text-center text-md md:text-2xl'>Certificates</div>
+        </Link>
+        <Link className={box} href='/admin/create-teams'>
           <RiTeamFill size={50} />
           <div className='text-center text-md md:text-2xl'>Team</div>
         </Link>

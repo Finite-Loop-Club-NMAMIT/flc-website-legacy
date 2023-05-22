@@ -1,6 +1,5 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-// Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db";
@@ -16,13 +15,12 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   secret: env.NEXTAUTH_SECRET,
   theme: {
     colorScheme: "dark",
     brandColor: "#facc15",
-    logo: "https://res.cloudinary.com/dpfpk49oa/image/upload/v1661426777/logo2_fpkrl6.png",
+    logo: `https://res.cloudinary.com/${env.CLOUDINDARY_CLOUD_NAME}/image/upload/v1661426777/logo2_fpkrl6.png`,
   },
   events: {
     async signIn({ user, isNewUser }) {
@@ -43,21 +41,21 @@ export const authOptions: NextAuthOptions = {
             },
           });
         }
+      }
 
-        if (isNewUser) {
-          let username = user.email.split("@")[0];
-          let userCreated = false;
+      if (isNewUser) {
+        let username = user.email?.split("@")[0];
+        let userCreated = false;
 
-          while (!userCreated) {
-            try {
-              await prisma.user.update({
-                where: { email: user.email },
-                data: { username },
-              });
-              userCreated = true;
-            } catch (err) {
-              username += nanoid();
-            }
+        while (!userCreated) {
+          try {
+            await prisma.user.update({
+              where: { email: user.email as string },
+              data: { username },
+            });
+            userCreated = true;
+          } catch (err) {
+            username += nanoid();
           }
         }
       }
@@ -68,15 +66,6 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
-    /**
-     * ...add more providers here
-     *
-     * Most other providers require a bit more work than the Discord provider.
-     * For example, the GitHub provider requires you to add the
-     * `refresh_token_expires_in` field to the Account model. Refer to the
-     * NextAuth.js docs for the provider you want to use. Example:
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
 };
 

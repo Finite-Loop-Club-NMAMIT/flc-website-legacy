@@ -98,7 +98,7 @@ const Navbar: FunctionComponent = () => {
                         src={user.data?.image as string}
                         width={40}
                         height={40}
-                        className="cursor-pointer rounded-full"
+                        className="cursor-pointer rounded-full hover:brightness-125 transition-all duration-500 ease-in-out"
                         alt="profile picture"
                       />
                     )}
