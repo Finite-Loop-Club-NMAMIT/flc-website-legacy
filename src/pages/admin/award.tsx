@@ -3,10 +3,9 @@ import withAdminRoute from "../../components/hoc/withAdminRoute";
 import { Toaster } from "react-hot-toast";
 import { CertificateTypes } from "@prisma/client";
 import { api } from "../../utils/api";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Loader from "../../components/loader";
-import Button from "../../components/button";
 
 const AwardCertificates: NextPage = () => {
   const events = api.eventRouter.getAllEvents.useQuery();
@@ -32,12 +31,62 @@ const AwardCertificates: NextPage = () => {
       }
     );
 
+  const members = data?.pages.flatMap((page) => page.users);
+
+  const [isFetching, setIsFetching] = useState(false);
+
   const handleFetchNextPage = async () => {
+    setIsFetching(true);
     await fetchNextPage();
+    setIsFetching(false);
     setPage((prev) => prev + 1);
   };
 
-  const members = data?.pages.flatMap((page) => page.users);
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const target = entries[0];
+      if (target?.isIntersecting && data?.pages[page]?.nextCursor) {
+        handleFetchNextPage().catch((error) => {
+          console.error("Error fetching next page:", error);
+        });
+      }
+    },
+    [data, page]
+  );
+
+  const lastItemRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, { threshold: 1 });
+
+    if (lastItemRef.current) {
+      observer.observe(lastItemRef.current);
+    }
+
+    let currentRef = lastItemRef.current;
+
+    // Observe changes to the lastItemRef.current value and update the observer accordingly, because initial value will be null
+    const updateObserver = () => {
+      if (currentRef !== lastItemRef.current) {
+        if (currentRef) {
+          observer.unobserve(currentRef);
+        }
+
+        if (lastItemRef.current) {
+          observer.observe(lastItemRef.current);
+          currentRef = lastItemRef.current;
+        }
+      }
+    };
+
+    const timeoutId = setInterval(updateObserver, 1000);
+
+    // Return cleanup function that clears the intrval and disconnects observer.
+    return () => {
+      clearInterval(timeoutId);
+      observer.disconnect();
+    };
+  }, [handleObserver, lastItemRef]);
 
   return (
     <div className="mb-5">
@@ -97,8 +146,6 @@ const AwardCertificates: NextPage = () => {
       </div>
 
       <div className="mx-10 mb-5 flex flex-col items-center justify-between rounded-md border border-gray-300 p-5">
-        {/* Users Paginated table with Search bar */}
-
         <div className="relative flex w-full items-center justify-between">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <AiOutlineSearch className="h-5 w-5 text-gray-400" />
@@ -114,9 +161,17 @@ const AwardCertificates: NextPage = () => {
           <p>Showing {members?.length} users.</p>
         </div>
 
-        <div className="flex w-full flex-col">
+        <div className="flex h-[40rem] w-full flex-col overflow-y-scroll">
+          <div className="flex items-center justify-between rounded-md border border-gray-300 p-5 mt-5">
+            <p className="w-1/12 text-center text-lg font-bold">No.</p>
+            <p className="w-3/12 text-center text-lg font-bold">Username</p>
+            <p className="w-4/12 text-center text-lg font-bold">Name</p>
+            <p className="w-3/12 text-center text-lg font-bold">Email</p>
+            <p className="w-1/12 text-center text-lg font-bold">Checkbox</p>
+          </div>
           {members?.map((member, i) => (
             <div
+              ref={members?.length === i + 1 ? lastItemRef : null}
               key={member.id}
               className="mt-5 flex items-center justify-between rounded-md border border-gray-300 p-5"
             >
@@ -135,17 +190,12 @@ const AwardCertificates: NextPage = () => {
               <input type="checkbox" className="h-5 w-5 basis-1/12" />
             </div>
           ))}
+
           {members?.length === 0 && (
             <p className="text-center text-lg font-bold">No Users Found</p>
           )}
 
-          <div className="mt-5">
-            <Button onClick={handleFetchNextPage}>
-              {isLoading ? "Loading..." : "Load More"}
-            </Button>
-          </div>
-
-          {isLoading && (
+          {(isLoading || isFetching) && (
             <div className="mt-5 flex justify-center">
               <Loader />
             </div>
