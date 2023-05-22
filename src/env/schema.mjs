@@ -26,6 +26,7 @@ export const serverSchema = z.object({
   RAZORPAY_KEY: z.string(),
   RAZORPAY_SECRET: z.string(),
   CLIENT_URL: z.string().url(),
+  CLOUDINDARY_CLOUD_NAME: z.string(),
 });
 
 /**
@@ -45,6 +46,7 @@ export const serverEnv = {
   RAZORPAY_KEY: process.env.RAZORPAY_KEY,
   RAZORPAY_SECRET: process.env.RAZORPAY_SECRET,
   CLIENT_URL: process.env.CLIENT_URL,
+  CLOUDINDARY_CLOUD_NAME: process.env.CLOUDINDARY_CLOUD_NAME,
 };
 
 /**

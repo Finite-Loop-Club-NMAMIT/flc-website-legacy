@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
   theme: {
     colorScheme: "dark",
     brandColor: "#facc15",
-    logo: "https://res.cloudinary.com/dpfpk49oa/image/upload/v1661426777/logo2_fpkrl6.png",
+    logo: `https://res.cloudinary.com/${env.CLOUDINDARY_CLOUD_NAME}/image/upload/v1661426777/logo2_fpkrl6.png`,
   },
   events: {
     async signIn({ user, isNewUser }) {
@@ -41,21 +41,21 @@ export const authOptions: NextAuthOptions = {
             },
           });
         }
+      }
 
-        if (isNewUser) {
-          let username = user.email.split("@")[0];
-          let userCreated = false;
+      if (isNewUser) {
+        let username = user.email?.split("@")[0];
+        let userCreated = false;
 
-          while (!userCreated) {
-            try {
-              await prisma.user.update({
-                where: { email: user.email },
-                data: { username },
-              });
-              userCreated = true;
-            } catch (err) {
-              username += nanoid();
-            }
+        while (!userCreated) {
+          try {
+            await prisma.user.update({
+              where: { email: user.email as string },
+              data: { username },
+            });
+            userCreated = true;
+          } catch (err) {
+            username += nanoid();
           }
         }
       }
