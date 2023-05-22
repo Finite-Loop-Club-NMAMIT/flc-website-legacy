@@ -1,11 +1,12 @@
 import { type NextPage } from "next";
 import withAdminRoute from "../../components/hoc/withAdminRoute";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { CertificateTypes } from "@prisma/client";
 import { api } from "../../utils/api";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Loader from "../../components/loader";
+import Button from "../../components/button";
 
 const AwardCertificates: NextPage = () => {
   const events = api.eventRouter.getAllEvents.useQuery();
@@ -13,8 +14,48 @@ const AwardCertificates: NextPage = () => {
   const [selectedAward, setSelectedAward] = useState<CertificateTypes>(
     CertificateTypes.TeamParticipation
   );
-  const [selectedSpecialRecognition, setSelectedSpecialRecognition] =
-    useState("");
+  const [desc, setDesc] = useState("");
+
+  const awardCertificates =
+    api.certificateRouter.awardCertificates.useMutation();
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const handleUserSelection = (userId: string) => {
+    setSelectedUsers((prevSelectedUsers) => {
+      if (prevSelectedUsers.includes(userId)) {
+        return prevSelectedUsers.filter((id) => id !== userId);
+      } else {
+        return [...prevSelectedUsers, userId];
+      }
+    });
+  };
+
+  const handleAwardCertificates = async () => {
+    if (!selectedEvent) return toast.error("Please select an event");
+    if (!selectedAward) return toast.error("Please select an award");
+    if (!selectedUsers.length)
+      return toast.error("Please select atleast one user");
+    if (selectedAward === CertificateTypes.SpecialRecognition && !desc)
+      return toast.error("Please enter a description");
+    const loadingToast = toast.loading("Awarding certificates...");
+    try {
+      const input = {
+        userIds: selectedUsers,
+        eventId: selectedEvent,
+        desc: selectedAward === CertificateTypes.SpecialRecognition ? desc : "",
+        type: selectedAward,
+      };
+
+      await awardCertificates.mutateAsync(input);
+
+      // Clear the selected users after successful awarding of certificates
+      setSelectedUsers([]);
+      toast.dismiss(loadingToast);
+      toast.success("Certificates awarded successfully");
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error("Error awarding certificates");
+    }
+  };
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -135,8 +176,8 @@ const AwardCertificates: NextPage = () => {
           <label className="mt-3 flex flex-col text-center">
             Special Recognition for
             <input
-              value={selectedSpecialRecognition}
-              onChange={(e) => setSelectedSpecialRecognition(e.target.value)}
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
               type="text"
               className="w-full rounded-md border border-gray-400 px-2 py-1 md:w-64"
               disabled={selectedAward !== CertificateTypes.SpecialRecognition}
@@ -158,22 +199,28 @@ const AwardCertificates: NextPage = () => {
             placeholder="Search Users by their Name, Username or Email"
             required
           />
+          <Button onClick={handleAwardCertificates}>Award Certificates</Button>
           <p>Showing {members?.length} users.</p>
         </div>
 
         <div className="flex h-[40rem] w-full flex-col overflow-y-scroll">
-          <div className="flex items-center justify-between rounded-md border border-gray-300 p-5 mt-5">
+          <div className="mt-5 flex items-center justify-between rounded-md border border-gray-300 p-5">
             <p className="w-1/12 text-center text-lg font-bold">No.</p>
             <p className="w-3/12 text-center text-lg font-bold">Username</p>
             <p className="w-4/12 text-center text-lg font-bold">Name</p>
             <p className="w-3/12 text-center text-lg font-bold">Email</p>
-            <p className="w-1/12 text-center text-lg font-bold">Checkbox</p>
+            <p className="w-1/12 text-center text-lg font-bold">Select</p>
           </div>
           {members?.map((member, i) => (
             <div
               ref={members?.length === i + 1 ? lastItemRef : null}
               key={member.id}
-              className="mt-5 flex items-center justify-between rounded-md border border-gray-300 p-5"
+              onClick={() => handleUserSelection(member.id)}
+              className={`mt-5 flex items-center justify-between rounded-md border border-gray-300 p-5 ${
+                selectedUsers.includes(member.id)
+                  ? "bg-yellow-300 dark:bg-gray-900"
+                  : "hover:bg-gray-50 hover:dark:bg-gray-900"
+              }`}
             >
               <p className="basis-1/12 text-center text-lg font-bold">
                 {i + 1}
@@ -187,7 +234,12 @@ const AwardCertificates: NextPage = () => {
               <p className="basis-3/12 text-center text-lg font-bold">
                 {member.email}
               </p>
-              <input type="checkbox" className="h-5 w-5 basis-1/12" />
+              <input
+                type="checkbox"
+                className="h-5 w-5 basis-1/12 rounded-md border border-gray-400 [checked:bg-yellow-600]"
+                onChange={() => handleUserSelection(member.id)}
+                checked={selectedUsers.includes(member.id)}
+              />
             </div>
           ))}
 

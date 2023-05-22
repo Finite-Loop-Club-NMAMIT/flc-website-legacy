@@ -136,9 +136,9 @@ const Certificate: NextPage = () => {
               <span className="font-bold text-yellow-500 dark:text-yellow-300">
                 {CertificateQuery.data.event.name}
               </span>{" "}
-              {eventName === "Hackfest S01" ? "from" : "on"}{" "}
+              {CertificateQuery.data.event.name === "Hackfest S01" ? "from" : "on"}{" "}
               <span className="font-bold text-yellow-500 dark:text-yellow-300">
-                {eventName === "Hackfest S01"
+                {CertificateQuery.data.event.name === "Hackfest S01"
                   ? "11 November - 25 December, 2023"
                   : formatDate(CertificateQuery.data.event.date)}
                 .

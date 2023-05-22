@@ -22,7 +22,7 @@ export const certificateRouter = createTRPCRouter({
       }
     }),
 
-  awardCertificate: protectedProcedure
+  awardCertificates: protectedProcedure
     .input(awardCertificateInput)
     .mutation(async ({ ctx, input }) => {
       try {
@@ -37,23 +37,29 @@ export const certificateRouter = createTRPCRouter({
           throw new Error("You are not an admin");
         }
 
-        return await ctx.prisma.certificate.create({
-          data: {
-            desc: input.desc,
-            date: new Date(),
-            type: input.type,
-            user: {
-              connect: {
-                id: input.userId,
+        const certificates = await Promise.all(
+          input.userIds.map((userId) =>
+            ctx.prisma.certificate.create({
+              data: {
+                desc: input.desc,
+                date: new Date(),
+                type: input.type,
+                user: {
+                  connect: {
+                    id: userId,
+                  },
+                },
+                event: {
+                  connect: {
+                    id: input.eventId,
+                  },
+                },
               },
-            },
-            event: {
-              connect: {
-                id: input.eventId,
-              },
-            },
-          },
-        });
+            })
+          )
+        );
+
+        return certificates;
       } catch (error) {
         console.log("error", error);
       }
