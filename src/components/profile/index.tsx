@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 import { type FormEvent, useState, useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
@@ -28,6 +28,7 @@ import LoadingBox from "./loadingBox";
 import ProfileUI from "./profileUI";
 import { TbFileCertificate } from "react-icons/tb";
 import BottomNav from "./bottomNav";
+import Certificates from "./certificates";
 
 interface CloudinaryResponse {
   secure_url: string;
@@ -183,21 +184,59 @@ export default function Profile() {
     <div>
       <Toaster />
 
-      <BottomNav
-        isSelfProfile={isSelfProfile}
-        setActiveTab={setActiveTab}
-        setShowModal={setShowModal}
-        visibleTabs={visibleTabs}
-      />
+      <div className="fixed bottom-4 left-1/2 z-50 h-16 w-full max-w-lg -translate-x-1/2 rounded-full border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
+      <div
+        className={`mx-auto grid h-full max-w-lg grid-cols-${visibleTabs.length}`}
+      >
+        {visibleTabs.map((tab, index) => {
+          const isFirstTab = index === 0;
+          const isLastTab = index === visibleTabs.length - 1;
+
+          const tabClassName = `group inline-flex flex-col items-center justify-center bg-white px-5 hover:bg-gray-50 dark:bg-black dark:hover:bg-gray-900 ${
+            isFirstTab ? "rounded-l-full" : ""
+          } ${isLastTab ? "rounded-r-full" : ""} ${
+            !isFirstTab && !isLastTab
+              ? "border-l border-r border-gray-200 dark:border-gray-600"
+              : ""
+          }`;
+
+          return (
+            <button
+              onClick={async () => {
+                setActiveTab(index);
+                if (index === 1 && isSelfProfile) {
+                  setShowModal(true);
+                }
+                if (!(index === 1)) {
+                  setShowModal(false);
+                }
+                if (index === visibleTabs.length - 1 && isSelfProfile) {
+                  await signOut();
+                }
+              }}
+              key={index}
+              type="button"
+              className={tabClassName}
+            >
+              {tab.icon}
+              <span className="mt-2 hidden text-xs font-medium text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100 sm:block">
+                {tab.name}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
 
       {ProfileInfo.isLoading ? (
         <LoadingBox />
       ) : !ProfileInfo.data ? (
         <Error />
       ) : null}
+
       {ProfileInfo.data && (
         <Fade triggerOnce cascade>
-          <div className="my-10 flex flex-col items-center justify-center gap-5 p-5">
+          <div className="mb-10 flex flex-col items-center justify-center gap-5 p-5">
             {(activeTab === 0 || activeTab === 1 || activeTab === 4) && (
               <ProfileUI
                 ProfileInfo={ProfileInfo.data}
@@ -207,6 +246,7 @@ export default function Profile() {
                 isSelfProfile={isSelfProfile}
               />
             )}
+
             {ProfileInfo.data.isMember && isSelfProfile && activeTab === 2 && (
               <IDCard
                 image={ProfileInfo.data.image?.split("=")[0] as string}
@@ -217,6 +257,10 @@ export default function Profile() {
               />
             )}
 
+            {ProfileInfo.data.isMember && activeTab === 3 && (
+              <Certificates userId={ProfileInfo.data.id} />
+            )}
+
             <Team
               userRole={ProfileInfo.data.role as string}
               email={ProfileInfo.data.email as string}
@@ -224,6 +268,7 @@ export default function Profile() {
           </div>
         </Fade>
       )}
+
       {ProfileInfo.data && showModal && (
         <>
           <EditProfileModal

@@ -64,4 +64,22 @@ export const certificateRouter = createTRPCRouter({
         console.log("error", error);
       }
     }),
+
+  getCertificatesByUserId: publicProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      try {
+        return await ctx.prisma.certificate.findMany({
+          where: {
+            userId: input.userId,
+          },
+          include: {
+            user: true,
+            event: true,
+          },
+        });
+      } catch (error) {
+        console.log("error", error);
+      }
+    }),
 });

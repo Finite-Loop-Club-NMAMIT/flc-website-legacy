@@ -19,6 +19,7 @@ const config = {
       "lh3.googleusercontent.com",
       "www.finiteloop.co.in",
       "res.cloudinary.com",
+      "localhost"
     ],
   },
 };
