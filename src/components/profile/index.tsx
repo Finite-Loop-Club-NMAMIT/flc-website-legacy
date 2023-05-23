@@ -22,13 +22,15 @@ import { useRouter } from "next/router";
 import { type User } from "@prisma/client";
 import Error from "../error";
 import { env } from "../../env/client.mjs";
-import IDCard from "../idcard";
+import IDCard from "./idCard";
 import EditProfileModal from "./editProfileModal";
 import LoadingBox from "./loadingBox";
 import ProfileUI from "./profileUI";
 import { TbFileCertificate } from "react-icons/tb";
 import BottomNav from "./bottomNav";
 import Certificates from "./certificates";
+import { QRCodeSVG } from "qrcode.react";
+import Image from "next/image";
 
 interface CloudinaryResponse {
   secure_url: string;
@@ -184,49 +186,14 @@ export default function Profile() {
     <div>
       <Toaster />
 
-      <div className="fixed bottom-4 left-1/2 z-50 h-16 w-full max-w-lg -translate-x-1/2 rounded-full border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
-        <div
-          className={`mx-auto grid h-full max-w-lg grid-cols-${visibleTabs.length}`}
-        >
-          {visibleTabs.map((tab, index) => {
-            const isFirstTab = index === 0;
-            const isLastTab = index === visibleTabs.length - 1;
-
-            const tabClassName = `group inline-flex flex-col items-center justify-center bg-white px-5 hover:bg-gray-50 dark:bg-black dark:hover:bg-gray-900 ${
-              isFirstTab ? "rounded-l-full" : ""
-            } ${isLastTab ? "rounded-r-full" : ""} ${
-              !isFirstTab && !isLastTab
-                ? "border-l border-r border-gray-200 dark:border-gray-600"
-                : ""
-            }`;
-
-            return (
-              <button
-                onClick={async () => {
-                  setActiveTab(index);
-                  if (index === 1 && isSelfProfile) {
-                    setShowModal(true);
-                  }
-                  if (!(index === 1)) {
-                    setShowModal(false);
-                  }
-                  if (index === visibleTabs.length - 1 && isSelfProfile) {
-                    await signOut();
-                  }
-                }}
-                key={index}
-                type="button"
-                className={tabClassName}
-              >
-                {tab.icon}
-                <span className="mt-2 hidden text-xs font-medium text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100 sm:block">
-                  {tab.name}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      {!ProfileInfo.isLoading && ProfileInfo.data && (
+        <BottomNav
+          isSelfProfile={isSelfProfile}
+          setActiveTab={setActiveTab}
+          setShowModal={setShowModal}
+          visibleTabs={visibleTabs}
+        />
+      )}
 
       {ProfileInfo.isLoading ? (
         <LoadingBox />
@@ -259,16 +226,66 @@ export default function Profile() {
                   email={ProfileInfo.data.email as string}
                 />
               ) : (
-                <div className="flex flex-col items-center justify-center gap-5 p-5">
-                  <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+                <div className="flex flex-col items-center justify-center gap-3 p-5">
+                  <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200 lg:text-2xl">
                     {isSelfProfile
                       ? "You are "
                       : `${ProfileInfo.data.name as string} is `}
                     not a member yet.
                   </h1>
-                  <p className="text-lg font-medium text-gray-600 dark:text-gray-400">
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400 lg:text-lg">
                     Please join the community to get your ID card.
                   </p>
+                  <div className="mt-5 border p-4 blur-sm">
+                    <div className="flex w-full items-center gap-3 px-3">
+                      <Image
+                        src="/assets/flc_logo_crop.png"
+                        width={50}
+                        height={50}
+                        alt="logo"
+                      />
+                      <div className="text-xl font-bold text-yellow-500">
+                        FLC
+                      </div>
+                      <div className="text-md flex-1 text-right font-semibold">
+                        {`${
+                          new Date().getFullYear() - 1
+                        } - ${new Date().getFullYear()}`}
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                      <Image
+                        src={"/assets/flc_logo_crop.png"}
+                        width={128}
+                        height={128}
+                        alt="profile"
+                        className="rounded-full border-2 border-gray-500 dark:border-gray-300"
+                      />
+                      <div className="mt-5 text-xl font-bold">Member Name</div>
+                      <div className="font-thin">youremail@nmamit.in</div>
+                      <div className="mt-2 rounded-full border border-yellow-500 px-3 uppercase"></div>
+                    </div>
+                    <div className="m-4 flex justify-center">
+                      <QRCodeSVG
+                        value={`https://finiteloop.co.in/`}
+                        size={100}
+                        includeMargin
+                      />
+                    </div>
+                    <hr />
+                    <div className="my-3 text-center">
+                      <div className="text-xs font-thin">
+                        <strong>
+                          Finite Loop Club, NMAM Institute of Technology
+                        </strong>
+                        <br />
+                        Nitte, Karkala Taluk, Udupi - 574110
+                        <br />
+                        Karnataka, India
+                        <br />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
 
@@ -276,16 +293,33 @@ export default function Profile() {
               (ProfileInfo.data.isMember ? (
                 <Certificates userId={ProfileInfo.data.id} />
               ) : (
-                <div className="flex flex-col items-center justify-center gap-5 p-5">
-                  <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+                <div className="flex flex-col items-center justify-center gap-3 p-5">
+                  <h1 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-gray-200">
                     {isSelfProfile
                       ? "You are "
                       : `${ProfileInfo.data.name as string} is `}
                     not a member yet.
                   </h1>
-                  <p className="text-lg font-medium text-gray-600 dark:text-gray-400">
+                  <p className="text-sm lg:text-lg font-medium text-gray-600 dark:text-gray-400">
                     Please join the community to get your certificates.
                   </p>
+                  <div className="border p-5 mt-5">
+                    <Image
+                      src={`${
+                        env.NEXT_PUBLIC_URL
+                      }/api/og?event=${encodeURIComponent(
+                        "Sample Event"
+                      )}&user=${encodeURIComponent(
+                        "Member Name"
+                      )}&date=${encodeURIComponent(
+                        "01/01/2021"
+                      )}&type=${encodeURIComponent("TeamParticipation")}`}
+                      alt={"Sample certificate"}
+                      width={500}
+                      height={500}
+                      className="blur-sm"
+                    />
+                  </div>
                 </div>
               ))}
 
