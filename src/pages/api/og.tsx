@@ -70,7 +70,7 @@ export default function handler(req: NextApiRequest) {
             {eventName}{" "}
             <span tw="font-normal text-gray-800 dark:text-gray-300">
               {" "}
-              {eventName === "Hackfest S01" ? "from" : "on"}{" "}
+              {eventName === "Hackfest S01" ? " from " : " on "}{" "}
             </span>{" "}
             {eventName === "Hackfest S01"
               ? "11 November - 25 December, 2022"

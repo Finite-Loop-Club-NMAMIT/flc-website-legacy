@@ -90,19 +90,14 @@ const Certificate: NextPage = () => {
       </Head>
       {CertificateQuery.isSuccess && CertificateQuery.data && (
         <>
-          {(CertificateQuery.data.type === "TeamParticipation" ||
-            CertificateQuery.data.type === "SoloParticipation") && (
-            <div>
-              <CertificateTemplate
-                cid={cid as string}
-                name={CertificateQuery.data.user.name as string}
-                eventName={CertificateQuery.data.event.name}
-                date={CertificateQuery.data.event.date}
-                type={CertificateQuery.data.type}
-                desc={CertificateQuery.data.desc as string}
-              />
-            </div>
-          )}
+          <CertificateTemplate
+            cid={cid as string}
+            name={CertificateQuery.data.user.name as string}
+            eventName={CertificateQuery.data.event.name}
+            date={CertificateQuery.data.event.date}
+            type={CertificateQuery.data.type}
+            desc={CertificateQuery.data.desc as string}
+          />
           <section className="mx-5 mb-10 mt-5 lg:mx-10">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
               Certificate Recipient:
@@ -136,7 +131,9 @@ const Certificate: NextPage = () => {
               <span className="font-bold text-yellow-500 dark:text-yellow-300">
                 {CertificateQuery.data.event.name}
               </span>{" "}
-              {CertificateQuery.data.event.name === "Hackfest S01" ? "from" : "on"}{" "}
+              {CertificateQuery.data.event.name === "Hackfest S01"
+                ? "from"
+                : "on"}{" "}
               <span className="font-bold text-yellow-500 dark:text-yellow-300">
                 {CertificateQuery.data.event.name === "Hackfest S01"
                   ? "11 November - 25 December, 2023"

@@ -1,8 +1,11 @@
 import Image from "next/image";
 import { api } from "../../utils/api";
-import Loader from "../loader";
 import LoadingBox from "./loadingBox";
 import { env } from "../../env/client.mjs";
+import { AiFillEye } from "react-icons/ai";
+import { BsFillShareFill } from "react-icons/bs";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const Certificates = ({ userId }: { userId: string }) => {
   const certificatesQuery =
@@ -14,6 +17,8 @@ const Certificates = ({ userId }: { userId: string }) => {
         enabled: !!userId,
       }
     );
+
+  const router = useRouter();
 
   return (
     <div>
@@ -33,33 +38,62 @@ const Certificates = ({ userId }: { userId: string }) => {
           {certificatesQuery.data.map((certificate) => (
             <div
               key={certificate.id}
-              className="flex flex-col items-center justify-center gap-5 rounded-lg border border-gray-200 bg-white p-5 shadow-md dark:border-gray-800 dark:bg-black"
+              onClick={async () => {
+                await router.push(
+                  `${env.NEXT_PUBLIC_URL}/certificate/${certificate.id}`
+                );
+              }}
+              className="flex transform flex-col items-center justify-center gap-5 rounded-lg border border-gray-200 bg-white p-5 shadow-md transition-all duration-300 hover:scale-[1.03] dark:border-gray-800 dark:bg-black"
             >
               <div className="flex flex-col items-center justify-center">
-                <Image
-                  src={`${
-                    env.NEXT_PUBLIC_URL
-                  }/api/og?event=${encodeURIComponent(
-                    certificate.event.name
-                  )}&user=${encodeURIComponent(
-                    certificate.user.name as string
-                  )}&date=${encodeURIComponent(
-                    new Date(certificate.event.date).toLocaleDateString(
-                      "en-IN",
-                      {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      }
-                    )
-                  )}&type=${encodeURIComponent(
-                    certificate.type as string
-                  )}&desc=""`}
-                  alt={certificate.event.name}
-                  width={500}
-                  height={500}
-                  className="mb-2"
-                />
+                <div className="relative">
+                  <Image
+                    src={`${
+                      env.NEXT_PUBLIC_URL
+                    }/api/og?event=${encodeURIComponent(
+                      certificate.event.name
+                    )}&user=${encodeURIComponent(
+                      certificate.user.name as string
+                    )}&date=${encodeURIComponent(
+                      new Date(certificate.event.date).toLocaleDateString(
+                        "en-IN",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        }
+                      )
+                    )}&type=${encodeURIComponent(
+                      certificate.type as string
+                    )}&desc=${encodeURIComponent(certificate.desc as string)}`}
+                    alt={certificate.event.name}
+                    width={500}
+                    height={500}
+                    className="mb-2"
+                  />
+                  <button
+                    onClick={async () => {
+                      await router.push(
+                        `${env.NEXT_PUBLIC_URL}/certificate/${certificate.id}`
+                      );
+                    }}
+                    className="absolute bottom-5 right-5 rounded-full bg-white p-2 shadow-md transition-colors duration-300 hover:bg-gray-50 dark:bg-yellow-500 dark:text-white dark:hover:bg-yellow-400"
+                  >
+                    <AiFillEye />
+                  </button>
+                  <button
+                    onClick={async (event) => {
+                      event.stopPropagation();
+                      await navigator.clipboard.writeText(
+                        `${env.NEXT_PUBLIC_URL}/certificate/${certificate.id}`
+                      );
+                      toast.success("Link copied to clipboard");
+                    }}
+                    className="absolute bottom-5 left-5 rounded-full bg-white p-2 shadow-md transition-colors duration-300 hover:bg-gray-50 dark:bg-yellow-500 dark:text-white dark:hover:bg-yellow-400"
+                  >
+                    <BsFillShareFill />
+                  </button>
+                </div>
                 <p className="text-xl font-semibold">
                   {certificate.event.name}
                 </p>

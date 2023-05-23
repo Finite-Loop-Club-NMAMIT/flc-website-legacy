@@ -17,7 +17,11 @@ const BottomNav = ({
 }) => {
   return (
     <div className="fixed bottom-4 left-1/2 z-50 h-16 w-full max-w-lg -translate-x-1/2 rounded-full border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
-      <div className={`mx-auto grid h-full max-w-lg grid-cols-5`}>
+      <div
+        className={`mx-auto grid h-full max-w-lg grid-cols-${
+          isSelfProfile ? 5 : 3
+        }`}
+      >
         {visibleTabs.map((tab, index) => {
           const isFirstTab = index === 0;
           const isLastTab = index === visibleTabs.length - 1;
@@ -34,14 +38,16 @@ const BottomNav = ({
             <button
               onClick={async () => {
                 setActiveTab(index);
-                if (index === 1 && isSelfProfile) {
-                  setShowModal(true);
-                }
-                if (!(index === 1)) {
-                  setShowModal(false);
-                }
-                if (index === visibleTabs.length - 1 && isSelfProfile) {
-                  await signOut();
+                if (isSelfProfile) {
+                  if (index === 1) {
+                    setShowModal(true);
+                  }
+                  if (index === 4) {
+                    await signOut();
+                  }
+                  if (!(index === 1)) {
+                    setShowModal(false);
+                  }
                 }
               }}
               key={index}

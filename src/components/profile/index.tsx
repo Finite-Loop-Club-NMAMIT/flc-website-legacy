@@ -185,48 +185,48 @@ export default function Profile() {
       <Toaster />
 
       <div className="fixed bottom-4 left-1/2 z-50 h-16 w-full max-w-lg -translate-x-1/2 rounded-full border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
-      <div
-        className={`mx-auto grid h-full max-w-lg grid-cols-${visibleTabs.length}`}
-      >
-        {visibleTabs.map((tab, index) => {
-          const isFirstTab = index === 0;
-          const isLastTab = index === visibleTabs.length - 1;
+        <div
+          className={`mx-auto grid h-full max-w-lg grid-cols-${visibleTabs.length}`}
+        >
+          {visibleTabs.map((tab, index) => {
+            const isFirstTab = index === 0;
+            const isLastTab = index === visibleTabs.length - 1;
 
-          const tabClassName = `group inline-flex flex-col items-center justify-center bg-white px-5 hover:bg-gray-50 dark:bg-black dark:hover:bg-gray-900 ${
-            isFirstTab ? "rounded-l-full" : ""
-          } ${isLastTab ? "rounded-r-full" : ""} ${
-            !isFirstTab && !isLastTab
-              ? "border-l border-r border-gray-200 dark:border-gray-600"
-              : ""
-          }`;
+            const tabClassName = `group inline-flex flex-col items-center justify-center bg-white px-5 hover:bg-gray-50 dark:bg-black dark:hover:bg-gray-900 ${
+              isFirstTab ? "rounded-l-full" : ""
+            } ${isLastTab ? "rounded-r-full" : ""} ${
+              !isFirstTab && !isLastTab
+                ? "border-l border-r border-gray-200 dark:border-gray-600"
+                : ""
+            }`;
 
-          return (
-            <button
-              onClick={async () => {
-                setActiveTab(index);
-                if (index === 1 && isSelfProfile) {
-                  setShowModal(true);
-                }
-                if (!(index === 1)) {
-                  setShowModal(false);
-                }
-                if (index === visibleTabs.length - 1 && isSelfProfile) {
-                  await signOut();
-                }
-              }}
-              key={index}
-              type="button"
-              className={tabClassName}
-            >
-              {tab.icon}
-              <span className="mt-2 hidden text-xs font-medium text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100 sm:block">
-                {tab.name}
-              </span>
-            </button>
-          );
-        })}
+            return (
+              <button
+                onClick={async () => {
+                  setActiveTab(index);
+                  if (index === 1 && isSelfProfile) {
+                    setShowModal(true);
+                  }
+                  if (!(index === 1)) {
+                    setShowModal(false);
+                  }
+                  if (index === visibleTabs.length - 1 && isSelfProfile) {
+                    await signOut();
+                  }
+                }}
+                key={index}
+                type="button"
+                className={tabClassName}
+              >
+                {tab.icon}
+                <span className="mt-2 hidden text-xs font-medium text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100 sm:block">
+                  {tab.name}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
-    </div>
 
       {ProfileInfo.isLoading ? (
         <LoadingBox />
@@ -237,7 +237,9 @@ export default function Profile() {
       {ProfileInfo.data && (
         <Fade triggerOnce cascade>
           <div className="mb-10 flex flex-col items-center justify-center gap-5 p-5">
-            {(activeTab === 0 || activeTab === 1 || activeTab === 4) && (
+            {(isSelfProfile
+              ? activeTab === 0 || activeTab === 1 || activeTab === 4
+              : activeTab === 0) && (
               <ProfileUI
                 ProfileInfo={ProfileInfo.data}
                 handleProfileUpdate={handleProfileUpdate}
@@ -247,19 +249,45 @@ export default function Profile() {
               />
             )}
 
-            {ProfileInfo.data.isMember && isSelfProfile && activeTab === 2 && (
-              <IDCard
-                image={ProfileInfo.data.image?.split("=")[0] as string}
-                name={ProfileInfo.data.name as string}
-                username={ProfileInfo.data.username as string}
-                role={ProfileInfo.data.role as string}
-                email={ProfileInfo.data.email as string}
-              />
-            )}
+            {(isSelfProfile ? activeTab === 2 : activeTab === 1) &&
+              (ProfileInfo.data.isMember ? (
+                <IDCard
+                  image={ProfileInfo.data.image?.split("=")[0] as string}
+                  name={ProfileInfo.data.name as string}
+                  username={ProfileInfo.data.username as string}
+                  role={ProfileInfo.data.role as string}
+                  email={ProfileInfo.data.email as string}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-5 p-5">
+                  <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+                    {isSelfProfile
+                      ? "You are "
+                      : `${ProfileInfo.data.name as string} is `}
+                    not a member yet.
+                  </h1>
+                  <p className="text-lg font-medium text-gray-600 dark:text-gray-400">
+                    Please join the community to get your ID card.
+                  </p>
+                </div>
+              ))}
 
-            {ProfileInfo.data.isMember && activeTab === 3 && (
-              <Certificates userId={ProfileInfo.data.id} />
-            )}
+            {(isSelfProfile ? activeTab === 3 : activeTab === 2) &&
+              (ProfileInfo.data.isMember ? (
+                <Certificates userId={ProfileInfo.data.id} />
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-5 p-5">
+                  <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
+                    {isSelfProfile
+                      ? "You are "
+                      : `${ProfileInfo.data.name as string} is `}
+                    not a member yet.
+                  </h1>
+                  <p className="text-lg font-medium text-gray-600 dark:text-gray-400">
+                    Please join the community to get your certificates.
+                  </p>
+                </div>
+              ))}
 
             <Team
               userRole={ProfileInfo.data.role as string}
