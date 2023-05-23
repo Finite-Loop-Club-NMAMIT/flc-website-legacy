@@ -11,6 +11,10 @@
 ## Features
 
 - Custom public user profile pages
+  - User details
+  - ID Card
+  - Certificates
+  - Edit profile
 - Admin panel
   - Create/Delete Core team members
   - Create/Delete Events

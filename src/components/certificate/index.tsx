@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { BiDownload } from "react-icons/bi";
 import { useReactToPrint } from "react-to-print";
 import Button from "../button";
+import { FaLinkedin, FaTwitter, FaWhatsapp } from "react-icons/fa";
+import { env } from "../../env/client.mjs";
 
 const CertificateTemplate = ({
   cid,
@@ -30,6 +32,59 @@ const CertificateTemplate = ({
 
   const handleDownload = () => {
     if (printRef.current) handlePrint();
+  };
+
+  const socials = [
+    {
+      name: "LinkedIn",
+      icon: <FaLinkedin />,
+    },
+    {
+      name: "Twitter",
+      icon: <FaTwitter />,
+    },
+    {
+      name: "WhatsApp",
+      icon: <FaWhatsapp />,
+    },
+  ];
+
+  const shareOnSocialMedia = (social: string) => {
+    const url = `${env.NEXT_PUBLIC_URL}/certificate/${cid}`;
+    const text = `I am glad to share my certificate of ${eventName} from Finite Loop Club. Check it out!`;
+
+    switch (social) {
+      case "LinkedIn":
+        window.open(
+          `https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${
+            eventName + "- Finite Loop Club"
+          }&summary=${text}&source=${env.NEXT_PUBLIC_URL}`,
+          "_blank"
+        );
+        break;
+
+      case "Twitter":
+        window.open(
+          `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+            text
+          )}&url=${encodeURIComponent(url)}`,
+          "_blank"
+        );
+        break;
+
+      case "WhatsApp":
+        window.open(
+          `https://api.whatsapp.com/send?text=${encodeURIComponent(
+            text
+          )} ${encodeURIComponent(url)}`,
+          "_blank"
+        );
+
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (
@@ -141,14 +196,29 @@ const CertificateTemplate = ({
           </div>
         </div>
       </div>
-      <div className="flex w-full justify-start">
+      <div className="flex w-full flex-col justify-between lg:flex-row">
         <Button
-          className="mt-5 flex items-center gap-3"
+          className="mt-5 flex items-center justify-center gap-3"
           onClick={handleDownload}
         >
           <BiDownload />
           Download Certificate
         </Button>
+
+        <div className="mt-5 flex items-center gap-3 text-xl lg:text-2xl">
+          <span className="text-xl">Share on</span>
+          {socials.map((social, i) => (
+            <div
+              key={i}
+              className="cursor-pointer hover:text-yellow-500"
+              onClick={() => {
+                shareOnSocialMedia(social.name);
+              }}
+            >
+              {social.icon}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

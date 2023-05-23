@@ -1,4 +1,4 @@
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import { type FormEvent, useState, useEffect } from "react";
 import { Fade } from "react-awesome-reveal";

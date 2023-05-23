@@ -6,6 +6,7 @@ import { AiFillEye } from "react-icons/ai";
 import { BsFillShareFill } from "react-icons/bs";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const Certificates = ({ userId }: { userId: string }) => {
   const certificatesQuery =
@@ -19,6 +20,7 @@ const Certificates = ({ userId }: { userId: string }) => {
     );
 
   const router = useRouter();
+  const [isGenerating, setIsGenerating] = useState(true);
 
   return (
     <div>
@@ -28,9 +30,24 @@ const Certificates = ({ userId }: { userId: string }) => {
       {certificatesQuery.isLoading && <LoadingBox />}
       {!certificatesQuery.isLoading && certificatesQuery.data?.length === 0 && (
         <div className="flex h-full w-full flex-col items-center justify-center">
-          <p className="text-lg font-semibold text-gray-500">
-            No certificates yet.
+          <p className="mt-2 text-sm text-center lg:text-lg font-semibold text-gray-500">
+            No certificates yet. Participate in events to get certificates.
           </p>
+          <div className="mt-5 border p-5">
+            <Image
+              src={`${env.NEXT_PUBLIC_URL}/api/og?event=${encodeURIComponent(
+                "Sample Event"
+              )}&user=${encodeURIComponent(
+                "Member Name"
+              )}&date=${encodeURIComponent(
+                "01/01/2021"
+              )}&type=${encodeURIComponent("TeamParticipation")}`}
+              alt={"Sample certificate"}
+              width={500}
+              height={500}
+              className="blur-sm"
+            />
+          </div>
         </div>
       )}
       {certificatesQuery.isSuccess && certificatesQuery.data && (
@@ -47,6 +64,8 @@ const Certificates = ({ userId }: { userId: string }) => {
             >
               <div className="flex flex-col items-center justify-center">
                 <div className="relative">
+                  {isGenerating && <LoadingBox />}
+
                   <Image
                     src={`${
                       env.NEXT_PUBLIC_URL
@@ -70,6 +89,9 @@ const Certificates = ({ userId }: { userId: string }) => {
                     width={500}
                     height={500}
                     className="mb-2"
+                    onLoad={() => {
+                      setIsGenerating(false);
+                    }}
                   />
                   <button
                     onClick={async () => {
