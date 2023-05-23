@@ -182,6 +182,8 @@ export default function Profile() {
     return true;
   });
 
+  const [isGenerating, setIsGenerating] = useState<boolean>(true);
+
   return (
     <div>
       <Toaster />
@@ -294,16 +296,17 @@ export default function Profile() {
                 <Certificates userId={ProfileInfo.data.id} />
               ) : (
                 <div className="flex flex-col items-center justify-center gap-3 p-5">
-                  <h1 className="text-xl lg:text-2xl font-bold text-gray-800 dark:text-gray-200">
+                  <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200 lg:text-2xl">
                     {isSelfProfile
                       ? "You are "
                       : `${ProfileInfo.data.name as string} is `}
                     not a member yet.
                   </h1>
-                  <p className="text-sm lg:text-lg font-medium text-gray-600 dark:text-gray-400">
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400 lg:text-lg">
                     Please join the community to get your certificates.
                   </p>
-                  <div className="border p-5 mt-5">
+                  <div className="mt-5 border p-5">
+                    {isGenerating && <LoadingBox />}
                     <Image
                       src={`${
                         env.NEXT_PUBLIC_URL
@@ -318,6 +321,7 @@ export default function Profile() {
                       width={500}
                       height={500}
                       className="blur-sm"
+                      onLoad={() => setIsGenerating(false)}
                     />
                   </div>
                 </div>

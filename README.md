@@ -14,6 +14,9 @@
   - User details
   - ID Card
   - Certificates
+    - Certificate verification
+    - Download certificate
+    - Share on Socials
   - Edit profile
 - Admin panel
   - Create/Delete Core team members

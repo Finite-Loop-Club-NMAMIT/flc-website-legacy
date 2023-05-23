@@ -26,7 +26,7 @@ const CertificateTemplate = ({
 
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
-    pageStyle: `@page { size: 1100px 1100px !important; }`,
+    pageStyle: `@page { margin:-150px 0 0px 0; size: 1100px 706px !important; }`,
     copyStyles: true,
   });
 
