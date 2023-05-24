@@ -11,6 +11,7 @@ import { appRouter } from "../../server/api/root";
 import { prisma } from "../../server/db";
 import superjson from "superjson";
 import { env } from "../../env/client.mjs";
+import { extractStudentName } from "../../utils/name";
 
 const Certificate: NextPage = () => {
   const router = useRouter();
@@ -51,9 +52,9 @@ const Certificate: NextPage = () => {
     });
   };
 
-  const metaDesc = `This certificate verifies that ${
+  const metaDesc = `This certificate verifies that ${extractStudentName(
     CertificateQuery.data?.user.name as string
-  } ${getCertificateTypeText()} ${
+  )} ${getCertificateTypeText()} ${
     CertificateQuery.data?.event.name as string
   } on ${formatDate(CertificateQuery.data?.event.date as Date)}.`;
 
@@ -61,7 +62,7 @@ const Certificate: NextPage = () => {
     CertificateQuery.data?.event.name as string
   );
   const userName = encodeURIComponent(
-    CertificateQuery.data?.user.name as string
+    extractStudentName(CertificateQuery.data?.user.name as string)
   );
   const eventDate = encodeURIComponent(
     formatDate(CertificateQuery.data?.event.date as Date)
@@ -76,9 +77,9 @@ const Certificate: NextPage = () => {
       <Head>
         <meta
           property="og:title"
-          content={`Certificate of ${
+          content={`Certificate of ${extractStudentName(
             CertificateQuery.data?.user.name as string
-          } - ${CertificateQuery.data?.event.name as string}`}
+          )} - ${CertificateQuery.data?.event.name as string}`}
         />
         <meta property="og:description" content={metaDesc} />
         <meta
@@ -92,7 +93,7 @@ const Certificate: NextPage = () => {
         <>
           <CertificateTemplate
             cid={cid as string}
-            name={CertificateQuery.data.user.name as string}
+            name={extractStudentName(CertificateQuery.data.user.name as string)}
             eventName={CertificateQuery.data.event.name}
             date={CertificateQuery.data.event.date}
             type={CertificateQuery.data.type}
@@ -125,7 +126,7 @@ const Certificate: NextPage = () => {
                 href={`/u/${CertificateQuery.data.user.username as string}`}
                 className="cursor-pointer font-bold text-yellow-500 hover:underline dark:text-yellow-300"
               >
-                {CertificateQuery.data.user.name}
+                {extractStudentName(CertificateQuery.data.user.name as string)}
               </Link>{" "}
               {getCertificateTypeText()}{" "}
               <span className="font-bold text-yellow-500 dark:text-yellow-300">
