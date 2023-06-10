@@ -85,13 +85,15 @@ const IDCard: FunctionComponent<IDCardProps> = ({
               </div>
             </div>
             <div className="flex flex-col items-center justify-center">
-              <Image
-                src={image}
-                width={128}
-                height={128}
-                alt="profile"
-                className="rounded-full border-2 border-gray-500 dark:border-gray-300"
-              />
+              <div className="h-32 w-32 overflow-hidden rounded-full">
+                <Image
+                  src={image}
+                  width={128}
+                  height={128}
+                  alt="profile"
+                  className="h-full w-full border-2 border-gray-500 object-cover object-center dark:border-gray-300"
+                />
+              </div>
               <div className="mt-5 text-xl font-bold">{name}</div>
               <div className="font-thin">
                 {email.startsWith("4nm")

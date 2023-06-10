@@ -106,15 +106,17 @@ const Certificate: NextPage = () => {
             <div className="mt-5 w-fit rounded-lg bg-gray-50 p-5 shadow-lg transition-transform duration-300 hover:scale-[1.05] dark:bg-gray-700">
               <Link
                 href={`/u/${CertificateQuery.data.user.username as string}`}
-                className="flex gap-5"
+                className="flex gap-5 items-center"
               >
-                <Image
-                  src={CertificateQuery.data.user.image as string}
-                  width={50}
-                  height={50}
-                  alt="user_image"
-                  className="rounded-full"
-                />
+                <div className="h-16 w-16 overflow-hidden rounded-full">
+                  <Image
+                    src={CertificateQuery.data.user.image as string}
+                    alt="user_image"
+                    className="h-full w-full object-cover object-center"
+                    width={64}
+                    height={64} 
+                  />
+                </div>
                 <h2 className="mt-2 text-gray-900 dark:text-gray-100 lg:text-xl">
                   {CertificateQuery.data.user.name}
                 </h2>
