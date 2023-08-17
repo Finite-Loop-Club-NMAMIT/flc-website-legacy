@@ -1,6 +1,6 @@
 import { type FunctionComponent } from "react";
 
-const Contact: FunctionComponent = () => {
+const ContactComponent: FunctionComponent = () => {
   return (
     <div className="px-0 pb-10 md:px-10">
       <p className="mb-5 text-lg md:text-2xl">
@@ -30,4 +30,4 @@ const Contact: FunctionComponent = () => {
   );
 };
 
-export default Contact;
+export default ContactComponent;
