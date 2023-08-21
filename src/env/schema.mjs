@@ -23,6 +23,7 @@ export const serverSchema = z.object({
   GOOGLE_CLIENT_SECRET: z.string(),
   RAZORPAY_KEY: z.string(),
   RAZORPAY_SECRET: z.string(),
+  RAZORPAY_WEBHOOK_SECRET: z.string(),
   CLIENT_URL: z.string().url(),
   CLOUDINDARY_CLOUD_NAME: z.string(),
 });
@@ -37,6 +38,7 @@ export const serverEnv = {
   NODE_ENV: process.env.NODE_ENV,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+  RAZORPAY_WEBHOOK_SECRET: process.env.RAZORPAY_WEBHOOK_SECRET,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   RAZORPAY_KEY: process.env.RAZORPAY_KEY,
