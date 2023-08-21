@@ -2,6 +2,8 @@ import { z } from "zod";
 import { editUserInput } from "../../../types";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import Razorpay from "razorpay";
+import { env } from "../../../env/server.mjs";
 
 export const userRouter = createTRPCRouter({
   getProfile: publicProcedure
@@ -156,4 +158,40 @@ export const userRouter = createTRPCRouter({
         console.log("error", error);
       }
     }),
+  createPaymentOrder: protectedProcedure.mutation(async ({ ctx }) => {
+    if (!ctx.session.user) {
+      throw new Error("Not logged in");
+    }
+    const user = await ctx.prisma.user.findUnique({
+      where: {
+        id: ctx.session.user.id,
+      },
+    });
+    if (user && user.isMember) {
+      throw new Error("User is already a member");
+    }
+
+    const razorpay = new Razorpay({
+      key_id: env.RAZORPAY_KEY,
+      key_secret: env.RAZORPAY_SECRET,
+    });
+    const amount = 408.2;
+    const payment_capture = 1;
+    const currency = "INR";
+    const options = {
+      amount: (amount * 100).toString(),
+      currency,
+      payment_capture,
+    };
+    const response = await razorpay.orders.create(options);
+    const order = await ctx.prisma.registrationPayment.create({
+      data: {
+        userId: ctx.session.user.id,
+        orderId: response.id,
+        paid: false,
+        amount: Number(response.amount),
+      },
+    });
+    return order;
+  }),
 });

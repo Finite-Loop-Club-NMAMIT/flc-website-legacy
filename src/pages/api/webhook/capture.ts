@@ -51,6 +51,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
           data: {
             role: "member",
+            isMember: true,
           },
         });
         if (!updatedUser)
