@@ -55,6 +55,7 @@ export const serverEnv = {
 export const clientSchema = z.object({
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string(),
   NEXT_PUBLIC_URL: z.string().url(),
+  NEXT_PUBLIC_RAZORPAY_KEY: z.string(),
 });
 
 /**
@@ -67,4 +68,5 @@ export const clientEnv = {
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
+  NEXT_PUBLIC_RAZORPAY_KEY: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
 };

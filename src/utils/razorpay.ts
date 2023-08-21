@@ -1,4 +1,6 @@
 import Router from "next/router";
+import { env } from "../env/client.mjs";
+import { api } from "./api";
 
 export const initializeRazorpay = () => {
   return new Promise((resolve) => {
@@ -24,27 +26,28 @@ export const makePayment: (
     alert("Razorpay SDK Failed to load");
     return;
   }
+  // createOrderMutation
+  const { client } = api.useContext();
+  const data = await client.userRouter.createPaymentOrder.mutate();
+  const options = {
+    key: env.NEXT_PUBLIC_RAZORPAY_KEY,
+    name: "Finite Loop Club",
+    currency: "INR",
+    amount: data.amount,
+    order_id: data.id,
+    description: "Membership is valid throughout your engineering course",
+    image: "/assets/flc_logo_crop.png",
+    handler: async function () {
+      await Router.push("/profile");
+    },
+    prefill: {
+      email: email,
+      name: name,
+    },
+  };
 
-  //   const data = await fetch("/api/razorpay", { method: "POST" }).then((t) =>
-  //     t.json()
-  //   );
-  //   var options = {
-  //     key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
-  //     name: "Finite Loop Club",
-  //     currency: data.currency,
-  //     amount: data.amount,
-  //     order_id: data.id,
-  //     description: "Membership is valid throughout your engineering course",
-  //     image: "/assets/flc_logo_crop.png",
-  //     handler: function (response) {
-  //       Router.push("/profile");
-  //     },
-  //     prefill: {
-  //       email: email,
-  //       name: name,
-  //     },
-  //   };
-
-  //   const paymentObject = new window.Razorpay(options);
-  //   paymentObject.open();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+  const paymentObject = new (window as any).Razorpay(options);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+  paymentObject.open();
 };
