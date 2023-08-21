@@ -6,7 +6,10 @@ import { validateWebhookSignature } from "razorpay/dist/utils/razorpay-utils";
 import { extractStudentDetailsFromEmail } from "../../../utils/details";
 import { env } from "../../../env/server.mjs";
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     return res.status(405).send({ message: "Only POST requests allowed" });
   }
@@ -57,6 +60,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
         });
         if (!updatedUser)
           return res.status(400).json({ message: "User not found" });
+
         const createMember = await prisma.members.create({
           data: {
             email: updatedUser.email!,

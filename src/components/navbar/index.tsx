@@ -11,11 +11,13 @@ import { type FunctionComponent } from "react";
 import { api } from "../../utils/api";
 import Loader from "../loader";
 import Image from "next/image";
+import { makePayment } from "../../utils/razorpay";
 
 const Navbar: FunctionComponent = () => {
   const [open, setOpen] = useState<boolean>(false);
   const { data, status } = useSession();
   const { theme, setTheme } = useTheme();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const user = api.userRouter.getUserByEmail.useQuery(
     {
@@ -23,11 +25,12 @@ const Navbar: FunctionComponent = () => {
     },
     { enabled: status === "authenticated" }
   );
+  const { client } = api.useContext();
 
   return (
     <>
-      <div className="fixed top-0 left-0 z-40 w-full bg-black bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter">
-        <div className="flex items-center justify-between py-2 px-3 md:flex-row md:px-5">
+      <div className="fixed left-0 top-0 z-40 w-full bg-black bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter">
+        <div className="flex items-center justify-between px-3 py-2 md:flex-row md:px-5">
           <div
             className="flex cursor-pointer items-center text-xl font-bold text-white
       md:text-2xl"
@@ -74,21 +77,26 @@ const Navbar: FunctionComponent = () => {
 
             {status === "authenticated" ? (
               <div className="flex w-[150px]  flex-col gap-3 md:ml-8 md:w-full md:flex-row">
-                {!user.data?.isMember && user.data?.role === "member" && (
-                  <Button
-                  // onClick={() => {
-                  //   makePayment(
-                  //     user.data?.email as string,
-                  //     user.data?.name as string
-                  //   );
-                  // }}
-                  >
-                    Register
-                    <span className="block h-0.5 max-w-0 bg-sky-600 transition-all duration-500 group-hover:max-w-full">
-                      Hello
-                    </span>
-                  </Button>
-                )}
+                {!user.data?.isMember &&
+                  user.data?.email?.endsWith("@nmamit.in") && (
+                    <Button
+                      onClick={async () => {
+                        setLoading(true);
+                        const data =
+                          await client.userRouter.createPaymentOrder.mutate();
+                        await makePayment(
+                          user.data?.email as string,
+                          user.data?.name as string,
+                          user.data?.username as string,
+                          data,
+                          setLoading
+                        );
+                        setLoading(false);
+                      }}
+                    >
+                      Register
+                    </Button>
+                  )}
                 <div>
                   <Link href={`/u/${user.data?.username as string}`}>
                     {user.isLoading ? (
@@ -98,7 +106,7 @@ const Navbar: FunctionComponent = () => {
                         src={user.data?.image as string}
                         width={40}
                         height={40}
-                        className="cursor-pointer rounded-full hover:brightness-125 transition-all duration-500 ease-in-out"
+                        className="cursor-pointer rounded-full transition-all duration-500 ease-in-out hover:brightness-125"
                         alt="profile picture"
                       />
                     )}
@@ -121,6 +129,11 @@ const Navbar: FunctionComponent = () => {
           </ul>
         </div>
       </div>
+      {loading && (
+        <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center  bg-black bg-opacity-50 ">
+          <Loader />
+        </div>
+      )}
     </>
   );
 };

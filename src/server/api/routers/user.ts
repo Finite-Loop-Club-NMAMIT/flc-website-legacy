@@ -195,3 +195,4 @@ export const userRouter = createTRPCRouter({
     return order;
   }),
 });
+export type UserRouter = typeof userRouter;
