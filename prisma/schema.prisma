@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider          = "mysql"
-  url               = env("DATABASE_URL")
-  relationMode      = "prisma"
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 // Data Models
@@ -39,22 +39,26 @@ model Session {
 }
 
 model User {
-  id            String        @id @unique @default(cuid())
+  id            String          @id @unique @default(cuid())
   name          String?
-  email         String?       @unique
-  username      String?       @unique
+  email         String?         @unique
+  phone         String?         @unique
+  branch        String?
+  year          Int?
+  username      String?         @unique
   emailVerified DateTime?
   image         String?
-  role          String?       @default("user")
-  bio           String?       @db.Text
-  links         String?       @db.Text
-  isMember      Boolean       @default(false)
-  isAdmin       Boolean       @default(false)
+  role          String?         @default("user")
+  bio           String?         @db.Text
+  links         String?         @db.Text
+  isMember      Boolean         @default(false)
+  isAdmin       Boolean         @default(false)
   teamId        Int?
-  Team          Team?         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  Team          Team?           @relation(fields: [teamId], references: [id], onDelete: Cascade)
   accounts      Account[]
   sessions      Session[]
   Certificate   Certificate[]
+  Registrations Registrations[]
 
   @@index([teamId])
 }
@@ -139,6 +143,19 @@ model Certificate {
   desc    String?          @db.Text
 
   @@index([eventId])
+  @@index([userId])
+}
+
+model Registrations {
+  id           Int    @id @unique @default(autoincrement())
+  User         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  languages    Json
+  skills       Json
+  whyJoin      String
+  expectations String
+  yearOfReg    Int
+
   @@index([userId])
 }
 
