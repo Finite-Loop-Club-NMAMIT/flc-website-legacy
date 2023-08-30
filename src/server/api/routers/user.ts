@@ -175,8 +175,7 @@ export const userRouter = createTRPCRouter({
       key_id: env.RAZORPAY_KEY,
       key_secret: env.RAZORPAY_SECRET,
     });
-    // const amount = 408.2;
-    const amount = 1;
+    const amount = 408.2;
     const payment_capture = 1;
     const currency = "INR";
     const options = {

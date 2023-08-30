@@ -36,7 +36,7 @@ const Hero: FunctionComponent = () => {
                     Explore Events
                   </Link>
                   <Link
-                    href="/events"
+                    href="/register"
                     className="block w-auto rounded bg-yellow-300 px-8 py-2 font-medium text-black shadow duration-300 hover:scale-[1.03] hover:text-gray-600 focus:outline-none focus:ring active:text-yellow-500 lg:px-12 lg:py-3"
                   >
                     Register
