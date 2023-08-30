@@ -24,16 +24,24 @@ const Hero: FunctionComponent = () => {
               Inspiring the next!
             </p>
 
-            <div className="mt-8 flex flex-wrap justify-center">
+            <div className="mt-8 flex flex-wrap justify-center gap-4 lg:gap-8">
               {status === "loading" ? (
                 <Loader />
               ) : "authenticated" ? (
-                <Link
-                  href="/events"
-                  className="block w-auto rounded bg-gray-50 px-12 py-3 font-medium text-black shadow duration-300 hover:scale-[1.03] hover:text-gray-600 focus:outline-none focus:ring active:text-yellow-500"
-                >
-                  Explore Events
-                </Link>
+                <>
+                  <Link
+                    href="/events"
+                    className="block w-auto rounded bg-gray-50 px-8 py-2 font-medium text-black shadow duration-300 hover:scale-[1.03] hover:text-gray-600 focus:outline-none focus:ring active:text-yellow-500 lg:px-12 lg:py-3"
+                  >
+                    Explore Events
+                  </Link>
+                  <Link
+                    href="/events"
+                    className="block w-auto rounded bg-yellow-300 px-8 py-2 font-medium text-black shadow duration-300 hover:scale-[1.03] hover:text-gray-600 focus:outline-none focus:ring active:text-yellow-500 lg:px-12 lg:py-3"
+                  >
+                    Register
+                  </Link>
+                </>
               ) : (
                 <Button onClick={() => signIn("google")}>
                   <a>Sign In</a>

@@ -32,18 +32,22 @@ function Register() {
   const [loading, setLoading] = useState<boolean>(false);
   const { client } = api.useContext();
 
+  const pay = async () => {
+    setLoading(true);
+    const data = await client.userRouter.createPaymentOrder.mutate();
+    await makePayment(
+      user.data?.email as string,
+      user.data?.name as string,
+      user.data?.username as string,
+      data,
+      setLoading,
+    );
+    setLoading(false);
+  };
+
   const registerMut = api.userRouter.registrationForm.useMutation({
     onSuccess: async () => {
-      setLoading(true);
-      const data = await client.userRouter.createPaymentOrder.mutate();
-      await makePayment(
-        user.data?.email as string,
-        user.data?.name as string,
-        user.data?.username as string,
-        data,
-        setLoading,
-      );
-      setLoading(false);
+      await pay();
     },
   });
 
@@ -165,12 +169,34 @@ function Register() {
 
   if (!user.data) return <Error />;
 
-  if (user.data.isMember)
+  if (user.data.role === "member" && !user.data.isMember)
     return (
       <section>
         <div className="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
           <div className="mx-auto max-w-screen-sm text-center">
-            <h1 className="gradient mb-4 text-7xl font-extrabold tracking-tight text-yellow-500 dark:text-yellow-500 lg:text-9xl">
+            <h1 className="gradient mb-4 text-2xl font-extrabold tracking-tight text-yellow-500 dark:text-yellow-500">
+              You have submitted the form.
+              <br /> Please continue with the payment.
+            </h1>
+
+            <Button
+              onClick={async () => {
+                await pay();
+              }}
+            >
+              Pay Fees
+            </Button>
+          </div>
+        </div>
+      </section>
+    );
+
+  if (user.data.role === "member" && user.data.isMember)
+    return (
+      <section>
+        <div className="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
+          <div className="mx-auto max-w-screen-sm text-center">
+            <h1 className="gradient mb-4 text-2xl font-extrabold tracking-tight text-yellow-500 dark:text-yellow-500">
               You have completed your registration!
             </h1>
             <Link href="/">
