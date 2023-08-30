@@ -194,48 +194,52 @@ export const userRouter = createTRPCRouter({
     });
     return order;
   }),
-  registrationForm: protectedProcedure.input(
-    z.object({
-      name: z.string(),
-      phone: z.string(),
-      github: z.string().optional(),
-      linkedin: z.string().optional(),
-      languages: z.array(z.string()),
-      skills: z.array(z.string()),
-      why: z.string(),
-      expectations: z.string(),
-    })
-  ).mutation(async ({ ctx, input }) => {
-    const userData = await ctx.prisma.user.findUnique({
-      where: {
-        id: ctx.session.user.id,
-      },
-    });
+  registrationForm: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        phone: z.string(),
+        github: z.string().optional(),
+        linkedin: z.string().optional(),
+        languages: z.array(z.string()),
+        skills: z.array(z.string()),
+        why: z.string(),
+        expectations: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userData = await ctx.prisma.user.findUnique({
+        where: {
+          id: ctx.session.user.id,
+        },
+      });
 
-    const links = {
-      ...JSON.parse(userData?.links || "{}"),
-      Github: input.github,
-      LinkedIn: input.linkedin,
-    }
-    const user = await ctx.prisma.user.update({
-      where: {
-        id: ctx.session.user.id,
-      },
-      data: {
-        name: input.name,
-        phone: input.phone,
-      }
-    })
-    await ctx.prisma.registrationForm.create({
-      data: {
-        userId: ctx.session.user.id,
-        languages: input.languages,
-        skills: input.skills,
-        why: input.why,
-        expectations: input.expectations,
-      },
-    });
-    return user;
-  }),
+      const links = {
+        ...(JSON.parse(userData?.links || "{}") as object),
+        Github: input.github,
+        LinkedIn: input.linkedin,
+      };
+      const user = await ctx.prisma.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          name: input.name,
+          phone: input.phone,
+          links: JSON.stringify(links),
+        },
+      });
+      const registration = await ctx.prisma.registrations.create({
+        data: {
+          userId: ctx.session.user.id,
+          languages: input.languages,
+          skills: input.skills,
+          whyJoin: input.why,
+          yearOfReg: new Date().getFullYear(),
+          expectations: input.expectations,
+        },
+      });
+      return registration;
+    }),
 });
 export type UserRouter = typeof userRouter;
