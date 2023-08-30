@@ -1,6 +1,6 @@
-import { useState, useRef, type FunctionComponent } from "react";
+import {  useRef, type FunctionComponent } from "react";
 import Image from "next/image";
-import { BsDownload, BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import { BsDownload } from "react-icons/bs";
 import { QRCodeSVG } from "qrcode.react";
 import { useReactToPrint } from "react-to-print";
 
