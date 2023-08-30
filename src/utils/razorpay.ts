@@ -1,6 +1,5 @@
 import Router from "next/router";
 import { env } from "../env/client.mjs";
-import { api } from "./api";
 import type { inferRouterOutputs } from "@trpc/server";
 import type { UserRouter } from "../server/api/routers/user";
 type PaymentOrderData = inferRouterOutputs<UserRouter>["createPaymentOrder"];

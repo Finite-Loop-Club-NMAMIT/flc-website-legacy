@@ -4,6 +4,9 @@ import { useSession } from "next-auth/react";
 import { api } from "../utils/api";
 import Error from "../components/error";
 import { extractStudentDetailsFromEmail } from "../utils/details";
+import Link from "next/link";
+import { makePayment } from "../utils/razorpay";
+import Loader from "../components/loader";
 
 function Register() {
   const [inputValues, setInputValues] = useState({
@@ -15,6 +18,24 @@ function Register() {
     skills: [],
     why: "",
     expectations: "",
+  });
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const { client } = api.useContext();
+
+  const registerMut = api.userRouter.registrationForm.useMutation({
+    onSuccess: async () => {
+      setLoading(true);
+      const data = await client.userRouter.createPaymentOrder.mutate();
+      await makePayment(
+        user.data?.email as string,
+        user.data?.name as string,
+        user.data?.username as string,
+        data,
+        setLoading,
+      );
+      setLoading(false);
+    },
   });
 
   const handleInputChange = (
@@ -73,210 +94,257 @@ function Register() {
 
   if (!user.data) return <Error />;
 
+  if (user.data.isMember)
+    return (
+      <section>
+        <div className="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
+          <div className="mx-auto max-w-screen-sm text-center">
+            <h1 className="gradient mb-4 text-7xl font-extrabold tracking-tight text-yellow-500 dark:text-yellow-500 lg:text-9xl">
+              You have completed your registration!
+            </h1>
+            <Link href="/">
+              <Button>Back to Homepage</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
+
   const { year, branch, usn } = extractStudentDetailsFromEmail(
     user.data.email as string,
   );
 
   return (
-    <section className="mx-auto max-w-4xl space-y-8 px-10 py-4">
-      <h1 className="mb-4 text-center text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-        Be a part of <br />
-        <span className="text-yellow-600 dark:text-yellow-500">
-          NMAMIT&apos;s
-        </span>{" "}
-        Coding Club!
-      </h1>
-      <p className="text-center text-sm font-normal text-gray-500 dark:text-gray-400 lg:text-lg">
-        Finite Loop is a Coding Club, which aims to give a good perspective of
-        development, and encourages students to realize their ideas. We
-        encourage students to participate in competitive programming and thus,
-        inspire the next.
-      </p>
+    <>
+      <section className="mx-auto max-w-4xl space-y-8 px-10 py-4">
+        <h1 className="mb-4 text-center text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+          Be a part of <br />
+          <span className="text-yellow-600 dark:text-yellow-500">
+            NMAMIT&apos;s
+          </span>{" "}
+          Coding Club!
+        </h1>
+        <p className="text-center text-sm font-normal text-gray-500 dark:text-gray-400 lg:text-lg">
+          Finite Loop is a Coding Club, which aims to give a good perspective of
+          development, and encourages students to realize their ideas. We
+          encourage students to participate in competitive programming and thus,
+          inspire the next.
+        </p>
 
-      <form className="flex flex-col space-y-8">
-        <div className="relative z-0">
-          <input
-            type="text"
-            name="name"
-            id="name"
-            className="form-input peer"
-            placeholder=" "
-            value={user.data.name || inputValues.name}
-          />
-          <label htmlFor="name" className="form-label">
-            Name
-          </label>
-        </div>
+        <form className="flex flex-col space-y-8">
+          <div className="relative z-0">
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="form-input peer"
+              placeholder=" "
+              value={user.data.name || inputValues.name}
+            />
+            <label htmlFor="name" className="form-label">
+              Name
+            </label>
+          </div>
 
-        <div className="relative z-0">
-          <input
-            placeholder=" "
-            type="usn"
-            className="form-input peer"
-            name="usn"
-            id="usn"
-            value={usn}
-            readOnly
-          />
-          <label htmlFor="usn" className="form-label">
-            USN
-          </label>
-        </div>
+          <div className="relative z-0">
+            <input
+              placeholder=" "
+              type="usn"
+              className="form-input peer"
+              name="usn"
+              id="usn"
+              value={usn}
+              readOnly
+            />
+            <label htmlFor="usn" className="form-label">
+              USN
+            </label>
+          </div>
 
-        <div className="relative z-0">
-          <input
-            placeholder=" "
-            type="email"
-            name="email"
-            id="email"
-            className="form-input peer"
-            value={user.data.email || ""}
-            readOnly
-          />
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-        </div>
+          <div className="relative z-0">
+            <input
+              placeholder=" "
+              type="email"
+              name="email"
+              id="email"
+              className="form-input peer"
+              value={user.data.email || ""}
+              readOnly
+            />
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+          </div>
 
-        <div className="relative z-0">
-          <input
-            placeholder=" "
-            type="phone"
-            name="phone"
-            id="phone"
-            className="form-input peer"
-            value={inputValues.phone}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="phone" className="form-label">
-            Phone
-          </label>
-        </div>
+          <div className="relative z-0">
+            <input
+              placeholder=" "
+              type="phone"
+              name="phone"
+              id="phone"
+              className="form-input peer"
+              value={inputValues.phone}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="phone" className="form-label">
+              Phone
+            </label>
+          </div>
 
-        <div>
-          <label
-            htmlFor="yearOfStudy"
-            className="mb-2 block text-sm text-gray-400"
+          <div>
+            <label
+              htmlFor="yearOfStudy"
+              className="mb-2 block text-sm text-gray-400"
+            >
+              Year of Study
+            </label>
+            <select
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-yellow-500 focus:ring-yellow-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-yellow-500 dark:focus:ring-yellow-500"
+              name="yearOfStudy"
+              id="yearOfStudy"
+              value={year === 24 ? "4" : year === 23 ? "3" : "2"}
+              disabled
+            >
+              <option value="2">2nd Year</option>
+              <option value="3">3rd Year</option>
+              <option value="4">4th Year</option>
+            </select>
+          </div>
+
+          <div>
+            <label
+              htmlFor="branch"
+              className="mb-2 block text-sm text-gray-400"
+            >
+              Branch
+            </label>
+            <select
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-yellow-500 focus:ring-yellow-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-yellow-500 dark:focus:ring-yellow-500"
+              name="branch"
+              id="branch"
+              value={branch}
+              disabled
+            >
+              <option key={branch} value={branch}>
+                {branch.toUpperCase()}
+              </option>
+            </select>
+          </div>
+
+          <div className="relative z-0">
+            <input
+              placeholder=" "
+              name="github"
+              id="github"
+              className="form-input peer"
+              value={inputValues.github}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="github" className="form-label">
+              Github Link
+            </label>
+          </div>
+
+          <div className="relative z-0">
+            <input
+              placeholder=" "
+              name="linkedin"
+              id="linkedin"
+              className="form-input peer"
+              value={inputValues.linkedin}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="linkedin" className="form-label">
+              Linkedin Link
+            </label>
+          </div>
+
+          <div className="relative z-0">
+            <input
+              placeholder=" "
+              name="languages"
+              id="languages"
+              className="form-input peer"
+              value={inputValues.languages.join(", ")}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="languages" className="form-label">
+              Programming Languages Known (separated by commas)
+            </label>
+          </div>
+
+          <div className="relative z-0">
+            <input
+              placeholder=" "
+              name="skills"
+              className="form-input peer"
+              id="skills"
+              value={inputValues.skills.join(", ")}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="skills" className="form-label">
+              Skills (separated by commas)
+            </label>
+          </div>
+
+          <div className="relative z-0">
+            <textarea
+              placeholder=" "
+              name="why"
+              id="why"
+              className="form-input peer"
+              value={inputValues.why}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="why" className="form-label">
+              Why do you want to join FLC?
+            </label>
+          </div>
+
+          <div className="relative z-0">
+            <textarea
+              placeholder=" "
+              name="expectations"
+              id="expectations"
+              className="form-input peer"
+              value={inputValues.expectations}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="expectations" className="form-label">
+              What are your expectations from FLC?
+            </label>
+          </div>
+
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              if (user) {
+                registerMut.mutate({
+                  name: user.data?.name || "",
+                  expectations: inputValues.expectations,
+                  languages: inputValues.languages,
+                  phone: inputValues.phone,
+                  skills: inputValues.skills,
+                  why: inputValues.why,
+                  github: inputValues.github,
+                  linkedin: inputValues.linkedin,
+                });
+              }
+            }}
+            className="mt-5 w-fit"
+            type="submit"
           >
-            Year of Study
-          </label>
-          <select
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-yellow-500 focus:ring-yellow-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-yellow-500 dark:focus:ring-yellow-500"
-            name="yearOfStudy"
-            id="yearOfStudy"
-            value={year === 24 ? "4" : year === 23 ? "3" : "2"}
-            disabled
-          >
-            <option value="2">2nd Year</option>
-            <option value="3">3rd Year</option>
-            <option value="4">4th Year</option>
-          </select>
-        </div>
+            Register
+          </Button>
+        </form>
+      </section>
 
-        <div>
-          <label htmlFor="branch" className="mb-2 block text-sm text-gray-400">
-            Branch
-          </label>
-          <select
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-yellow-500 focus:ring-yellow-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-yellow-500 dark:focus:ring-yellow-500"
-            name="branch"
-            id="branch"
-            value={branch}
-            disabled
-          >
-            <option key={branch} value={branch}>
-              {branch.toUpperCase()}
-            </option>
-          </select>
+      {loading && (
+        <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center  bg-black bg-opacity-50 ">
+          <Loader />
         </div>
-
-        <div className="relative z-0">
-          <input
-            placeholder=" "
-            name="github"
-            id="github"
-            className="form-input peer"
-            value={inputValues.github}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="github" className="form-label">
-            Github Link
-          </label>
-        </div>
-
-        <div className="relative z-0">
-          <input
-            placeholder=" "
-            name="linkedin"
-            id="linkedin"
-            className="form-input peer"
-            value={inputValues.linkedin}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="linkedin" className="form-label">
-            Linkedin Link
-          </label>
-        </div>
-
-        <div className="relative z-0">
-          <input
-            placeholder=" "
-            name="languages"
-            id="languages"
-            className="form-input peer"
-            value={inputValues.languages.join(", ")}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="languages" className="form-label">
-            Programming Languages Known (separated by commas)
-          </label>
-        </div>
-
-        <div className="relative z-0">
-          <input
-            placeholder=" "
-            name="skills"
-            className="form-input peer"
-            id="skills"
-            value={inputValues.skills.join(", ")}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="skills" className="form-label">
-            Skills (separated by commas)
-          </label>
-        </div>
-
-        <div className="relative z-0">
-          <textarea
-            placeholder=" "
-            name="why"
-            id="why"
-            className="form-input peer"
-            value={inputValues.why}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="why" className="form-label">
-            Why do you want to join FLC?
-          </label>
-        </div>
-
-        <div className="relative z-0">
-          <textarea
-            placeholder=" "
-            name="expectations"
-            id="expectations"
-            className="form-input peer"
-          />
-          <label htmlFor="expectations" className="form-label">
-            What are your expectations from FLC?
-          </label>
-        </div>
-
-        <Button className="mt-5 w-fit" type="submit">
-          Register
-        </Button>
-      </form>
-    </section>
+      )}
+    </>
   );
 }
 

@@ -149,11 +149,11 @@ model Certificate {
 model Registrations {
   id           Int    @id @unique @default(autoincrement())
   User         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String
+  userId       String @unique
   languages    Json
   skills       Json
-  whyJoin      String
-  expectations String
+  whyJoin      String @db.Text
+  expectations String @db.Text
   yearOfReg    Int
 
   @@index([userId])
