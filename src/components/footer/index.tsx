@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Links, social } from "../constants";
+import { Links, footLinks, social } from "../constants";
 import { type FunctionComponent } from "react";
 import BlurImage from "../blurImage";
 
@@ -53,6 +53,21 @@ const Footer: FunctionComponent = () => {
             </li>
           ))}
         </ul>
+
+        <nav className="mt-6">
+          <ul className="flex flex-wrap justify-center gap-6">
+            {footLinks.map((link, index) => (
+              <div key={index}>
+                <li>
+                  <Link href={link.link} className="text-black dark:text-gray-400 transition hover:text-gray-500 dark:hover:text-gray-200/75">
+                      {link.name}
+                  </Link>
+                </li>
+              </div>
+            ))}
+          </ul>
+        </nav>
+
       </div>
     </footer>
   );

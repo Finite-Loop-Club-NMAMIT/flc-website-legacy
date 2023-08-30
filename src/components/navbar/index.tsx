@@ -21,13 +21,13 @@ const Navbar: FunctionComponent = () => {
     {
       email: data?.user?.email as string,
     },
-    { enabled: status === "authenticated" }
+    { enabled: status === "authenticated" },
   );
 
   return (
     <>
-      <div className="fixed top-0 left-0 z-40 w-full bg-black bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter">
-        <div className="flex items-center justify-between py-2 px-3 md:flex-row md:px-5">
+      <div className="fixed left-0 top-0 z-40 w-full bg-black bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter">
+        <div className="flex items-center justify-between px-3 py-2 md:flex-row md:px-5">
           <div
             className="flex cursor-pointer items-center text-xl font-bold text-white
       md:text-2xl"
@@ -74,21 +74,12 @@ const Navbar: FunctionComponent = () => {
 
             {status === "authenticated" ? (
               <div className="flex w-[150px]  flex-col gap-3 md:ml-8 md:w-full md:flex-row">
-                {!user.data?.isMember && user.data?.role === "member" && (
-                  <Button
-                  // onClick={() => {
-                  //   makePayment(
-                  //     user.data?.email as string,
-                  //     user.data?.name as string
-                  //   );
-                  // }}
-                  >
-                    Register
-                    <span className="block h-0.5 max-w-0 bg-sky-600 transition-all duration-500 group-hover:max-w-full">
-                      Hello
-                    </span>
-                  </Button>
-                )}
+                {!user.data?.isMember &&
+                  user.data?.email?.endsWith("@nmamit.in") && (
+                    <Link href={"/register"}>
+                      <Button>Register</Button>
+                    </Link>
+                  )}
                 <div>
                   <Link href={`/u/${user.data?.username as string}`}>
                     {user.isLoading ? (
@@ -98,7 +89,7 @@ const Navbar: FunctionComponent = () => {
                         src={user.data?.image as string}
                         width={40}
                         height={40}
-                        className="cursor-pointer rounded-full hover:brightness-125 transition-all duration-500 ease-in-out"
+                        className="cursor-pointer rounded-full transition-all duration-500 ease-in-out hover:brightness-125"
                         alt="profile picture"
                       />
                     )}

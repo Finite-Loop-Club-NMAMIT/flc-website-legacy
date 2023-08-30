@@ -81,7 +81,7 @@ export const getEventsInput = z.object({
       "Year2020to2021",
       "Year2021to2022",
       "Year2022to2023",
-      "Year2023to2024"
+      "Year2023to2024",
     ]) || undefined
   ),
 });
@@ -100,7 +100,7 @@ export const addEventInput = z.object({
     "AndroidDevelopment",
     "WebDevelopment",
     "Hackathon",
-    "CodingContest"
+    "CodingContest",
   ]),
   image: z.string(),
   organizer: z.string(),
@@ -124,7 +124,6 @@ export const awardCertificateInput = z.object({
     "SoloParticipation",
     "Winner",
     "RunnerUp",
-    "SpecialRecognition"
-  ])
+    "SpecialRecognition",
+  ]),
 });
-

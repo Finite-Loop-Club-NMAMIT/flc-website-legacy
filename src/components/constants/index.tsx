@@ -23,7 +23,16 @@ export const Links = [
   { name: "Home", link: "/" },
   { name: "Events", link: "/events" },
   { name: "Team", link: "/team" },
+  { name: 'Services', link: '/shipping' },
 ];
+
+export const footLinks = [
+  { name: 'Privacy', link: '/privacy' },
+  { name: 'Terms and Conditions', link: '/rules' },
+  { name: 'Refund & Cancellation', link: '/refund' },
+  { name: 'Contact us', link: '/contact-us' },
+  { name: 'Shipping', link: '/shipping' },
+]
 
 export const points = [
   {

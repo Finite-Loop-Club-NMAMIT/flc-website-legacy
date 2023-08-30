@@ -1,4 +1,8 @@
 import Router from "next/router";
+import { env } from "../env/client.mjs";
+import type { inferRouterOutputs } from "@trpc/server";
+import type { UserRouter } from "../server/api/routers/user";
+type PaymentOrderData = inferRouterOutputs<UserRouter>["createPaymentOrder"];
 
 export const initializeRazorpay = () => {
   return new Promise((resolve) => {
@@ -16,35 +20,36 @@ export const initializeRazorpay = () => {
 
 export const makePayment: (
   email: string,
-  name: string
-) => Promise<void> = async (email, name) => {
+  name: string,
+  username: string,
+  data: PaymentOrderData,
+  setLoading: (loading: boolean) => void
+) => Promise<void> = async (email, name, username, data, setLoading) => {
   const res = await initializeRazorpay();
-
   if (!res) {
     alert("Razorpay SDK Failed to load");
     return;
   }
+  const options = {
+    key: env.NEXT_PUBLIC_RAZORPAY_KEY,
+    name: "Finite Loop Club",
+    currency: "INR",
+    amount: data.amount,
+    order_id: data.orderId,
+    description: "Membership is valid throughout your engineering course",
+    image: "/assets/flc_logo_crop.png",
+    handler: async function () {
+      await Router.push(`/u/${username}?source="Razorpay"`);
+    },
+    prefill: {
+      email: email,
+      name: name,
+    },
+  };
 
-  //   const data = await fetch("/api/razorpay", { method: "POST" }).then((t) =>
-  //     t.json()
-  //   );
-  //   var options = {
-  //     key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
-  //     name: "Finite Loop Club",
-  //     currency: data.currency,
-  //     amount: data.amount,
-  //     order_id: data.id,
-  //     description: "Membership is valid throughout your engineering course",
-  //     image: "/assets/flc_logo_crop.png",
-  //     handler: function (response) {
-  //       Router.push("/profile");
-  //     },
-  //     prefill: {
-  //       email: email,
-  //       name: name,
-  //     },
-  //   };
-
-  //   const paymentObject = new window.Razorpay(options);
-  //   paymentObject.open();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+  const paymentObject = new (window as any).Razorpay(options);
+  setLoading(false);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+  paymentObject.open();
 };
