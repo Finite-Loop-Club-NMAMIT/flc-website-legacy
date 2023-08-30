@@ -61,6 +61,7 @@ export default async function handler(
         if (!updatedUser)
           return res.status(400).json({ message: "User not found" });
 
+        // eslint-disable-next-line
         const createMember = await prisma.members.create({
           data: {
             email: updatedUser.email!,
