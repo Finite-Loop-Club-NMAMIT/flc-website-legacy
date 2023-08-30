@@ -64,9 +64,6 @@ const Event: NextPage = () => {
       formData.append("file", image as File);
       formData.append("upload_preset", "event-uploads");
 
-      console.log(formData.get("file"));
-      console.log(formData.get("upload_preset"));
-
       const response: Response = await fetch(
         `https://api.cloudinary.com/v1_1/${env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
         {

@@ -57,9 +57,7 @@ export default function Profile() {
   const [isExploding, setIsExploding] = useState(false);
 
   useEffect(() => {
-    console.log(router.query.source);
     if (router.query.source) {
-      console.log("erfevdv");
       setIsExploding(true);
     }
   }, [router.query]);

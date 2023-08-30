@@ -10,7 +10,7 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         username: z.string(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       try {
@@ -28,7 +28,7 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         email: z.string(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       try {
@@ -49,7 +49,7 @@ export const userRouter = createTRPCRouter({
         cursor: z.string().nullish(),
         skip: z.number().optional(),
         searchTerms: z.string().optional(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       const { limit, skip, searchTerms, cursor } = input;
@@ -118,7 +118,7 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         username: z.string(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       try {
@@ -142,7 +142,7 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         profilePicture: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
@@ -175,7 +175,8 @@ export const userRouter = createTRPCRouter({
       key_id: env.RAZORPAY_KEY,
       key_secret: env.RAZORPAY_SECRET,
     });
-    const amount = 408.2;
+    // const amount = 408.2;
+    const amount = 1;
     const payment_capture = 1;
     const currency = "INR";
     const options = {
@@ -194,6 +195,7 @@ export const userRouter = createTRPCRouter({
     });
     return order;
   }),
+
   registrationForm: protectedProcedure
     .input(
       z.object({
@@ -205,7 +207,7 @@ export const userRouter = createTRPCRouter({
         skills: z.array(z.string()),
         why: z.string(),
         expectations: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const userData = await ctx.prisma.user.findUnique({
@@ -218,11 +220,11 @@ export const userRouter = createTRPCRouter({
         ...(JSON.parse(userData?.links || "[]") as object[]),
         {
           platform: "Github",
-          link: input.github
+          link: input.github,
         },
         {
           platform: "LinkedIn",
-          link: input.linkedin
+          link: input.linkedin,
         },
       ];
 
