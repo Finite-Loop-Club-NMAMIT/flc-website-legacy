@@ -9,7 +9,16 @@ import { makePayment } from "../utils/razorpay";
 import Loader from "../components/loader";
 
 function Register() {
-  const [inputValues, setInputValues] = useState({
+  const [inputValues, setInputValues] = useState<{
+    name: string;
+    phone: string;
+    github: string;
+    linkedin: string;
+    expectations: string;
+    why: string;
+    skills: string[];
+    languages: string[];
+  }>({
     name: "",
     phone: "",
     github: "",
@@ -63,6 +72,68 @@ function Register() {
       enabled: status === "authenticated",
     },
   );
+
+  const [validations, setValidations] = useState({
+    phone: true,
+    github: true,
+    linkedin: true,
+    expectations: true,
+    why: true,
+    skills: true,
+    languages: true,
+  });
+
+  const registerFunction = () => {
+    const phoneRegex = /^\d{10}$/;
+    const githubRegex = /^https?:\/\/(www\.)?github\.com\/.+/;
+    const linkedinRegex = /^https?:\/\/(www\.)?linkedin\.com\/.+/;
+
+    const isCommaSeparatedArray = (input: string[]): boolean => {
+      return input.every((value) => value.trim() !== "");
+    };
+
+    const phoneValid = phoneRegex.test(inputValues.phone);
+    const githubValid = githubRegex.test(inputValues.github);
+    const linkedinValid = linkedinRegex.test(inputValues.linkedin);
+    const languagesValid = isCommaSeparatedArray(inputValues.languages);
+    const skillsValid = isCommaSeparatedArray(inputValues.skills);
+    const expectationsValid = inputValues.expectations.trim() !== "";
+    const whyValid = inputValues.why.trim() !== "";
+
+    setValidations({
+      ...validations,
+      phone: phoneValid,
+      github: githubValid,
+      linkedin: linkedinValid,
+      languages: languagesValid,
+      skills: skillsValid,
+      expectations: expectationsValid,
+      why: whyValid,
+    });
+
+    if (
+      phoneValid &&
+      githubValid &&
+      linkedinValid &&
+      languagesValid &&
+      skillsValid &&
+      expectationsValid &&
+      whyValid
+    ) {
+      if (user.data) {
+        registerMut.mutate({
+          name: user.data.name!,
+          expectations: inputValues.expectations,
+          languages: inputValues.languages,
+          phone: inputValues.phone,
+          skills: inputValues.skills,
+          why: inputValues.why,
+          github: inputValues.github,
+          linkedin: inputValues.linkedin,
+        });
+      }
+    }
+  };
 
   if (status === "loading")
     return (
@@ -314,22 +385,41 @@ function Register() {
               What are your expectations from FLC?
             </label>
           </div>
-
+          {validations.phone === false && (
+            <p className="text-red-500">
+              Please enter a valid 10-digit phone number.
+            </p>
+          )}
+          {validations.github === false && (
+            <p className="text-red-500">
+              Please enter a valid GitHub profile URL.
+            </p>
+          )}
+          {validations.linkedin === false && (
+            <p className="text-red-500">
+              Please enter a valid LinkedIn profile URL.
+            </p>
+          )}
+          {validations.languages === false && (
+            <p className="text-red-500">
+              Please enter comma separated list of programming languages.
+            </p>
+          )}
+          {validations.skills === false && (
+            <p className="text-red-500">
+              Please enter comma separated list of skills.
+            </p>
+          )}
+          {validations.why === false && (
+            <p className="text-red-500">You cannot leave this field blank.</p>
+          )}
+          {validations.expectations === false && (
+            <p className="text-red-500">You cannot leave this field blank.</p>
+          )}
           <Button
             onClick={(e) => {
               e.preventDefault();
-              if (user.data) {
-                registerMut.mutate({
-                  name: user.data.name!,
-                  expectations: inputValues.expectations,
-                  languages: inputValues.languages,
-                  phone: inputValues.phone,
-                  skills: inputValues.skills,
-                  why: inputValues.why,
-                  github: inputValues.github,
-                  linkedin: inputValues.linkedin,
-                });
-              }
+              registerFunction();
             }}
             className="mt-5 w-fit"
             type="submit"
