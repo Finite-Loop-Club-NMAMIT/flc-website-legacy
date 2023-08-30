@@ -214,11 +214,19 @@ export const userRouter = createTRPCRouter({
         },
       });
 
-      const links = {
-        ...(JSON.parse(userData?.links || "{}") as object),
-        Github: input.github,
-        LinkedIn: input.linkedin,
-      };
+      const links = [
+        ...(JSON.parse(userData?.links || "[]") as object[]),
+        {
+          platform: "Github",
+          link: input.github
+        },
+        {
+          platform: "LinkedIn",
+          link: input.linkedin
+        },
+      ];
+
+      // eslint-disable-next-line
       const user = await ctx.prisma.user.update({
         where: {
           id: ctx.session.user.id,

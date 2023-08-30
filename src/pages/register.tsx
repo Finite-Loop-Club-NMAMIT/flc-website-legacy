@@ -318,9 +318,9 @@ function Register() {
           <Button
             onClick={(e) => {
               e.preventDefault();
-              if (user) {
+              if (user.data) {
                 registerMut.mutate({
-                  name: user.data?.name || "",
+                  name: user.data.name!,
                   expectations: inputValues.expectations,
                   languages: inputValues.languages,
                   phone: inputValues.phone,

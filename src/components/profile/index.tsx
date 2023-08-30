@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-
+import ConfettiExplosion from "react-confetti-explosion";
 import { type FormEvent, useState, useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 import {
@@ -54,6 +54,16 @@ export default function Profile() {
     },
   ]);
 
+  const [isExploding, setIsExploding] = useState(false);
+
+  useEffect(() => {
+    console.log(router.query.source);
+    if (router.query.source) {
+      console.log("erfevdv");
+      setIsExploding(true);
+    }
+  }, [router.query]);
+
   const ProfileInfo = api.userRouter.getProfile.useQuery(
     {
       username: username as string,
@@ -68,12 +78,12 @@ export default function Profile() {
               {
                 platform: string;
                 link: string;
-              }
-            ]
+              },
+            ],
           );
         }
       },
-    }
+    },
   );
   //re feteched when modal is closed or opened
   useEffect(() => {
@@ -99,7 +109,7 @@ export default function Profile() {
         {
           method: "POST",
           body: formData,
-        }
+        },
       );
 
       if (!response.ok) {
@@ -127,7 +137,7 @@ export default function Profile() {
                   toast.error("Error updating profile picture");
                 });
             },
-          }
+          },
         );
       } catch (error) {
         toast.error("Error updating profile picture");
@@ -186,6 +196,18 @@ export default function Profile() {
 
   return (
     <div>
+      {isExploding && (
+        <ConfettiExplosion
+          particleCount={300}
+          particleSize={20}
+          duration={5000}
+          force={5}
+          width={window.innerWidth}
+          onComplete={() => {
+            toast.success("You're registered");
+          }}
+        />
+      )}
       <Toaster />
 
       {!ProfileInfo.isLoading && ProfileInfo.data && (
@@ -311,11 +333,11 @@ export default function Profile() {
                       src={`${
                         env.NEXT_PUBLIC_URL
                       }/api/og?event=${encodeURIComponent(
-                        "Sample Event"
+                        "Sample Event",
                       )}&user=${encodeURIComponent(
-                        "Member Name"
+                        "Member Name",
                       )}&date=${encodeURIComponent(
-                        "01/01/2021"
+                        "01/01/2021",
                       )}&type=${encodeURIComponent("TeamParticipation")}`}
                       alt={"Sample certificate"}
                       width={500}

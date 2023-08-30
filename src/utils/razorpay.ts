@@ -40,7 +40,7 @@ export const makePayment: (
     description: "Membership is valid throughout your engineering course",
     image: "/assets/flc_logo_crop.png",
     handler: async function () {
-      await Router.push(`/u/${username}`);
+      await Router.push(`/u/${username}?source="Razorpay"`);
     },
     prefill: {
       email: email,
