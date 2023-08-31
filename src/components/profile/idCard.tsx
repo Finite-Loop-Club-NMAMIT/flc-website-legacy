@@ -1,4 +1,4 @@
-import {  useRef, type FunctionComponent } from "react";
+import { useRef, type FunctionComponent } from "react";
 import Image from "next/image";
 import { BsDownload } from "react-icons/bs";
 import { QRCodeSVG } from "qrcode.react";

@@ -163,6 +163,7 @@ model Registrations {
 enum Role {
   Principal
   AssistantProfessor
+  Mentor
   President
   VicePresident
   Secretary
