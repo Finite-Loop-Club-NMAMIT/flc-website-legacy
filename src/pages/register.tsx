@@ -1,6 +1,6 @@
 import Button from "../components/button";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "../utils/api";
 import Error from "../components/error";
 import { extractStudentDetailsFromEmail } from "../utils/details";
@@ -167,6 +167,59 @@ function Register() {
       </div>
     );
 
+  if (status == "unauthenticated") {
+    return (
+      <section>
+        <div className="mx-auto  max-w-screen-sm  text-center">
+          <h1 className="gradient mb-4 text-2xl font-extrabold tracking-tight text-yellow-500 dark:text-yellow-500">
+            You should{" "}
+            <span className="text-black dark:text-white">sign in</span>
+            <br />
+            before you can proceed with the registration
+          </h1>
+          <p className="mb-4 text-gray-500 dark:text-gray-400">
+            use your NMAMIT email to sign in
+          </p>
+
+          <Button
+            onClick={async () => {
+              await signIn("google");
+            }}
+          >
+            Sign In
+          </Button>
+        </div>
+      </section>
+    );
+  }
+  if (user.data?.email && !user.data.email.endsWith("@nmamit.in")) {
+    return (
+      <section>
+        <div className="mx-auto  max-w-screen-sm  text-center">
+          <h1 className="gradient mb-4 text-2xl font-extrabold tracking-tight text-yellow-500 dark:text-yellow-500">
+            Hey{" "}
+            <span className="text-black dark:text-white">
+              {user.data.name}!
+            </span>
+            <br />
+            please sign in with your NMAMIT email to proceed with the
+            registration
+          </h1>
+          <p className="mb-4 text-gray-500 dark:text-gray-400">
+            please sign in with your NMAMIT email
+          </p>
+
+          <Button
+            onClick={async () => {
+              await signOut();
+            }}
+          >
+            Sign Out
+          </Button>
+        </div>
+      </section>
+    );
+  }
   if (!user.data) return <Error />;
 
   if (user.data.role === "member" && !user.data.isMember)
