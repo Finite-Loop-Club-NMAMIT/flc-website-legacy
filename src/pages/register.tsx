@@ -372,7 +372,7 @@ function Register() {
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-yellow-500 focus:ring-yellow-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-yellow-500 dark:focus:ring-yellow-500"
               name="yearOfStudy"
               id="yearOfStudy"
-              value={year === 24 ? "4" : year === 23 ? "3" : "2"}
+              value={year === 20 ? "4" : year === 21 ? "3" : "2"}
               disabled
             >
               <option value="2">2nd Year</option>
