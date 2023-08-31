@@ -23,7 +23,7 @@ export const Links = [
   { name: "Home", link: "/" },
   { name: "Events", link: "/events" },
   { name: "Team", link: "/team" },
-  { name: 'Services', link: '/shipping' },
+  // { name: 'Services', link: '/shipping' },
 ];
 
 export const footLinks = [
