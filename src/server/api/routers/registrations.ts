@@ -20,21 +20,36 @@ export const registrationRouter = createTRPCRouter({
         orderBy: {
           id: "asc",
         },
+        include: {
+          User: {
+            select: {
+              name: true,
+              year: true,
+              links: true,
+              phone: true,
+              email: true,
+              isMember: true,
+            },
+          },
+        },
         where: {
-          skills: {
-            array_contains: searchTerms,
-          },
-          expectations: {
-            contains: searchTerms,
-          },
-          languages: {
-            array_contains: searchTerms,
-          },
           User: {
             OR: [
-              { name: searchTerms },
-              { username: searchTerms },
-              { email: searchTerms },
+              {
+                username: {
+                  contains: searchTerms,
+                },
+              },
+              {
+                name: {
+                  contains: searchTerms,
+                },
+              },
+              {
+                email: {
+                  contains: searchTerms,
+                },
+              },
             ],
           },
         },
@@ -62,6 +77,9 @@ export const registrationRouter = createTRPCRouter({
         const regCount = await ctx.prisma.registrations.count({
           where: {
             yearOfReg: input.yearOfReg,
+            User: {
+              isMember: true,
+            },
           },
         });
 
