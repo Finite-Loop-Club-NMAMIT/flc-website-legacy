@@ -32,6 +32,7 @@ export const addCoreMemberInput = z.object({
   role: z.enum([
     "Principal",
     "AssistantProfessor",
+    "Mentor",
     "President",
     "VicePresident",
     "Treasurer",
@@ -82,7 +83,7 @@ export const getEventsInput = z.object({
       "Year2021to2022",
       "Year2022to2023",
       "Year2023to2024",
-    ]) || undefined
+    ]) || undefined,
   ),
 });
 
