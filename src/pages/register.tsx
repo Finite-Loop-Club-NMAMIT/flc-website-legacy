@@ -307,7 +307,8 @@ function Register() {
               id="name"
               className="form-input peer"
               placeholder=" "
-              value={user.data.name || inputValues.name}
+              defaultValue={user.data.name || ""}
+              value={inputValues.name}
             />
             <label htmlFor="name" className="form-label">
               Name
