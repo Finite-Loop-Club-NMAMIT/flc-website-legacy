@@ -8,7 +8,7 @@ import { env } from "../../../env/server.mjs";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method !== "POST") {
     return res.status(405).send({ message: "Only POST requests allowed" });
@@ -19,7 +19,7 @@ export default async function handler(
     !validateWebhookSignature(
       JSON.stringify(req.body),
       webhookSignature,
-      webhookSecret
+      webhookSecret,
     )
   ) {
     return res.status(400).send({ message: "Invalid request" });
@@ -61,8 +61,7 @@ export default async function handler(
         if (!updatedUser)
           return res.status(400).json({ message: "User not found" });
 
-        // eslint-disable-next-line
-        const createMember = await prisma.members.create({
+        await prisma.members.create({
           data: {
             email: updatedUser.email!,
             name: updatedUser.name,
