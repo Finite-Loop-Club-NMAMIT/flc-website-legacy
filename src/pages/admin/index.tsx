@@ -5,6 +5,7 @@ import { BsFillCalendarEventFill, BsFillGearFill } from 'react-icons/bs'
 import { RiTeamFill } from 'react-icons/ri'
 import { TbFileCertificate } from 'react-icons/tb'
 import { IoIosPeople } from 'react-icons/io'
+import { CgLogIn } from 'react-icons/cg'
 
 const AdminPage: NextPage = () => {
   const box =
@@ -15,7 +16,7 @@ const AdminPage: NextPage = () => {
       <h4 className='heading mb-5 text-center text-2xl md:text-3xl font-bold'>
         Welcome to Admin Dashboard
       </h4>
-      <div className='mb-5 flex flex-col items-center justify-center gap-5 md:flex-row'>
+      <div className='mb-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-5'>
         <Link className={box} href='/admin/events'>
           <BsFillCalendarEventFill size={50} />
           <div className='text-center text-md md:text-2xl'>Events</div>
@@ -27,6 +28,10 @@ const AdminPage: NextPage = () => {
         <Link className={box} href='/admin/award'>
           <TbFileCertificate size={50} />
           <div className='text-center text-md md:text-2xl'>Certificates</div>
+        </Link>
+        <Link className={box} href='/admin/registrations'>
+          <CgLogIn size={50} />
+          <div className='text-center text-md md:text-2xl'>Registrations</div>
         </Link>
         <Link className={box} href='/admin/create-teams'>
           <RiTeamFill size={50} />

@@ -4,6 +4,7 @@ import { teamRouter } from "./routers/team";
 import { coreRouter } from "./routers/core";
 import { eventRouter } from "./routers/event";
 import { certificateRouter } from "./routers/certificate";
+import { registrationRouter } from "./routers/registrations";
 
 /**
  * This is the primary router for your server.
@@ -15,7 +16,8 @@ export const appRouter = createTRPCRouter({
   teamRouter,
   coreRouter,
   eventRouter,
-  certificateRouter
+  certificateRouter,
+  registrationRouter
 });
 
 // export type definition of API

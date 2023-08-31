@@ -158,6 +158,7 @@ export const userRouter = createTRPCRouter({
         console.log("error", error);
       }
     }),
+
   createPaymentOrder: protectedProcedure.mutation(async ({ ctx }) => {
     if (!ctx.session.user) {
       throw new Error("Not logged in");
@@ -251,4 +252,5 @@ export const userRouter = createTRPCRouter({
       return registration;
     }),
 });
+
 export type UserRouter = typeof userRouter;
