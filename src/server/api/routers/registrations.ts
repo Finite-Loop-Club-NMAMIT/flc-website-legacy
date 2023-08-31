@@ -24,7 +24,6 @@ export const registrationRouter = createTRPCRouter({
           User: {
             select: {
               name: true,
-              year: true,
               links: true,
               phone: true,
               email: true,
