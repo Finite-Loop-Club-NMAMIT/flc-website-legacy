@@ -237,6 +237,7 @@ export const userRouter = createTRPCRouter({
           name: input.name,
           phone: input.phone,
           links: JSON.stringify(links),
+          role: "member",
         },
       });
       const registration = await ctx.prisma.registrations.create({
