@@ -74,12 +74,12 @@ const Navbar: FunctionComponent = () => {
 
             {status === "authenticated" ? (
               <div className="flex w-[150px]  flex-col gap-3 md:ml-8 md:w-full md:flex-row">
-                {/* {!user.data?.isMember &&
+                {!user.data?.isMember &&
                   user.data?.email?.endsWith("@nmamit.in") && (
                     <Link href={"/register"}>
                       <Button>Register</Button>
                     </Link>
-                  )} */}
+                  )}
                 <div>
                   <Link href={`/u/${user.data?.username as string}`}>
                     {user.isLoading ? (
