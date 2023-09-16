@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { createTRPCRouter,adminProcedure } from "../trpc";
 
 export const registrationRouter = createTRPCRouter({
-  getFormResponses: protectedProcedure
+  getFormResponses: adminProcedure
     .input(
       z.object({
         limit: z.number(),
@@ -65,7 +65,7 @@ export const registrationRouter = createTRPCRouter({
       };
     }),
 
-  getRegistrationCount: publicProcedure
+  getRegistrationCount: adminProcedure
     .input(
       z.object({
         yearOfReg: z.number(),

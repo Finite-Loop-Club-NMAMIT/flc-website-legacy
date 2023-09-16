@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { addEventInput, getEventsInput } from "../../../types";
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure ,adminProcedure} from "../trpc";
 
 export const eventRouter = createTRPCRouter({
   getEvents: publicProcedure
@@ -26,21 +26,10 @@ export const eventRouter = createTRPCRouter({
     }
   }),
 
-  addEvent: protectedProcedure
+  addEvent: adminProcedure
     .input(addEventInput)
     .mutation(async ({ ctx, input }) => {
       try {
-        const isAdmin = await ctx.prisma.user.findFirst({
-          where: {
-            id: ctx.session.user.id,
-            isAdmin: true,
-          },
-        });
-
-        if (!isAdmin) {
-          throw new Error("You are not an admin");
-        }
-
         return await ctx.prisma.event.create({
           data: {
             name: input.name,
@@ -58,7 +47,7 @@ export const eventRouter = createTRPCRouter({
       }
     }),
 
-  deleteEvent: protectedProcedure
+  deleteEvent: adminProcedure
     .input(
       z.object({
         id: z.number(),
@@ -66,17 +55,6 @@ export const eventRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const isAdmin = await ctx.prisma.user.findFirst({
-          where: {
-            id: ctx.session.user.id,
-            isAdmin: true,
-          },
-        });
-
-        if (!isAdmin) {
-          throw new Error("You are not an admin");
-        }
-        
         return await ctx.prisma.event.delete({
           where: {
             id: input.id,
