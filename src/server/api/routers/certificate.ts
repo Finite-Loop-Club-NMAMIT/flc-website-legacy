@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure,adminProcedure } from "../trpc";
 import { awardCertificateInput } from "../../../types";
 
 export const certificateRouter = createTRPCRouter({
@@ -22,21 +22,10 @@ export const certificateRouter = createTRPCRouter({
       }
     }),
 
-  awardCertificates: protectedProcedure
+  awardCertificates: adminProcedure
     .input(awardCertificateInput)
     .mutation(async ({ ctx, input }) => {
       try {
-        const isAdmin = await ctx.prisma.user.findFirst({
-          where: {
-            id: ctx.session.user.id,
-            isAdmin: true,
-          },
-        });
-
-        if (!isAdmin) {
-          throw new Error("You are not an admin");
-        }
-
         const certificates = await Promise.all(
           input.userIds.map((userId) =>
             ctx.prisma.certificate.create({
