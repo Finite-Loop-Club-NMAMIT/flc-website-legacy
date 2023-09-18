@@ -2,6 +2,7 @@ import { z } from "zod";
 import { addEventInput, getEventsInput } from "../../../types";
 
 import { createTRPCRouter, publicProcedure ,adminProcedure} from "../trpc";
+import { deleteImage } from "../../../utils/cloudinary";
 
 export const eventRouter = createTRPCRouter({
   getEvents: publicProcedure
@@ -55,6 +56,9 @@ export const eventRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
+        const event = await ctx.prisma.event.findFirst({ where: { id: input.id } })
+        event && await deleteImage(event.image).catch((err) => { console.log(err) })
+        
         return await ctx.prisma.event.delete({
           where: {
             id: input.id,

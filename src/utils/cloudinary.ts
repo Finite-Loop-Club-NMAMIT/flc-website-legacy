@@ -17,7 +17,7 @@ export const uploadImage = async (file: formidableFile, upload_preset: string) =
     return p.secure_url
 }
 
-export const deleteimage = async (secure_url: string) => {
+export const deleteImage = async (secure_url: string) => {
     const temp = secure_url.split("/")
     if (temp.length < 2)
         throw "Invalid url"

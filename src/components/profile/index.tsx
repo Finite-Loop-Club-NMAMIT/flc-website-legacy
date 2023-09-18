@@ -32,9 +32,9 @@ import Certificates from "./certificates";
 import { QRCodeSVG } from "qrcode.react";
 import Image from "next/image";
 
-interface CloudinaryResponse {
-  secure_url: string;
-}
+// interface CloudinaryResponse {
+//   secure_url: string;
+// }
 
 export default function Profile() {
   const router = useRouter();
@@ -91,19 +91,15 @@ export default function Profile() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showModal]);
 
-  const updateProfilePicture =
-    api.userRouter.updateProfilePicture.useMutation();
-
   const handleProfileUpdate = async (e: FormEvent) => {
     const file = (e.target as HTMLInputElement).files?.[0];
     if (!file) return;
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "profile_pictures");
     try {
       const loadingToast = toast.loading("Uploading image, please wait...");
       const response: Response = await fetch(
-        `https://api.cloudinary.com/v1_1/${env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        `${env.NEXT_PUBLIC_URL}/api/image/profile`,
         {
           method: "POST",
           body: formData,
@@ -114,18 +110,9 @@ export default function Profile() {
         toast.error("Error uploading image");
         toast.dismiss(loadingToast);
         return;
-      }
-
-      const data: CloudinaryResponse =
-        (await response.json()) as CloudinaryResponse;
+      }        
       try {
-        updateProfilePicture.mutate(
-          {
-            profilePicture: data.secure_url,
-          },
-          {
-            onSuccess: () => {
-              ProfileInfo.refetch()
+        ProfileInfo.refetch()
                 .then(() => {
                   toast.dismiss(loadingToast);
                   toast.success("Profile picture updated");
@@ -134,9 +121,6 @@ export default function Profile() {
                   toast.dismiss(loadingToast);
                   toast.error("Error updating profile picture");
                 });
-            },
-          },
-        );
       } catch (error) {
         toast.error("Error updating profile picture");
         toast.dismiss(loadingToast);
