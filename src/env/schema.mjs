@@ -26,6 +26,8 @@ export const serverSchema = z.object({
   RAZORPAY_WEBHOOK_SECRET: z.string(),
   CLIENT_URL: z.string().url(),
   CLOUDINDARY_CLOUD_NAME: z.string(),
+  CLOUDINDARY_API_KEY: z.string(),
+  CLOUDINDARY_API_SECRET: z.string(),
 });
 
 /**
@@ -45,6 +47,8 @@ export const serverEnv = {
   RAZORPAY_SECRET: process.env.RAZORPAY_SECRET,
   CLIENT_URL: process.env.CLIENT_URL,
   CLOUDINDARY_CLOUD_NAME: process.env.CLOUDINDARY_CLOUD_NAME,
+  CLOUDINDARY_API_KEY: process.env.CLOUDINDARY_API_KEY,
+  CLOUDINDARY_API_SECRET: process.env.CLOUDINDARY_API_SECRET,
 };
 
 /**
