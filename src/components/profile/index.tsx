@@ -38,7 +38,7 @@ import Image from "next/image";
 
 export default function Profile() {
   const router = useRouter();
-  const { data } = useSession();
+  const { data,update } = useSession();
   const username = router.query.username;
   const [editData, setEditData] = useState<User>({} as User);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -121,6 +121,10 @@ export default function Profile() {
                   toast.dismiss(loadingToast);
                   toast.error("Error updating profile picture");
                 });
+
+        update().catch(() => {
+            console.log("Error updating session")
+        });
       } catch (error) {
         toast.error("Error updating profile picture");
         toast.dismiss(loadingToast);

@@ -1,16 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { v2 as cloudinary } from "cloudinary"
 import { deleteImage, uploadImage } from "../../../utils/cloudinary";
 import { decodeForm } from "../../../utils/form";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
-
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINDARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINDARY_API_KEY,
-    api_secret: process.env.CLOUDINDARY_API_SECRET,
-})
 
 export default async function handler(
     req: NextApiRequest,
@@ -37,7 +29,7 @@ export default async function handler(
 
         await prisma?.user.update({ where: { id: session.user.id }, data: { ...user, image: result } })
 
-        res.status(200).send(user);
+        res.status(200).send({ secure_url: result });
         
         if(previousImage!==null)
             await deleteImage(previousImage) 

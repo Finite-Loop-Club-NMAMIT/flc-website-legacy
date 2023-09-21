@@ -1,10 +1,12 @@
 import { v2 as cloudinary } from "cloudinary"
 import type { File as formidableFile } from "formidable"
+import { env } from "../env/server.mjs"
+
 
 cloudinary.config({
-    cloud_name: process.env.CLOUDINDARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINDARY_API_KEY,
-    api_secret: process.env.CLOUDINDARY_API_SECRET,
+    cloud_name: env.CLOUDINDARY_CLOUD_NAME,
+    api_key: env.CLOUDINDARY_API_KEY,
+    api_secret: env.CLOUDINDARY_API_SECRET,
 })
 
 export const uploadImage = async (file: formidableFile, upload_preset: string) => {
