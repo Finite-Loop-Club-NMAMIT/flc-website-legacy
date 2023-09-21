@@ -65,7 +65,7 @@ const Event: NextPage = () => {
       formData.append("upload_preset", "event-uploads");
 
       const response: Response = await fetch(
-        `https://api.cloudinary.com/v1_1/${env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        `${env.NEXT_PUBLIC_URL}/api/image/admin`,
         {
           method: "POST",
           body: formData,

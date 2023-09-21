@@ -2,6 +2,7 @@ import { z } from "zod";
 import { addCoreMemberInput, getCoreMembersInput } from "../../../types";
 
 import { createTRPCRouter, publicProcedure ,adminProcedure} from "../trpc";
+import { deleteImage } from "../../../utils/cloudinary";
 
 export const coreRouter = createTRPCRouter({
   getCoreMembers: publicProcedure
@@ -53,6 +54,9 @@ export const coreRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {        
+        const core = await ctx.prisma.core.findFirst({ where: { id: input.id } })
+        core && await deleteImage(core.img).catch((err) => { console.log(err) })
+
         return await ctx.prisma.core.delete({
           where: {
             id: input.id,
