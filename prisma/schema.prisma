@@ -186,6 +186,7 @@ enum Role {
   ContentHead
   ContentCoHead
   GraphicsTeam
+  CompetitiveProgrammingLead
   SocialMediaTeam
   ContentTeam
   TechnicalContentHead
