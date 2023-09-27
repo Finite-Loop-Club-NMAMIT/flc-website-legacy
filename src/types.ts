@@ -60,6 +60,7 @@ export const addCoreMemberInput = z.object({
     "TechnicalContentHead",
     "TechnicalTeam",
     "CoreMember",
+    "CompetitiveProgrammingLead"
   ]),
   img: z.string(),
   github: z.string().optional(),
