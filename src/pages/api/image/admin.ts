@@ -5,6 +5,10 @@ import { authOptions } from "../auth/[...nextauth]";
 import { decodeForm } from "../../../utils/form";
 import { uploadImage } from "../../../utils/cloudinary";
 
+interface CloudinaryResponse {
+    secure_url: string;
+}
+  
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
@@ -33,7 +37,7 @@ export default async function handler(
         if (!result)
             res.status(500).send("Server Error")
 
-        res.status(200).send(result)
+        res.status(200).send({secure_url:result} as CloudinaryResponse)
     }
     catch (err) {
         res.status(400).send(err)
