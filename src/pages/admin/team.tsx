@@ -124,6 +124,7 @@ const AddCore: NextPage = () => {
             <input
               type="file"
               name="img"
+              accept="image/*"
               placeholder="Image File"
               className="rounded-lg border-2 border-gray-300 p-2"
             />

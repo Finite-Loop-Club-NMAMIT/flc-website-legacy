@@ -217,6 +217,7 @@ const Event: NextPage = () => {
             <input
               className="rounded-lg border-2 border-gray-300 p-2"
               type="file"
+              accept="image/*"
               placeholder="Image File"
               onChange={(e) => setImage(e.target.files?.[0] as File)}
               multiple={false}

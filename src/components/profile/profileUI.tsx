@@ -64,6 +64,7 @@ const ProfileUI = ({
                 ref={fileInput}
                 type="file"
                 className="hidden"
+                accept="image/*"
               />
             </button>
           )}
