@@ -84,7 +84,7 @@ const Certificate: NextPage = () => {
         <meta property="og:description" content={metaDesc} />
         <meta
           property="og:image"
-          content={`${env.NEXT_PUBLIC_URL}/api/og?event=${eventName}&user=${userName}&date=${eventDate}&type=${type}&desc=${desc}`}
+          content={`${env.NEXT_PUBLIC_URL}/api/certificate?event=${eventName}&user=${userName}&date=${eventDate}&type=${type}&desc=${desc}`}
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />

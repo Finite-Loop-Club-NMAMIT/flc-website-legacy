@@ -35,7 +35,7 @@ const Certificates = ({ userId }: { userId: string }) => {
           </p>
           <div className="mt-5 border p-5">
             <Image
-              src={`${env.NEXT_PUBLIC_URL}/api/og?event=${encodeURIComponent(
+              src={`${env.NEXT_PUBLIC_URL}/api/certificate?event=${encodeURIComponent(
                 "Sample Event"
               )}&user=${encodeURIComponent(
                 "Member Name"
@@ -69,7 +69,7 @@ const Certificates = ({ userId }: { userId: string }) => {
                   <Image
                     src={`${
                       env.NEXT_PUBLIC_URL
-                    }/api/og?event=${encodeURIComponent(
+                    }/api/certificate?event=${encodeURIComponent(
                       certificate.event.name
                     )}&user=${encodeURIComponent(
                       certificate.user.name as string

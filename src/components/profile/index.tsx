@@ -318,7 +318,7 @@ export default function Profile() {
                     <Image
                       src={`${
                         env.NEXT_PUBLIC_URL
-                      }/api/og?event=${encodeURIComponent(
+                      }/api/certificate?event=${encodeURIComponent(
                         "Sample Event",
                       )}&user=${encodeURIComponent(
                         "Member Name",
