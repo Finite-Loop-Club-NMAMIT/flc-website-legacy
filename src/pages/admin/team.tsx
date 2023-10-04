@@ -120,6 +120,7 @@ const AddCore: NextPage = () => {
               name="name"
               placeholder="Name"
               className="rounded-lg border-2 border-gray-300 p-2"
+              required
             />
             <input
               type="file"
@@ -127,10 +128,12 @@ const AddCore: NextPage = () => {
               accept="image/*"
               placeholder="Image File"
               className="rounded-lg border-2 border-gray-300 p-2"
+              required
             />
             <select
               name="role"
               className="rounded-lg border-2 border-gray-300 p-2"
+              required
             >
               {Object.keys(Role).map((role) => (
                 <option key={role} value={role}>
@@ -141,6 +144,7 @@ const AddCore: NextPage = () => {
             <select
               name="filter"
               className="rounded-lg border-2 border-gray-300 p-2"
+              required
             >
               {Object.keys(CoreFilter).map((filter) => (
                 <option key={filter} value={filter}>
@@ -154,12 +158,14 @@ const AddCore: NextPage = () => {
               defaultValue=""
               placeholder="Github URL"
               className="rounded-lg border-2 border-gray-300 p-2"
+              required
             />
             <input
               type="text"
               name="linkedin"
               defaultValue=""
               placeholder="Linkedin URL"
+              required
               className="rounded-lg border-2 border-gray-300 p-2"
             />
             <Button>Add Member</Button>

@@ -144,6 +144,7 @@ const Event: NextPage = () => {
                 setFormData({ ...formdata, name: e.target.value })
               }
               placeholder="Enter event name"
+              required
             />
             <input
               className="rounded-lg border-2 border-gray-300 p-2"
@@ -155,6 +156,7 @@ const Event: NextPage = () => {
                 })
               }
               placeholder="Enter event date"
+              required
             />
             <input
               className="rounded-lg border-2 border-gray-300 p-2"
@@ -166,6 +168,7 @@ const Event: NextPage = () => {
                 })
               }
               placeholder="Enter number of attendees"
+              required
             />
 
             <input
@@ -175,6 +178,7 @@ const Event: NextPage = () => {
                 setFormData({ ...formdata, organizer: e.target.value })
               }
               placeholder="Enter event organizer"
+              required
             />
             <input
               className="rounded-lg border-2 border-gray-300 p-2"
@@ -183,6 +187,7 @@ const Event: NextPage = () => {
                 setFormData({ ...formdata, description: e.target.value })
               }
               placeholder="Enter event description"
+              required
             />
             <select
               className="rounded-lg border-2 border-gray-300 p-2"
@@ -192,6 +197,7 @@ const Event: NextPage = () => {
                   filter: e.target.value as unknown as EventFilter,
                 })
               }
+              required
             >
               {Object.keys(EventFilter).map((key) => (
                 <option key={key} value={key}>
@@ -207,6 +213,7 @@ const Event: NextPage = () => {
                   type: e.target.value as unknown as EventTypes,
                 })
               }
+              required
             >
               {Object.keys(EventTypes).map((key) => (
                 <option key={key} value={key}>
@@ -221,6 +228,7 @@ const Event: NextPage = () => {
               placeholder="Image File"
               onChange={(e) => setImage(e.target.files?.[0] as File)}
               multiple={false}
+              required
             />
             <Button>Add Event</Button>
           </div>
