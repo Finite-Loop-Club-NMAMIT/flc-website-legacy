@@ -124,6 +124,7 @@ export const teamTabs = [
   "Year2020to2021",
   "Year2021to2022",
   "Year2022to2023",
+  "Year2023to2024",
   "Faculty",
 ];
 
