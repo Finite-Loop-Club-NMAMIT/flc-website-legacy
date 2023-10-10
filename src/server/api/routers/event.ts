@@ -68,4 +68,28 @@ export const eventRouter = createTRPCRouter({
         console.log("error", error);
       }
     }),
+
+  updateEvent: adminProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        isAvailable: z.boolean(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const { id, isAvailable } = input;
+        return await ctx.prisma.event.update({
+          where: {
+            id
+          },
+          data: {
+            isAvailable
+          }
+        })
+      } catch (error) {
+        console.log("error",error)
+      }
+    }),
+
 });

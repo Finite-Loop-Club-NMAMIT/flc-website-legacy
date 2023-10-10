@@ -120,16 +120,18 @@ model Core {
 }
 
 model Event {
-  id          Int           @id @unique @default(autoincrement())
-  name        String
-  date        DateTime
-  attended    Int
-  type        EventTypes
-  image       String
-  organizer   String
-  description String        @db.Text
-  filter      EventFilter
-  Certificate Certificate[]
+  id           Int                 @id @unique @default(autoincrement())
+  name         String
+  date         DateTime
+  isAvailable  Boolean             @default(true)
+  attended     Int
+  type         EventTypes
+  image        String
+  organizer    String
+  description  String              @db.Text
+  filter       EventFilter
+  Certificate  Certificate[]
+  Participants EventParticipants[]
 }
 
 model Certificate {
@@ -157,6 +159,20 @@ model Registrations {
   yearOfReg    Int
 
   @@index([userId])
+}
+
+// Event registrations model
+model EventParticipants {
+  id      Int    @id @unique @default(autoincrement())
+  name    String
+  usn     String
+  email   String
+  year    String
+  branch  String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId Int
+
+  @@index([eventId])
 }
 
 // Enums
