@@ -8,6 +8,49 @@ import { api } from "../../utils/api";
 import Loader from "../loader";
 import BlurImage from "../blurImage";
 
+const order = [
+  'Principal',
+  'AssistantProfessor',
+  'Mentor',
+  'President',
+  'VicePresident',
+  'Secretary',
+  'CoreMember',
+  'JointSecretary',
+  'Treasurer',
+  'LeadDeveloper',
+  'FrontendLead',
+  'BackendLead',
+  'CPAdvisors',
+  'CompetitiveProgrammingLead',
+  'CPTeamMember',
+  'AppDomainHead',
+  'AIMLDomainHead',
+  'EventLead',
+  'EventsHead',
+  'EventsCoHead',
+  'TechnicalHead',
+  'DigitalTechLead',
+  'EthicalHackingHead',
+  'ProgramAdvisor',
+  'ProgramLead',
+  'GraphicsHead',
+  'GraphicsCoHead',
+  'GraphicsTeam',
+  'ContentHead',
+  'ContentCoHead',
+  'ContentTeam',
+  'SocialMediaHead',
+  'SocialMediaCoHead',
+  'SocialMediaTeam',
+  'TechnicalContentHead',
+  'TechnicalTeam',
+  'DocumentationHead',
+  'OperationsManager',
+  'TalentAcquisitionHead',
+  'PublicityHead'
+]
+
 const Core: FunctionComponent = () => {
   const [toggleState, setToggleState] = useState(3);
 
@@ -60,7 +103,7 @@ const Core: FunctionComponent = () => {
             members.data.map(
               (member, index) =>
                 member.filter === filter && (
-                  <div key={index}>
+                  <div key={index} style={{ order: order.indexOf(member.role.toString()) + 1 }}>
                     <div className="mb-6 w-full px-6 sm:px-6 lg:px-4">
                       <div className="flex flex-col">
                         <div className="mx-auto transition duration-500 hover:scale-[1.03]">
