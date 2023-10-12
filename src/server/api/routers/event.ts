@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { addEventInput, getEventsInput } from "../../../types";
 
-import { createTRPCRouter, publicProcedure ,adminProcedure} from "../trpc";
+import { createTRPCRouter, publicProcedure ,adminProcedure, protectedProcedure} from "../trpc";
 import { deleteImage } from "../../../utils/cloudinary";
 
 export const eventRouter = createTRPCRouter({
@@ -92,4 +92,57 @@ export const eventRouter = createTRPCRouter({
       }
     }),
 
+  getUserForEvent: protectedProcedure
+    .query(async ({ ctx }) => {
+      try {
+        return await ctx.prisma.user.findUnique({
+          where:{
+            id: ctx.session.user.id
+          },
+          select: {
+            isMember: true,
+            Events: {
+              select: {
+                eventId: true
+              }
+            }
+          }
+        })
+      } catch(error) {
+        console.log("error",error)
+      }
+    }),
+
+  registerToEvent: protectedProcedure
+    .input(
+      z.object({
+        eventId: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+
+        return await ctx.prisma.eventParticipant.create({
+          data: {
+            eventId: input.eventId,
+            userId: ctx.session.user.id
+          }
+        })
+      } catch(error) {
+        console.log("error",error)
+      }
+    }),
+
+  getAvailableEvent: publicProcedure
+    .query(async({ ctx })=>{
+      try {
+        return await ctx.prisma.event.findMany({
+          where:{
+            isAvailable: true
+          }
+        })
+      } catch(error){
+        console.log("error",error)
+      }
+    })
 });
