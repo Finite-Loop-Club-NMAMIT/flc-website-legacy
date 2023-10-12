@@ -217,6 +217,92 @@ const EditProfileModal = ({
             </div>
 
             <div>
+              <label htmlFor="phone" className="text-sm font-medium">
+                Phone Number
+              </label>
+
+              <div className="relative mt-1">
+                <input
+                  id="phone"
+                  name="phone"
+                  defaultValue={ProfileData.phone as string}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      phone: e.target.value,
+                    })
+                  }
+                  type="tel"
+                  pattern="[0-9]{10}"
+                  className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                  placeholder="Enter phone number"
+                />
+
+                <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="branch" className="text-sm font-medium">
+                Branch
+              </label>
+
+              <div className="relative mt-1">
+                <select
+                  id="branch"
+                  name="branch"
+                  defaultValue={ProfileData.branch as string}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      branch: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                  placeholder="Enter branch"
+                >
+                  <option key="" value="">Select the branch</option>
+                  <option key="" value="hulk">hulk</option>
+                  <option key="" value="thor">thor</option>
+                  <option key="" value="ironman">ironman</option>
+                  {/* {Object.entries(branches).map(([key,branch]) => (
+                        <option key={key} value={branch.branchSF}>
+                          {branch.branchFN}
+                        </option>
+                  ))} */}
+                </select>
+
+                <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="year" className="text-sm font-medium">
+                Year
+              </label>
+
+              <div className="relative mt-1">
+                <input
+                  id="year"
+                  name="year"
+                  // defaultValue={ProfileData.year as number}
+                  // onChange={(e) =>
+                  //   setEditData({
+                  //     ...editData,
+                  //     year: parseInt(e.target.value),
+                  //   })
+                  // }
+                  // type="number" min={minYear} max={maxYear}
+                  pattern="[0-9]{4}"
+                  className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                  placeholder="Enter year YYYY"
+                />
+
+                <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+              </div>
+            </div>
+
+            <div>
               <label htmlFor="socialLinks" className="text-sm font-medium">
                 Social Links
               </label>
