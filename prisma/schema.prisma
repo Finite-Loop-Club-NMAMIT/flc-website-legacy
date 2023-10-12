@@ -209,6 +209,15 @@ enum Role {
   TechnicalContentHead
   TechnicalTeam
   CoreMember
+  OperationsManager
+  LeadDeveloper
+  FrontendLead
+  BackendLead
+  CPAdvisors
+  CPTeamMember
+  AppDomainHead
+  AIMLDomainHead
+  EventLead
 }
 
 enum CoreFilter {
