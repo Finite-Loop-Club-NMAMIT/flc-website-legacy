@@ -158,14 +158,12 @@ const AddCore: NextPage = () => {
               defaultValue=""
               placeholder="Github URL"
               className="rounded-lg border-2 border-gray-300 p-2"
-              required
             />
             <input
               type="text"
               name="linkedin"
               defaultValue=""
               placeholder="Linkedin URL"
-              required
               className="rounded-lg border-2 border-gray-300 p-2"
             />
             <Button>Add Member</Button>
