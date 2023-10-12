@@ -106,6 +106,9 @@ export const userRouter = createTRPCRouter({
             username: input.username,
             name: input.name,
             bio: input.bio,
+            phone: input.phone,
+            branch: input.branch,
+            year: input.year,
             links: input.links,
           },
         });
