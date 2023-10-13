@@ -5,6 +5,9 @@ export const editUserInput = z.object({
   username: z.string().optional(),
   name: z.string().optional(),
   bio: z.string().optional(),
+  phone: z.string().optional(),
+  branch: z.string().optional(),
+  year: z.number().optional(),
   links: z.string().optional(),
 });
 
