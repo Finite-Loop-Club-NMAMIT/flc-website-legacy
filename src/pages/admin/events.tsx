@@ -1,6 +1,6 @@
 import { EventFilter, EventTypes } from "@prisma/client";
 import { type NextPage } from "next";
-import { useState, type ReactElement } from "react";
+import { useState, type ReactElement,type FormEvent } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { env } from "../../env/client.mjs";
 import { api } from "../../utils/api";
@@ -9,6 +9,7 @@ import Button from "../../components/button";
 import withAdminRoute from "../../components/hoc/withAdminRoute";
 import Image from "next/image";
 import { MdDeleteOutline } from "react-icons/md";
+import { BiEdit } from "react-icons/bi";
 
 type Events = {
   data: Event[];
@@ -245,6 +246,103 @@ const Event: NextPage = () => {
 };
 
 const EventList: React.FC<EventListProps> = ({ events, filter }) => {
+  const [showEditForm, setShowEditForm] = useState<boolean[]>(Array.isArray(events?.data) ? new Array(events.data.length).fill(false) : []);
+  const eventQuery = api.eventRouter.getAllEvents.useQuery();
+  const editEvent = api.eventRouter.editEvent.useMutation();
+  const [changeImage, setChangeImage] = useState<boolean>(false);
+  
+  const handleEditClick = (index: number,show: boolean) => {
+    const newShowEditForm = [...showEditForm];
+    newShowEditForm[index] = show;
+    setShowEditForm(newShowEditForm);
+  };
+
+  const handleUpdateSubmit = async (e: FormEvent, index: number) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    let image = formData.get("imgurl") as string;
+
+    if(changeImage){
+      const loadingToast = toast.loading("Please wait...");
+      const form = e.currentTarget as HTMLFormElement;
+      
+      const fileInput = Array.from(form.elements).find(
+        (element) => element instanceof HTMLInputElement && element.name === "eimage"
+      ) as HTMLInputElement;
+  
+  
+      for (const file of fileInput.files as FileList) {
+        formData.append("file", file);
+      }
+  
+      formData.append("upload_preset", "core-team-uploads");
+  
+      const response: Response = await fetch(
+        `${env.NEXT_PUBLIC_URL}/api/image/admin`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        toast.error("Error uploading image");
+        toast.dismiss(loadingToast);
+        return;
+      }
+
+      const data: CloudinaryResponse =
+        (await response.json()) as CloudinaryResponse;
+      image = data.secure_url;
+      
+      toast.dismiss(loadingToast);
+    }
+
+    const eidString = formData.get("eventid") as string;
+    const eid = eidString ? parseInt(eidString) : 0;
+    const name = formData.get("eventname") as string;
+    const dateS = formData.get("eventdate") as string;
+    const date = new Date(dateS);
+    const attendedS = formData.get("eattended") as string;
+    const attended = attendedS ? parseInt(attendedS) : 0;
+    const type = formData.get("etype") as EventTypes;
+    const organizer = formData.get("eorganizer") as string;
+    const description = formData.get("edescription") as string;
+    const filter = formData.get("efilter") as EventFilter;
+      try {
+        await editEvent.mutateAsync(
+          {
+            id: eid,
+            name: name,
+            date: date,
+            attended: attended,
+            type: type,
+            image: image,
+            organizer: organizer,
+            description: description,
+            filter: filter,
+          },
+          {
+            onSuccess: () => {
+              handleEditClick(index,false);
+
+              eventQuery
+                .refetch()
+                .then(() => {
+                  toast.success("Event updated successfully");
+                })
+                .catch(() => {
+                  toast.error("Error fetching events");
+                });
+            },
+          }
+        );
+      } catch (error) {
+        toast.error("Error updating event");
+      }
+    setChangeImage(false);
+  };
+
   const deleteEvent = api.eventRouter.deleteEvent.useMutation();
   return (
     <div className="mb-5 flex flex-col items-center justify-center px-5">
@@ -253,7 +351,7 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
       </p>
       <div className="mt-2 flex flex-wrap justify-center gap-5">
         {events.data &&
-          events.data.map((event) => {
+          events.data.map((event,index) => {
             if (event.filter === filter) {
               return (
                 <div
@@ -263,12 +361,109 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                   }}
                   className="my-2 flex flex-col justify-center gap-3 rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-200/30 dark:hover:bg-gray-800/30 transition-colors duration-300"
                 >
+                    <FormModal showForm={showEditForm[index] || false} setShowForm={(value) => {
+                        const newShowEditForm = [...showEditForm];
+                        newShowEditForm[index] = value;
+                        setShowEditForm(newShowEditForm);
+                    }}>
+                      <form
+                        onSubmit={async (e) => {
+                          await handleUpdateSubmit(e,index);
+                        }}
+                      >
+                      <div className="flex flex-col gap-5">
+                          <input type="text" name="eventid" id="eventid" hidden defaultValue={event.id}/>
+                          <input
+                            className="rounded-lg border-2 border-gray-300 p-2"
+                            type="text"
+                            defaultValue={event.name}
+                            name="eventname"
+                            placeholder="Enter event name"
+                            required
+                          />
+                          <input
+                            className="rounded-lg border-2 border-gray-300 p-2"
+                            type="date"
+                            name="eventdate"
+                            defaultValue={event.date.toISOString().substr(0, 10)}
+                            placeholder="Enter event date"
+                            required
+                          />
+                          <input
+                            className="rounded-lg border-2 border-gray-300 p-2"
+                            type="number"
+                            name="eattended"
+                            defaultValue={event.attended}
+                            placeholder="Enter number of attendees"
+                            required
+                          />
+
+                          <input
+                            className="rounded-lg border-2 border-gray-300 p-2"
+                            type="text"
+                            name="eorganizer"
+                            defaultValue={event.organizer}
+                            placeholder="Enter event organizer"
+                            required
+                          />
+                          <input
+                            className="rounded-lg border-2 border-gray-300 p-2"
+                            type="textarea"
+                            name="edescription"
+                            defaultValue={event.description}
+                            placeholder="Enter event description"
+                            required
+                          />
+                          <select
+                            className="rounded-lg border-2 border-gray-300 p-2"
+                            defaultValue={event.filter}
+                            name="efilter"
+                            required
+                          >
+                            {Object.keys(EventFilter).map((key) => (
+                              <option key={key} value={key}>
+                                {key}
+                              </option>
+                            ))}
+                          </select>
+                          <select
+                            className="rounded-lg border-2 border-gray-300 p-2"
+                            defaultValue={event.type}
+                            name="etype"
+                            required
+                          >
+                            {Object.keys(EventTypes).map((key) => (
+                              <option key={key} value={key}>
+                                {key}
+                              </option>
+                            ))}
+                        </select>
+                        <div className="flex items-start space-x-3 ">
+                          <input type="checkbox" className="border-gray-300 rounded h-5 w-5" checked={changeImage} onChange={() => { changeImage ? setChangeImage(false) : setChangeImage(true); }}/>
+                          <div className="flex flex-col">
+                            <h1 className="text-white leading-none">Do you want to update images too?</h1>
+                          </div>
+                        </div>
+                        <input type="text" name="imgurl" id="imgurl" hidden defaultValue={event.image}/>
+                        <input
+                            hidden={!changeImage}
+                            className="rounded-lg border-2 border-gray-300 p-2"
+                            type="file"
+                            name="eimage"
+                            accept="image/*"
+                            placeholder="Image File"
+                            multiple={false}
+                          />
+                          <Button>Update Event</Button>
+                        </div>
+                      </form>
+                  </FormModal>
                   <Image 
                     src={event.image}
                     alt={event.name}
                     width={150}
                     height={150}
-                    className="rounded-lg flex justify-center w-full basis-2/4"
+                    className="rounded-lg flex justify-center w-full h-44 basis-2/4 border border-white"
                   />
 
                   <div className="text-center basis-1/4">
@@ -283,6 +478,12 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                         day: "numeric",
                       })}
                     </p>
+                     
+                    <div className="mt-2 flex items-center justify-center">
+                      <button className="text-3xl" onClick={() => handleEditClick(index,true)}>
+                        <BiEdit />
+                      </button>
+                    </div>
                   </div>
 
                   <div className="flex justify-center">
