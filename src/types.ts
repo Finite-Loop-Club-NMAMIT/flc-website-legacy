@@ -87,6 +87,10 @@ export const addCoreMemberInput = z.object({
   ]),
 });
 
+export const editCoreMemberInput = addCoreMemberInput.extend({
+  id: z.number(),
+});
+
 // Events
 export const getEventsInput = z.object({
   filter: z.optional(
@@ -126,6 +130,10 @@ export const addEventInput = z.object({
     "Year2022to2023",
     "Year2023to2024",
   ]),
+});
+
+export const editEventInput = addEventInput.extend({
+  id: z.number(),
 });
 
 // Certificate
