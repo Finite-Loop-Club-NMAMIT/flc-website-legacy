@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { addEventInput, getEventsInput } from "../../../types";
+import { addEventInput, editEventInput, getEventsInput } from "../../../types";
 
 import { createTRPCRouter, publicProcedure ,adminProcedure} from "../trpc";
 import { deleteImage } from "../../../utils/cloudinary";
@@ -48,6 +48,36 @@ export const eventRouter = createTRPCRouter({
       }
     }),
 
+    editEvent: adminProcedure
+      .input(editEventInput)
+      .mutation(async ({ ctx, input }) => {
+        try {
+          const existingEvent = await ctx.prisma.event.findUnique({
+            where: { id: input.id },
+          });
+          if (!existingEvent)
+            throw new Error("Event not found");
+          if (existingEvent.image != input.image)
+            await deleteImage(existingEvent.image).catch((err) => { console.log(err) });
+          
+          return await ctx.prisma.event.update({
+            where: { id: input.id },
+            data: {
+              name: input.name,
+              date: input.date,
+              attended: input.attended,
+              type: input.type,
+              image: input.image,
+              organizer: input.organizer,
+              description: input.description,
+              filter:input.filter,
+            }
+          });
+        } catch (error) {
+          console.log("error: ",error)
+        }
+      }),
+  
   deleteEvent: adminProcedure
     .input(
       z.object({

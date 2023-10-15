@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { addCoreMemberInput, getCoreMembersInput } from "../../../types";
+import { addCoreMemberInput , getCoreMembersInput, editCoreMemberInput } from "../../../types";
 
 import { createTRPCRouter, publicProcedure ,adminProcedure} from "../trpc";
 import { deleteImage } from "../../../utils/cloudinary";
@@ -43,6 +43,34 @@ export const coreRouter = createTRPCRouter({
         });
       } catch (error) {
         console.log("error", error);
+      }
+    }),
+  
+    editCore: adminProcedure
+    .input(editCoreMemberInput)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const existingCore = await ctx.prisma.core.findUnique({
+          where: { id: input.id },
+        });
+        if (!existingCore)
+          throw new Error("Core member not found");
+        if (existingCore.img != input.img)
+          await deleteImage(existingCore.img).catch((err) => { console.log(err) });
+
+        return await ctx.prisma.core.update({
+          where: { id: input.id },
+          data: {
+            name: input.name,
+            role: input.role,
+            img: input.img,
+            github: input.github,
+            linkedin: input.linkedin,
+            filter: input.filter,
+          }
+        });
+      } catch (error) {
+        console.log("error", error)
       }
     }),
 
