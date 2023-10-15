@@ -219,8 +219,7 @@ const CoreMemberList: React.FC<CoreMemberListProps> = ({ members, filter }) => {
       reader.readAsDataURL(file);
     }
   };
-
-  // update handler
+  // update core handler
   const handleUpdateSubmit = async (e: FormEvent,index: number) => {
     e.preventDefault();
     

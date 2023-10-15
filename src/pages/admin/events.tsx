@@ -246,22 +246,34 @@ const Event: NextPage = () => {
 };
 
 const EventList: React.FC<EventListProps> = ({ events, filter }) => {
-  const [showEditForm, setShowEditForm] = useState<boolean[]>(Array.isArray(events?.data) ? new Array(events.data.length).fill(false) : []);
   const eventQuery = api.eventRouter.getAllEvents.useQuery();
   const editEvent = api.eventRouter.editEvent.useMutation();
+  // for to maintain separate editForm visibility
+  const [showEditForm, setShowEditForm] = useState<boolean[]>(Array.isArray(events?.data) ? new Array(events.data.length).fill(false) : []);
+  // maintain state to indicate change of image
   const [changeImage, setChangeImage] = useState<boolean>(false);
-  
+  // switch the visibility of the forms
   const handleEditClick = (index: number,show: boolean) => {
     const newShowEditForm = [...showEditForm];
     newShowEditForm[index] = show;
     setShowEditForm(newShowEditForm);
   };
-
+  // handle and verify the changed image
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    // handler if user selects other file than image
+    if (!file?.type.startsWith('image/')) {
+      toast.error("Please select an image file (e.g., PNG, JPG, JPEG).");
+      e.target.value = ""; // Reset the input value to clear the selected file
+      return;
+    }
+  };
+  // update event handler
   const handleUpdateSubmit = async (e: FormEvent, index: number) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     let image = formData.get("imgurl") as string;
-
+    // only execute if the image is changed
     if(changeImage){
       const loadingToast = toast.loading("Please wait...");
       const form = e.currentTarget as HTMLFormElement;
@@ -447,12 +459,14 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                         <input type="text" name="imgurl" id="imgurl" hidden defaultValue={event.image}/>
                         <input
                             hidden={!changeImage}
+                            required={changeImage}
                             className="rounded-lg border-2 border-gray-300 p-2"
                             type="file"
                             name="eimage"
                             accept="image/*"
                             placeholder="Image File"
                             multiple={false}
+                            onChange={(e)=>handleImageChange(e)}
                           />
                           <Button>Update Event</Button>
                         </div>
