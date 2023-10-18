@@ -106,7 +106,7 @@ to use Prisma Studio(visual editor).
 Open [port 5555 on localhost](http://localhost:5555) with your browser.
 
 ## Contribution
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. While sending the PR please mention the issue in the Comment. Thank you. Follow the process given under [this section](#running-the-project) to run and configure the project.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. While sending the PR please mention the issue in the Comment. Thank you. Follow the process given under [this section](#project-setup) to run and configure the project.
 
 1. Create a new branch
 
@@ -119,11 +119,11 @@ git checkout -b branch-name-here
 
 ```bash
 //Staging changes
-git add insert-paths-of-changed-files-here
+git add .
 //Commiting changes
 git commit -m "Insert a short message of the changes made here"
 //Pushing changes
-git push origin branch-name-here.
+git push origin branch-name-here
 ```
 
 4. From your branch that you are working on, give a PR to our `dev` branch.
