@@ -73,6 +73,8 @@ export const addCoreMemberInput = z.object({
     "AppDomainHead",
     "AIMLDomainHead",
     "EventLead",
+    "Photographer",
+    "Videographer"
   ]),
   img: z.string(),
   github: z.string().optional(),
