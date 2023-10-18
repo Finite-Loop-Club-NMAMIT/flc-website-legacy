@@ -201,6 +201,8 @@ enum Role {
   AppDomainHead
   AIMLDomainHead
   EventLead
+  Photographer
+  Videographer
 }
 
 enum CoreFilter {
