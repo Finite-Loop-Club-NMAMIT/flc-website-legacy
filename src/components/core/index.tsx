@@ -43,6 +43,8 @@ const order = [
   'SocialMediaHead',
   'SocialMediaCoHead',
   'SocialMediaTeam',
+  'Photographer',
+  'Videographer',
   'TechnicalContentHead',
   'TechnicalTeam',
   'DocumentationHead',
