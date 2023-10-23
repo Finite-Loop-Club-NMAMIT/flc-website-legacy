@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { addEventInput, editEventInput, getEventsInput } from "../../../types";
+import { addEventInput, editEventInput, getEventsInput,deleteEventImageInput } from "../../../types";
 
 import { createTRPCRouter, publicProcedure ,adminProcedure} from "../trpc";
 import { deleteImage } from "../../../utils/cloudinary";
@@ -37,7 +37,7 @@ export const eventRouter = createTRPCRouter({
             date: input.date,
             attended: input.attended,
             type: input.type,
-            image: input.image,
+            images: input?.images,
             organizer: input.organizer,
             description: input.description,
             filter: input.filter,
@@ -48,35 +48,59 @@ export const eventRouter = createTRPCRouter({
       }
     }),
 
-    editEvent: adminProcedure
-      .input(editEventInput)
-      .mutation(async ({ ctx, input }) => {
-        try {
-          const existingEvent = await ctx.prisma.event.findUnique({
-            where: { id: input.id },
-          });
-          if (!existingEvent)
-            throw new Error("Event not found");
-          if (existingEvent.image != input.image)
-            await deleteImage(existingEvent.image).catch((err) => { console.log(err) });
-          
-          return await ctx.prisma.event.update({
-            where: { id: input.id },
-            data: {
-              name: input.name,
-              date: input.date,
-              attended: input.attended,
-              type: input.type,
-              image: input.image,
-              organizer: input.organizer,
-              description: input.description,
-              filter:input.filter,
-            }
-          });
-        } catch (error) {
-          console.log("error: ",error)
-        }
-      }),
+  editEvent: adminProcedure
+    .input(editEventInput)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const existingEvent = await ctx.prisma.event.findUnique({
+          where: { id: input.id },
+        });
+        if (!existingEvent)
+          throw new Error("Event not found");
+        if (existingEvent.images != input.images) 
+          input.images = (existingEvent.images as string[]).concat(input.images);
+        
+        return await ctx.prisma.event.update({
+          where: { id: input.id },
+          data: {
+            name: input.name,
+            date: input.date,
+            attended: input.attended,
+            type: input.type,
+            images: input?.images,
+            organizer: input.organizer,
+            description: input.description,
+            filter:input.filter,
+          }
+        });
+      } catch (error) {
+        console.log("error: ",error)
+      }
+    }),
+    
+  deleteEventImage: adminProcedure
+    .input(deleteEventImageInput)
+    .mutation(async({ ctx, input }) => {
+      try {
+        const existingEvent = await ctx.prisma.event.findUnique({
+          where: { id: input.id },
+        });
+        if (!existingEvent)
+          throw new Error("Event not found");
+        
+        await deleteImage(input.source).catch((err) => { console.log(err) });
+        const updatedImages = (existingEvent.images as string[]).filter(image => image !== input.source);
+        console.log("deleted: "+input.source)
+        return await ctx.prisma.event.update({
+          where: { id: input.id },
+          data: {
+            images : updatedImages,
+          }
+        })
+      }catch (error) {
+        console.log("error: ",error)
+      }
+    }),
   
   deleteEvent: adminProcedure
     .input(

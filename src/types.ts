@@ -120,7 +120,7 @@ export const addEventInput = z.object({
     "Hackathon",
     "CodingContest",
   ]),
-  image: z.string(),
+  images: z.array(z.string()),
   organizer: z.string(),
   description: z.string(),
   filter: z.enum([
@@ -134,6 +134,11 @@ export const addEventInput = z.object({
 
 export const editEventInput = addEventInput.extend({
   id: z.number(),
+});
+
+export const deleteEventImageInput = z.object({
+  id: z.number(),
+  source: z.string(),
 });
 
 // Certificate
