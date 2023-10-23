@@ -39,27 +39,26 @@ model Session {
 }
 
 model User {
-  id            String             @id @unique @default(cuid())
+  id            String          @id @unique @default(cuid())
   name          String?
-  email         String?            @unique
+  email         String?         @unique
   phone         String?
   branch        String?
   year          Int?
-  username      String?            @unique
+  username      String?         @unique
   emailVerified DateTime?
   image         String?
-  role          String?            @default("user")
-  bio           String?            @db.Text
-  links         String?            @db.Text
-  isMember      Boolean            @default(false)
-  isAdmin       Boolean            @default(false)
+  role          String?         @default("user")
+  bio           String?         @db.Text
+  links         String?         @db.Text
+  isMember      Boolean         @default(false)
+  isAdmin       Boolean         @default(false)
   teamId        Int?
-  Team          Team?              @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  Team          Team?           @relation(fields: [teamId], references: [id], onDelete: Cascade)
   accounts      Account[]
   sessions      Session[]
   Certificate   Certificate[]
   Registrations Registrations[]
-  Events        EventParticipant[]
 
   @@index([teamId])
 }
@@ -121,19 +120,16 @@ model Core {
 }
 
 model Event {
-  id           Int                @id @unique @default(autoincrement())
-  name         String
-  date         DateTime
-  isAvailable  Boolean            @default(true)
-  attended     Int
-  type         EventTypes
-  images       Json?
-  organizer    String
-  description  String             @db.Text
-  amount       Int?
-  filter       EventFilter
-  Certificate  Certificate[]
-  Participants EventParticipant[]
+  id          Int           @id @unique @default(autoincrement())
+  name        String
+  date        DateTime
+  attended    Int
+  type        EventTypes
+  images      Json?
+  organizer   String
+  description String        @db.Text
+  filter      EventFilter
+  Certificate Certificate[]
 }
 
 model Certificate {
@@ -161,19 +157,6 @@ model Registrations {
   yearOfReg    Int
 
   @@index([userId])
-}
-
-// Event registrations model
-model EventParticipant {
-  event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId Int
-  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  String
-
-  @@id([userId,eventId])
-  @@unique([userId,eventId])
-  @@index([userId])
-  @@index([eventId])
 }
 
 // Enums
@@ -218,6 +201,8 @@ enum Role {
   AppDomainHead
   AIMLDomainHead
   EventLead
+  Photographer
+  Videographer
 }
 
 enum CoreFilter {
