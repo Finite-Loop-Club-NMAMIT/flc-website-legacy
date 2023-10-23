@@ -10,6 +10,9 @@ import withAdminRoute from "../../components/hoc/withAdminRoute";
 import Image from "next/image";
 import { MdDeleteOutline } from "react-icons/md";
 import { BiEdit } from "react-icons/bi";
+import { FaRegEye } from "react-icons/fa";
+import { type JsonArray, type JsonValue } from "@prisma/client/runtime/library";
+import ImageSlider from "../../components/imageslider";
 
 type Events = {
   data: Event[];
@@ -25,6 +28,13 @@ interface FormModalProps {
   children: React.ReactNode;
   showForm: boolean;
   setShowForm: (showForm: boolean) => void;
+}
+
+interface ImageViewerProps {
+  images: JsonArray;
+  showImageViewer: boolean;
+  setShowImageViewer: (showForm: boolean) => void;
+  eventid: number;
 }
 
 interface CloudinaryResponse {
@@ -45,7 +55,7 @@ interface FormData {
 const Event: NextPage = () => {
   const events = api.eventRouter.getAllEvents.useQuery();
   const addEvent = api.eventRouter.addEvent.useMutation();
-  const [image, setImage] = useState<File | null>(null);
+  const [images, setImages] = useState<FileList | null>(null);
   const [formdata, setFormData] = useState<FormData>({
     name: "",
     date: new Date(),
@@ -62,7 +72,13 @@ const Event: NextPage = () => {
     {
       const loadingToast = toast.loading("Please wait...");
       const formData = new FormData();
-      formData.append("file", image as File);
+      
+      if(images)
+        for (let i = 0; i < images?.length; i++){
+          const img = images[i];
+          if(img)
+            formData.append("file", img);
+        } 
       formData.append("upload_preset", "event-uploads");
 
       const response: Response = await fetch(
@@ -89,7 +105,7 @@ const Event: NextPage = () => {
             date: new Date(formdata.date),
             attended: formdata.attended,
             type: formdata.type,
-            image: data.secure_url,
+            images: JSON.parse(data.secure_url) as string[],
             organizer: formdata.organizer,
             description: formdata.description,
             filter: formdata.filter,
@@ -227,8 +243,8 @@ const Event: NextPage = () => {
               type="file"
               accept="image/*"
               placeholder="Image File"
-              onChange={(e) => setImage(e.target.files?.[0] as File)}
-              multiple={false}
+              onChange={(e) => setImages(e.target.files as FileList)}
+              multiple={true}
               required
             />
             <Button>Add Event</Button>
@@ -260,12 +276,17 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
   };
   // handle and verify the changed image
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    // handler if user selects other file than image
-    if (!file?.type.startsWith('image/')) {
-      toast.error("Please select an image file (e.g., PNG, JPG, JPEG).");
-      e.target.value = ""; // Reset the input value to clear the selected file
+    const files = e.target.files;
+    if (!files || files.length === 0) 
       return;
+
+    for (let i = 0; i < files?.length; i++){
+      const file = files[i];
+      if (!file?.type.startsWith('image/')) {
+        toast.error("Please select an image file (e.g., PNG, JPG, JPEG).");
+        e.target.value = ""; // Reset the input value to clear the selected file
+        return;
+      }
     }
   };
   // update event handler
@@ -287,7 +308,7 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
         formData.append("file", file);
       }
   
-      formData.append("upload_preset", "core-team-uploads");
+      formData.append("upload_preset", "event-uploads");
   
       const response: Response = await fetch(
         `${env.NEXT_PUBLIC_URL}/api/image/admin`,
@@ -303,10 +324,8 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
         return;
       }
 
-      const data: CloudinaryResponse =
-        (await response.json()) as CloudinaryResponse;
+      const data = (await response.json()) as CloudinaryResponse;
       image = data.secure_url;
-      
       toast.dismiss(loadingToast);
     }
 
@@ -329,7 +348,7 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
             date: date,
             attended: attended,
             type: type,
-            image: image,
+            images: JSON.parse(image) as string[],
             organizer: organizer,
             description: description,
             filter: filter,
@@ -354,6 +373,24 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
       }
     setChangeImage(false);
   };
+  // function to get first image
+  function getFirstImage(images:JsonValue): string {
+    if (Array.isArray(images)) {
+      const firstImage = images[0] as JsonArray;
+      if (typeof firstImage === "string") {
+        return firstImage;
+      }
+    }
+    return "";
+  }
+
+  const [showImageViewers, setShowImageViewers] = useState<boolean[]>(Array.isArray(events?.data) ? new Array(events.data.length).fill(false) : []);
+
+  const handleViewClick = (index: number, show: boolean) => {
+    const newVisibilityState = [...showImageViewers];
+    newVisibilityState[index] = show;
+    setShowImageViewers(newVisibilityState);
+  };
 
   const deleteEvent = api.eventRouter.deleteEvent.useMutation();
   return (
@@ -373,6 +410,15 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                   }}
                   className="my-2 flex flex-col justify-center gap-3 rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-200/30 dark:hover:bg-gray-800/30 transition-colors duration-300"
                 >
+                  <ImageViewer images={event.images as JsonArray}
+                    showImageViewer={showImageViewers[index] || false}
+                    setShowImageViewer={(newValue) => {
+                        const newVisibilityState = [...showImageViewers];
+                        newVisibilityState[index] = newValue;
+                      setShowImageViewers(newVisibilityState);
+                    }}
+                    eventid={event.id}
+                  />
                     <FormModal showForm={showEditForm[index] || false} setShowForm={(value) => {
                         const newShowEditForm = [...showEditForm];
                         newShowEditForm[index] = value;
@@ -456,7 +502,7 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                             <h1 className="text-white leading-none">Do you want to update images too?</h1>
                           </div>
                         </div>
-                        <input type="text" name="imgurl" id="imgurl" hidden defaultValue={event.image}/>
+                        <input type="text" name="imgurl" id="imgurl" hidden defaultValue={JSON.stringify(event.images)}/>
                         <input
                             hidden={!changeImage}
                             required={changeImage}
@@ -465,21 +511,27 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                             name="eimage"
                             accept="image/*"
                             placeholder="Image File"
-                            multiple={false}
+                            multiple={true}
                             onChange={(e)=>handleImageChange(e)}
                           />
                           <Button>Update Event</Button>
                         </div>
                       </form>
                   </FormModal>
-                  <Image 
-                    src={event.image}
-                    alt={event.name}
-                    width={150}
-                    height={150}
-                    className="rounded-lg flex justify-center w-full h-44 basis-2/4 border border-white"
-                  />
-
+                  <div className="relative group">
+                    <Image 
+                      src={getFirstImage(event.images as JsonValue)}
+                      alt={event.name}
+                      width={150}
+                      height={150}
+                      className="rounded-lg flex justify-center w-full h-44 basis-2/4 border border-white group-hover:"
+                      
+                    />
+                    <div onClick={() => handleViewClick(index,true)} className="pt-[25%] bg-[#000000c2] cursor-pointer absolute h-full w-full flex flex-col items-center content-center text-lg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100">
+                      <FaRegEye size={30} />
+                      <p>View all</p>
+                    </div>
+                  </div>
                   <div className="text-center basis-1/4">
                     <p className="text-center text-lg font-bold">
                       {event.name}
@@ -504,16 +556,19 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                     <button
                       className="flex items-center gap-2 rounded-lg bg-red-500 px-2 py-1 text-white hover:bg-red-600"
                       onClick={() => {
+                        const loadingToast = toast.loading("Please wait...");
                         deleteEvent.mutate(
                           {
                             id: event.id,
                           },
                           {
                             onSuccess: () => {
+                              toast.dismiss(loadingToast);
                               toast.success("Event deleted successfully");
                               events.refetch();
                             },
                             onError: () => {
+                              toast.dismiss(loadingToast);
                               toast.error("Error adding event");
                             },
                           }
@@ -529,6 +584,31 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
           })}
       </div>
     </div>
+  );
+};
+
+const ImageViewer: React.FC<ImageViewerProps> = ({
+  images,
+  showImageViewer,
+  setShowImageViewer,
+  eventid,
+}): ReactElement => {
+  return (
+    <>
+      {showImageViewer && (
+        <div className="fixed inset-0 z-10 mt-20 h-[80%] overflow-y-auto">   
+          <div
+            className="fixed inset-0 h-full w-full bg-black opacity-95"
+            onClick={() => setShowImageViewer(false)}
+          />
+          <div className="flex h-fit items-center px-4 py-8">
+            <div className="relative mx-auto w-full max-w-lg rounded-md bg-white bg-opacity-50 p-4 shadow-lg backdrop-blur-lg backdrop-filter">
+              <ImageSlider images={images} eventid={eventid} deleteButton={true} />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

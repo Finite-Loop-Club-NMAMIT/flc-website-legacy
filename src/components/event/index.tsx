@@ -7,12 +7,13 @@ import { type FunctionComponent } from "react";
 import { type EventFilter } from "@prisma/client";
 import { api } from "../../utils/api";
 import Loader from "../../components/loader";
+import { type JsonArray, type JsonValue } from "@prisma/client/runtime/library";
 
 type ModalProps = {
   visible: boolean;
   onClose: () => void;
   name: string;
-  img: string;
+  images: JsonArray;
   desc: string;
   type: string;
   date: Date;
@@ -35,6 +36,17 @@ const EventList: FunctionComponent = () => {
   const events = api.eventRouter.getEvents.useQuery({
     filter: year as EventFilter,
   });
+
+  // function to get first image
+  function getFirstImage(images:JsonValue): string {
+    if (Array.isArray(images)) {
+      const firstImage = images[0] as JsonArray;
+      if (typeof firstImage === "string") {
+        return firstImage;
+      }
+    }
+    return "";
+  }
 
   return (
     <div className="">
@@ -82,7 +94,7 @@ const EventList: FunctionComponent = () => {
               >
                 <a>
                   <BlurImage
-                    src={event.image}
+                    src={getFirstImage(event.images as JsonValue)}
                     width={500}
                     height={500}
                     alt="event-pic"
@@ -104,7 +116,7 @@ const EventList: FunctionComponent = () => {
                         visible: true,
                         onClose: handleOnClose,
                         name: event.name,
-                        img: event.image,
+                        images: event.images as JsonArray,
                         desc: event.description,
                         type: event.type,
                         date: event.date,
@@ -122,7 +134,7 @@ const EventList: FunctionComponent = () => {
         <Modal
           onClose={handleOnClose}
           visible={showModal}
-          img={modalData.img}
+          images={modalData.images}
           name={modalData.name}
           desc={modalData.desc}
           attended={modalData.attended}

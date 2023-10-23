@@ -1,12 +1,13 @@
 import { Slide } from "react-awesome-reveal";
 import { type FunctionComponent } from "react";
-import BlurImage from "../blurImage";
+import ImageSlider from "../imageslider";
+import { type JsonArray } from "@prisma/client/runtime/library";
 
 type ModalProps = {
   visible: boolean;
   onClose: () => void;
   name: string;
-  img: string;
+  images: JsonArray,
   desc: string;
   type: string;
   date: Date;
@@ -19,7 +20,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   visible,
   onClose,
   name,
-  img,
+  images,
   desc,
   type,
   date,
@@ -59,13 +60,7 @@ const Modal: FunctionComponent<ModalProps> = ({
             </button>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <BlurImage
-                alt="Laptop"
-                src={img}
-                className="max-h-[550px] w-full rounded-xl"
-                height={500}
-                width={500}
-              />
+              <ImageSlider images={images}/>
               <div className="flex flex-col gap-3 text-white">
                 <h2 className="heading text-lg font-medium lg:text-2xl">
                   {name}
@@ -74,12 +69,12 @@ const Modal: FunctionComponent<ModalProps> = ({
                 <a>Date: {date.toLocaleDateString()}</a>
                 <a>Attended by: {attended}+ Participants</a>
                 <a>Organizers: {organizer}</a>
-                <p className="mt-4 text-sm">
+                <div className="mt-4 text-sm">
                   <a className="text-lg text-white">Description</a>
                   <div className="mt-2 pr-2">
                     <a className="text-gray-200">{desc}</a>
                   </div>
-                </p>
+                </div>
               </div>
             </div>
           </div>
