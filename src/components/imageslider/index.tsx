@@ -8,13 +8,11 @@ import { toast } from "react-hot-toast";
 
 type ImageSliderProps = {
     images: JsonArray;
-    height: number;
-    width: number;
     eventid?: number;
     deleteButton?: boolean;
 };
 
-const ImageSlider: FunctionComponent<ImageSliderProps> = ({ images, height, width, eventid, deleteButton }: ImageSliderProps) => {
+const ImageSlider: FunctionComponent<ImageSliderProps> = ({ images, eventid, deleteButton }: ImageSliderProps) => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [imagestate, setImagestate] = useState(images);
     const deleteEventImage = api.eventRouter.deleteEventImage.useMutation();
@@ -78,8 +76,8 @@ const ImageSlider: FunctionComponent<ImageSliderProps> = ({ images, height, widt
                                 src={image?.toString() || ""}
                                 className="max-h-[550px] w-full rounded-xl"
                                 style={{ objectFit: "contain" }}
-                                height={height}
-                                width={width}
+                                height={500}
+                                width={500}
                             />
                         );
                     }
