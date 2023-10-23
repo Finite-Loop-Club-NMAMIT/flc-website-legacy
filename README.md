@@ -55,17 +55,18 @@
 > **Note**
 > This project was bootstrapped with [create-t3-app](https://create.t3.gg/)
 
-### Running the Project
+### Project Setup
 
-1. Clone the repo
+1. Fork the [project](https://github.com/FiniteLoop-NMAMIT/flc-website) to your account
+2. Clone your fork to your local system
 
 ```bash
-git clone https://github.com/FiniteLoop-NMAMIT/flc-website
+git clone <your fork URL here>
 ```
 
 2. Install the dependencies:
 > **Note**
-> Install pnpm if you do not have it already `npm i -g pnpm`
+> Install pnpm if you do not have it already `npm i -g pnpm`. You can use npm if you wish to.
 
 ```bash
 pnpm i
@@ -74,10 +75,10 @@ pnpm i
 3. Generate prisma client
 
 ```bash
-pnpm exec prisma generate
+pnpx prisma generate
 ```
 
-4. Copy and Rename the .env.example to .env, place it in the root directory and fill the essential vars.
+4. Copy and Rename the .env.example to .env, place it in the root directory and fill the essential vars (Contact the maintainer on [Discord](https://www.discord.com/users/hashclan#4890) for test credentials)
 
 ```bash
 cp .env.example .env
@@ -92,25 +93,20 @@ cp .env.example .env
 pnpm dev
 ```
 
-Open [port 3000 on localhost](http://localhost:3000) with your browser to see the result.
+Open [port 3000 on localhost](http://localhost:3000) with your browser to see the website.
 
 Additional:
 
 ```bash
-pnpm exec prisma studio
+pnpx prisma studio
 ```
 
 to use Prisma Studio(visual editor).
 
 Open [port 5555 on localhost](http://localhost:5555) with your browser.
 
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. While sending the PR please mention the issue in the Comment. Thank you.
-
-## Development
-
-First, fork the project and clone it on your local machine. Follow the process given under [this section](#running-the-project) to run and configure the project.
+## Contribution
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. While sending the PR please mention the issue in the Comment. Thank you. Follow the process given under [this section](#project-setup) to run and configure the project.
 
 1. Create a new branch
 
@@ -123,17 +119,17 @@ git checkout -b branch-name-here
 
 ```bash
 //Staging changes
-git add insert-paths-of-changed-files-here
+git add .
 //Commiting changes
 git commit -m "Insert a short message of the changes made here"
 //Pushing changes
-git push origin branch-name-here.
+git push origin branch-name-here
 ```
 
-4. From your branch that you are working on, give a PR to our `develop` branch.
+4. From your branch that you are working on, give a PR to our `dev` branch.
    Title the pull request with a short description of the changes made and the issue or bug number associated with your change. In the description of the pull request, explain the changes that you made, any issues you think exist with the pull request you made, and any questions you have for the maintainer.
    > **Warning**
-   > Don't give a PR to the `main` branch, we accept PRs only on develop branch.
+   > Don't give a PR to the `main` branch, we accept PRs only on dev branch.
 5. Wait for the pull request to be reviewed by a maintainer and make changes to the pull request if the reviewing maintainer recommends them.
 
 ### Contributors
