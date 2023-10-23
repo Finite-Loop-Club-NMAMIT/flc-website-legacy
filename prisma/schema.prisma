@@ -47,7 +47,7 @@ model User {
   year          Int?
   username      String?         @unique
   emailVerified DateTime?
-  image         String?
+  images        Json?
   role          String?         @default("user")
   bio           String?         @db.Text
   links         String?         @db.Text
