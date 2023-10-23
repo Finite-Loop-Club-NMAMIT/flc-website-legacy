@@ -424,16 +424,19 @@ const CoreMemberList: React.FC<CoreMemberListProps> = ({ members, filter }) => {
                   <div className="mt-3">
                     <Button
                       onClick={() => {
+                        const loadingToast = toast.loading("Please wait...");
                         deleteCoreMember.mutate(
                           {
                             id: member.id,
                           },
                           {
                             onSuccess: () => {
+                              toast.dismiss(loadingToast);
                               toast.success("Member deleted successfully");
                               members.refetch();
                             },
                             onError: () => {
+                              toast.dismiss(loadingToast);
                               toast.error("Error adding member");
                             },
                           }
