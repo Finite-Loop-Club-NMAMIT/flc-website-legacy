@@ -7,47 +7,35 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const paidMembers = await prisma.registrationPayment.findMany({
-    where: {
-      paid: true,
-    },
-  });
-  const paidMembersDetails: {
-    username: string;
-    name: string;
-    email: string;
-  }[] = [];
-  for (const member of paidMembers) {
-    const memberDetails = await prisma.user.findUnique({
+  try {
+    const paidMembersDetails = await prisma.user.findMany({
       where: {
-        id: member.userId,
+        isMember: true,
       },
       select: {
-        username: true,
         name: true,
         email: true,
+        phone: true,
       },
     });
-    if (memberDetails) {
-      const { username, name, email } = memberDetails;
-      paidMembersDetails.push({
-        username: username as string,
-        name: name as string,
-        email: email as string,
-      });
+
+    const csvRows = [];
+    csvRows.push("Name,Email,Phone,USN");
+
+    for (const member of paidMembersDetails) {
+      if (member == null) continue;
+      const { name, email, phone } = member;
+
+      const usn = email?.split("@")[0];
+
+      csvRows.push(`${name},${email},${phone},${usn}`);
     }
+
+    const csvString = csvRows.join("\n");
+
+    res.status(200).send(csvString);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
   }
-
-  const csvRows = [];
-  csvRows.push("Username,Name,Email");
-
-  for (const member of paidMembersDetails) {
-    if (member == null) continue;
-    csvRows.push(`${member.username},${member.name},${member.email}`);
-    console.log(member.username);
-  }
-
-  const csvString = csvRows.join("\n");
-
-  res.status(200).send(csvString);
 }
