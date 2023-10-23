@@ -174,11 +174,9 @@ const AddCore: NextPage = () => {
       <div className="flex justify-center">
         <Button onClick={() => setShowForm(true)}>Add member</Button>
       </div>
-      <CoreMemberList members={members as Members} filter="Faculty" />
-      <CoreMemberList members={members as Members} filter="Year2022to2023" />
-      <CoreMemberList members={members as Members} filter="Year2021to2022" />
-      <CoreMemberList members={members as Members} filter="Year2020to2021" />
-      <CoreMemberList members={members as Members} filter="Year2017to2020" />
+      {Object.keys(CoreFilter).reverse().map((filter) => (
+         <CoreMemberList members={members as Members} filter={filter} key={filter} />
+      ))}
     </div>
   );
 };
