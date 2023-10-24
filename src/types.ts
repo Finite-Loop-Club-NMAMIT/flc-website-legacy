@@ -110,6 +110,7 @@ export const addEventInput = z.object({
   name: z.string(),
   date: z.date(),
   attended: z.number(),
+  amount: z.number().default(0),
   type: z.enum([
     "Workshop",
     "Seminar",
