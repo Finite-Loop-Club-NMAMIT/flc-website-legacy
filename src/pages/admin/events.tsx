@@ -45,6 +45,7 @@ interface FormData {
   name: string;
   date: Date;
   attended: number;
+  amount: number;
   type: EventTypes;
   image: string;
   organizer: string;
@@ -60,6 +61,7 @@ const Event: NextPage = () => {
     name: "",
     date: new Date(),
     attended: 0,
+    amount: 0,
     type: EventTypes.Workshop,
     image: "",
     organizer: "",
@@ -104,6 +106,7 @@ const Event: NextPage = () => {
             name: formdata.name,
             date: new Date(formdata.date),
             attended: formdata.attended,
+            amount: formdata.amount,
             type: formdata.type,
             images: JSON.parse(data.secure_url) as string[],
             organizer: formdata.organizer,
@@ -197,6 +200,17 @@ const Event: NextPage = () => {
               placeholder="Enter event organizer"
               required
             />
+
+            <input
+              className="rounded-lg border-2 border-gray-300 p-2"
+              type="number"
+              onChange={(e) =>
+                setFormData({ ...formdata, amount: parseInt(e.target.value) })
+              }
+              placeholder="Enter event amount"
+              required
+            />
+
             <input
               className="rounded-lg border-2 border-gray-300 p-2"
               type="textarea"
