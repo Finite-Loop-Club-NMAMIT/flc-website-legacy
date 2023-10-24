@@ -130,7 +130,7 @@ model Event {
   images       Json?
   organizer    String
   description  String             @db.Text
-  amount       Int?
+  amount       Int?               @default(0)
   filter       EventFilter
   Certificate  Certificate[]
   Participants EventParticipant[]

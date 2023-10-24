@@ -37,10 +37,10 @@ const HomeEvents:React.FC = () => {
                     <div key={i} className={`w-full min-h-[400px] h-fit flex relative bg-no-repeat bg-cover bg-center items-center justify-center`} style={{
                         backgroundImage: 'url('+getFirstImage(event.images as JsonValue)+')'
                     }}>
-                        <div className="bg-black/50 absolute top-0 left-0 w-full h-full flex z-0 backdrop-blur-sm"></div>
+                        <div className="bg-black/75 absolute top-0 left-0 w-full h-full flex z-0 backdrop-blur-sm"></div>
                         <div className="flex flex-col w-full h-full gap-y-4 z-10 items-center justify-center">
                             <h2 className="text-yellow-400 text-4xl font-bold">{event.name}</h2>
-                            <p className="text-white">
+                            <p className="text-white max-w-[640px] px-4 line-clamp-3">
                                 {event.description}
                             </p>
                             <div className="gap-x-4 flex">
