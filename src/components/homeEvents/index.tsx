@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Button from "../button";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { JsonArray } from "@prisma/client/runtime/library";
+import { type JsonValue, type JsonArray } from "@prisma/client/runtime/library";
 
 const HomeEvents:React.FC = () => {
 

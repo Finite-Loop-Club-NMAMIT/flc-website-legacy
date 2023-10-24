@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { addEventInput, deleteEventImageInput, editEventInput, getEventsInput } from "../../../types";
 
-import { createTRPCRouter, publicProcedure ,adminProcedure} from "../trpc";
+import { createTRPCRouter, publicProcedure ,adminProcedure, protectedProcedure} from "../trpc";
 import { deleteImage, deleteListImage } from "../../../utils/cloudinary";
 
 export const eventRouter = createTRPCRouter({
