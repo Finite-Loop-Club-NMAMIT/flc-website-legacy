@@ -479,7 +479,7 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                             className="rounded-lg border-2 border-gray-300 p-2"
                             type="number"
                             name="eamount"
-                            defaultValue={event.amount}
+                            defaultValue={event.amount||0}
                             placeholder="Enter event amount"
                             required
                           />
