@@ -354,6 +354,7 @@ export default function Profile() {
             setEditData={setEditData}
             setSocialLinks={setSocialLinks}
             platformIcons={platformIcons}
+            refetchProfile={ProfileInfo.refetch}
           />
         </>
       )}

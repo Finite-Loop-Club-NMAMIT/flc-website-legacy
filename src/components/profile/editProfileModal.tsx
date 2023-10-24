@@ -4,6 +4,8 @@ import { type FormEvent, useState } from "react";
 import { toast } from "react-hot-toast";
 import Button from "../button";
 import { type User } from "@prisma/client";
+import { z } from "zod";
+// import { useQueryClient } from "@tanstack/react-query";
 
 const EditProfileModal = ({
   setShowModal,
@@ -14,6 +16,7 @@ const EditProfileModal = ({
   setSocialLinks,
   ProfileData,
   platformIcons,
+  refetchProfile,
 }: {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   showModal: boolean;
@@ -35,6 +38,7 @@ const EditProfileModal = ({
   platformIcons: {
     [key: string]: JSX.Element;
   };
+  refetchProfile: () => void;
 }) => {
   const router = useRouter();
   const editProfile = api.userRouter.editUser.useMutation();
@@ -51,7 +55,7 @@ const EditProfileModal = ({
           setInfoText("Username available");
         }
       },
-    }
+    },
   );
   const [infoText, setInfoText] = useState<string>("");
 
@@ -65,21 +69,70 @@ const EditProfileModal = ({
     ]);
   };
 
+  // branch names
+  const BranchSchema = z.object({
+    branchSF: z.string(),
+    branchFN: z.string(),
+  });
+
+  type Branch = z.infer<typeof BranchSchema>;
+
+  const branches: Branch[] = [
+    { branchSF: "AIDS", branchFN: "Artificial Intelligence & Data Science" },
+    {
+      branchSF: "AIML",
+      branchFN: "Artificial Intelligence & Machine Learning",
+    },
+    { branchSF: "BT", branchFN: "Biotechnology" },
+    { branchSF: "CV", branchFN: "Civil Engineering" },
+    { branchSF: "CM", branchFN: "Computer & Communication  Engineering" },
+    { branchSF: "CSE", branchFN: "Computer Science & Engineering" },
+    {
+      branchSF: "CSE (FSD)",
+      branchFN: "Computer Science (Full Stack Development)",
+    },
+    { branchSF: "CSE (CS)", branchFN: "Computer Science (Cyber Security)" },
+    { branchSF: "EEE", branchFN: "Electrical & Electronics Engineering" },
+    { branchSF: "ECE", branchFN: "Electronics and Communication" },
+    {
+      branchSF: "ECE (VLSI)",
+      branchFN: "Electronics (VLSI Design & Technology)",
+    },
+    {
+      branchSF: "ECE (ACT)",
+      branchFN: "Electronics & Communication Engineering (ACT)",
+    },
+    { branchSF: "ISE", branchFN: "Information Science & Engineering" },
+    { branchSF: "ME", branchFN: "Mechanical Engineering" },
+    { branchSF: "RI", branchFN: "Robotics & Artificial Intelligence" },
+  ];
+
   const handleDeleteLink = (index: number) => {
     const newLinks = socialLinks.filter((link, i) => i !== index);
     setSocialLinks(newLinks);
   };
+
+  // const queryClient = useQueryClient();
+
   const handleSave = (e: FormEvent) => {
     e.preventDefault();
     const platforms = socialLinks?.map((link) => link.platform);
     if (new Set(platforms).size !== platforms.length) {
       toast.error("You have added multiple links for the same platform");
     } else if (
-      socialLinks?.filter((link) => link.platform === "Select a platform")
-        .length > 0
+      socialLinks?.some(
+        (link) =>
+          link.platform === "Select a platform" &&
+          link.link !== "" &&
+          link.link !== null,
+      )
     ) {
       toast.error("You have not selected a platform for one of the links");
-    } else if (socialLinks?.filter((link) => link.link === "").length > 0) {
+    } else if (
+      socialLinks?.filter(
+        (link) => link.link === "" && link.platform != "Select a platform",
+      ).length > 0
+    ) {
       toast.error("You have not added a link for one of the platforms");
     } else if (
       isUsernameAvailable.data === false &&
@@ -95,32 +148,48 @@ const EditProfileModal = ({
             username: editData.username as string,
             name: editData.name as string,
             bio: editData.bio as string,
+            phone: editData.phone as string,
+            branch: editData.branch as string,
+            year: editData.year as number,
             links: JSON.stringify(
               socialLinks.filter(
-                (link) => link.platform !== "Select a platform"
-              )
+                (link) => link.platform !== "Select a platform",
+              ),
             ),
           },
           {
             onSuccess: () => {
               toast.success("Profile updated successfully");
               setShowModal(false);
-              router
-                .push(`/u/${editData.username as string}`)
-                .then(() => {
-                  router.reload(); //to re render navbar for new username
-                })
-                .catch(() => {
-                  toast.error("Something went wrong");
-                });
+              if (ProfileData.username !== editData.username) {
+                router
+                  .push(`/u/${editData.username as string}`)
+                  .then(() => {
+                    // return queryClient.refetchQueries({
+                    //   queryKey: ["getUserByEmail"],
+                    // });
+                    router.reload(); // to update the username in navbar
+                  })
+                  .catch(() => {
+                    toast.error("Something went wrong");
+                  });
+              } else {
+                refetchProfile();
+              }
             },
-          }
+          },
         );
       } catch (error) {
         toast.error("Something went wrong");
       }
     }
   };
+
+  // year constraints
+  const currentYear = new Date().getFullYear();
+  const minYear = currentYear - 3;
+  const maxYear = currentYear;
+
   return (
     <div className="fixed inset-0 z-10 mt-20 h-[70%] overflow-y-auto">
       <div
@@ -210,6 +279,93 @@ const EditProfileModal = ({
                   }
                   className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
                   placeholder="Enter bio"
+                />
+
+                <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="phone" className="text-sm font-medium">
+                Phone Number
+              </label>
+
+              <div className="relative mt-1">
+                <input
+                  id="phone"
+                  name="phone"
+                  defaultValue={ProfileData.phone as string}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      phone: e.target.value,
+                    })
+                  }
+                  type="tel"
+                  pattern="[0-9]{10}"
+                  className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                  placeholder="Enter phone number"
+                />
+
+                <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="branch" className="text-sm font-medium">
+                Branch
+              </label>
+
+              <div className="relative mt-1">
+                <select
+                  id="branch"
+                  name="branch"
+                  defaultValue={ProfileData.branch as string}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      branch: e.target.value,
+                    })
+                  }
+                  className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                  placeholder="Enter branch"
+                >
+                  <option key="" value="">
+                    Select the branch
+                  </option>
+                  {Object.entries(branches).map(([key, branch]) => (
+                    <option key={key} value={branch.branchSF}>
+                      {branch.branchFN}
+                    </option>
+                  ))}
+                </select>
+
+                <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="year" className="text-sm font-medium">
+                Year
+              </label>
+
+              <div className="relative mt-1">
+                <input
+                  id="year"
+                  name="year"
+                  defaultValue={ProfileData.year as number}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      year: parseInt(e.target.value),
+                    })
+                  }
+                  type="number"
+                  min={minYear}
+                  max={maxYear}
+                  pattern="[0-9]{4}"
+                  className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                  placeholder="Enter year YYYY"
                 />
 
                 <span className="absolute inset-y-0 right-4 inline-flex items-center"></span>

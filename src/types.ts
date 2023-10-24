@@ -5,6 +5,9 @@ export const editUserInput = z.object({
   username: z.string().optional(),
   name: z.string().optional(),
   bio: z.string().optional(),
+  phone: z.string().optional(),
+  branch: z.string().optional(),
+  year: z.number().optional(),
   links: z.string().optional(),
 });
 
@@ -70,6 +73,8 @@ export const addCoreMemberInput = z.object({
     "AppDomainHead",
     "AIMLDomainHead",
     "EventLead",
+    "Photographer",
+    "Videographer"
   ]),
   img: z.string(),
   github: z.string().optional(),
@@ -82,6 +87,10 @@ export const addCoreMemberInput = z.object({
     "Year2023to2024",
     "Faculty",
   ]),
+});
+
+export const editCoreMemberInput = addCoreMemberInput.extend({
+  id: z.number(),
 });
 
 // Events
@@ -113,7 +122,7 @@ export const addEventInput = z.object({
     "Hackathon",
     "CodingContest",
   ]),
-  image: z.string(),
+  images: z.array(z.string()),
   organizer: z.string(),
   description: z.string(),
   filter: z.enum([
@@ -123,6 +132,15 @@ export const addEventInput = z.object({
     "Year2022to2023",
     "Year2023to2024",
   ]),
+});
+
+export const editEventInput = addEventInput.extend({
+  id: z.number(),
+});
+
+export const deleteEventImageInput = z.object({
+  id: z.number(),
+  source: z.string(),
 });
 
 // Certificate

@@ -3,10 +3,11 @@ import { type NextPage } from "next";
 import { api } from "../../utils/api";
 import { type Core, CoreFilter, Role } from "@prisma/client";
 import Button from "../../components/button";
-import { type ReactElement, useState, type FormEvent } from "react";
+import React, { type ReactElement, useState, type FormEvent } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { env } from "../../env/client.mjs";
 import Image from "next/image";
+import { BiEdit } from "react-icons/bi";
 
 type Members = {
   data: Core[];
@@ -173,16 +174,131 @@ const AddCore: NextPage = () => {
       <div className="flex justify-center">
         <Button onClick={() => setShowForm(true)}>Add member</Button>
       </div>
-      <CoreMemberList members={members as Members} filter="Faculty" />
-      <CoreMemberList members={members as Members} filter="Year2022to2023" />
-      <CoreMemberList members={members as Members} filter="Year2021to2022" />
-      <CoreMemberList members={members as Members} filter="Year2020to2021" />
-      <CoreMemberList members={members as Members} filter="Year2017to2020" />
+      {Object.keys(CoreFilter).reverse().map((filter) => (
+         <CoreMemberList members={members as Members} filter={filter} key={filter} />
+      ))}
     </div>
   );
 };
 
 const CoreMemberList: React.FC<CoreMemberListProps> = ({ members, filter }) => {
+  const memberQuery = api.coreRouter.getAllCoreMembers.useQuery();
+  const editCoreMember = api.coreRouter.editCore.useMutation();
+  // for to maintain separate editForm visibility
+  const [showEditForm, setShowEditForm] = useState<boolean[]>(Array.isArray(members?.data) ? new Array(members.data.length).fill(false) : []);
+  // for to maintain separate SelectedImage in a form
+  const [selectedImages, setSelectedImages] = useState<(string | null)[]>(Array.isArray(members?.data) ? new Array(members.data.length).fill(false) : []);
+  // switch the visibility of the forms
+  const handleEditClick = (index: number, show: boolean) => {
+    const newShowEditForm = [...showEditForm];
+    newShowEditForm[index] = show;
+    setShowEditForm(newShowEditForm);
+  };
+  // update status of newly selected image
+  const updateSelectedImages = (index: number, image: string|null): void => {
+    const updatedImages = [...selectedImages];
+    updatedImages[index] = image;
+    setSelectedImages(updatedImages);
+  };
+  // handle and verify the changed image
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>,index:number) => {
+    const file = e.target.files?.[0];
+    // handler if user selects other file than image
+    if (!file?.type.startsWith('image/')) {
+      toast.error("Please select an image file (e.g., PNG, JPG, JPEG).");
+      e.target.value = ""; // Reset the input value to clear the selected file
+      return;
+    } else {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const result =reader.result as string;
+        updateSelectedImages(index,result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  // update core handler
+  const handleUpdateSubmit = async (e: FormEvent,index: number) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    let img = formData.get("imgurl") as string;
+    // only execute if the image is changed
+    if (selectedImages[index]!==null) {
+      const loadingToast = toast.loading("Please wait...");
+      const form = e.currentTarget as HTMLFormElement;
+      
+      const fileInput = Array.from(form.elements).find(
+        (element) => element instanceof HTMLInputElement && element.name === "memberimage"
+      ) as HTMLInputElement;
+  
+  
+      for (const file of fileInput.files as FileList) {
+        formData.append("file", file);
+      }
+  
+      formData.append("upload_preset", "core-team-uploads");
+  
+      const response: Response = await fetch(
+        `${env.NEXT_PUBLIC_URL}/api/image/admin`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+  
+      if (!response.ok) {
+        toast.error("Error uploading image");
+        toast.dismiss(loadingToast);
+        return;
+      }
+  
+      const data: CloudinaryResponse =
+      (await response.json()) as CloudinaryResponse;
+      img = data.secure_url;
+      
+      toast.dismiss(loadingToast);
+    } 
+
+    const memidString = formData.get("memberid") as string;
+    const memid = memidString ? parseInt(memidString) : 0;
+    const name = formData.get("name") as string;
+    const filter = formData.get("filter") as CoreFilter;
+    const role = formData.get("role") as Role;
+    const github = formData.get("github") as string;
+    const linkedin = formData.get("linkedin") as string;
+    
+    await editCoreMember.mutateAsync(
+      {
+        id: memid,
+        name: name,
+        img: img,
+        filter: filter,
+        role: role,
+        github: github,
+        linkedin: linkedin,
+      },
+      {
+        onSuccess: () => {
+          memberQuery
+            .refetch()
+            .then(() => {
+              toast.success("Member updated successfully");
+              handleEditClick(index,false);
+            })
+            .catch(() => {
+              toast.error("Error fetching members");
+              handleEditClick(index,false);
+            });
+        },
+        onError: () => {
+          toast.error("Error updating member");
+        },
+      }
+    );
+    updateSelectedImages(index, null);
+  };
+
   const deleteCoreMember = api.coreRouter.deleteCoreMember.useMutation();
   return (
     <div className="mb-5 flex flex-col items-center justify-center px-5">
@@ -191,13 +307,104 @@ const CoreMemberList: React.FC<CoreMemberListProps> = ({ members, filter }) => {
       </p>
       <div className="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {members.data &&
-          members.data.map((member) => {
+          members.data.map((member,index) => {
             if (member.filter === filter) {
               return (
                 <div
                   key={member.id}
                   className="flex flex-col items-center justify-between rounded-lg border-2 border-gray-300 p-5 hover:bg-gray-200/50 dark:hover:bg-gray-800"
                 >
+                  <FormModal showForm={showEditForm[index] || false} setShowForm={(value) => {
+                      const newShowEditForm = [...showEditForm];
+                      newShowEditForm[index] = value;
+                      setShowEditForm(newShowEditForm);
+                  }}>
+                    <form
+                      onSubmit={async (e) => {
+                        await handleUpdateSubmit(e,index);
+                      }}
+                    >
+                      <div className="flex flex-col gap-5">
+                        <input type="number" name="memberid" id="memberid" hidden defaultValue={member.id}/>
+                        <input
+                          type="text"
+                          name="name"
+                          defaultValue={member.name}
+                          placeholder="Name"
+                          className="rounded-lg border-2 border-gray-300 p-2"
+                          required
+                        />
+                        <div className="flex ">
+                          <Image
+                            src={selectedImages[index]??member.img}
+                            alt={member.name}
+                            width={50}
+                            height={50}
+                            style={{
+                              objectFit: "cover",
+                              objectPosition: "center center",
+                              width: "50px",
+                              height: "50px",
+                            }}
+                            className="rounded-full mr-2"
+                          />
+                          <input type="text" name="imgurl" id="imgurl" hidden defaultValue={member.img}/>
+                          <input
+                            type="file"
+                            name="memberimage"
+                            accept="image/*"
+                            placeholder="Image File"
+                            className="rounded-lg border-2 border-gray-300 p-2"
+                            onChange={(e) => handleImageChange(e, index)}
+                          />
+                        </div>
+                        <select
+                          name="role"
+                          className="rounded-lg border-2 border-gray-300 p-2"
+                          required
+                          defaultValue={member.role as string || ""}
+                        >
+                          {Object.keys(Role).map((role) => (
+                            <option key={role} value={role}>
+                              {role}
+                            </option>
+                          ))}
+                        </select>
+                        <select
+                          name="filter"
+                          className="rounded-lg border-2 border-gray-300 p-2"
+                          required
+                          defaultValue={member.filter as string || ""}
+                        >
+                          {Object.keys(CoreFilter).map((filter) => (
+                            <option key={filter} value={filter}>
+                              {filter.replace("Year", "").replace("to", " - ")}
+                            </option>
+                          ))}
+                        </select>
+                        <input
+                          type="text"
+                          name="github"
+                          defaultValue={member.github as string || ""}
+                          placeholder="Github URL"
+                          className="rounded-lg border-2 border-gray-300 p-2"
+                        />
+                        <input
+                          type="text"
+                          name="linkedin"
+                          defaultValue={member.linkedin as string || ""}
+                          placeholder="Linkedin URL"
+                          className="rounded-lg border-2 border-gray-300 p-2"
+                        />
+                        <Button>Update Details</Button>
+                      </div>
+                    </form>
+                  </FormModal>
+                  <div className="w-full flex items-center justify-end">
+                    <button className="text-2xl text-white lg:mx-3" onClick={() => handleEditClick(index,true)}>
+                      <BiEdit/>
+                    </button>
+                  </div>
                   <Image
                     src={member.img}
                     alt={member.name}
@@ -215,16 +422,19 @@ const CoreMemberList: React.FC<CoreMemberListProps> = ({ members, filter }) => {
                   <div className="mt-3">
                     <Button
                       onClick={() => {
+                        const loadingToast = toast.loading("Please wait...");
                         deleteCoreMember.mutate(
                           {
                             id: member.id,
                           },
                           {
                             onSuccess: () => {
+                              toast.dismiss(loadingToast);
                               toast.success("Member deleted successfully");
                               members.refetch();
                             },
                             onError: () => {
+                              toast.dismiss(loadingToast);
                               toast.error("Error adding member");
                             },
                           }

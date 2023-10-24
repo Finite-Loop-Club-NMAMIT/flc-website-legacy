@@ -34,3 +34,8 @@ export const deleteImage = async (secure_url: string) => {
         throw err
     })
 }
+
+export const deleteListImage = async (secure_urls: string[]) => {
+    for (const secure_url of secure_urls)
+        await deleteImage(secure_url);
+}
