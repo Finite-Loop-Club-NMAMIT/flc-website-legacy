@@ -7,7 +7,8 @@ import toast, { Toaster } from "react-hot-toast";
 import Button from "../button";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { JsonArray } from "@prisma/client/runtime/library";
+import type{ JsonValue, JsonArray } from "@prisma/client/runtime/library";
+import Link from "next/link";
 
 const HomeEvents:React.FC = () => {
 
@@ -33,11 +34,20 @@ const HomeEvents:React.FC = () => {
         <section className="w-full">
             {
                 events.data && events.data.map((event, i)=>(
-                    <div key={i} className={`w-full h-96 flex relative bg-no-repeat bg-cover bg-center`} style={{
-                        backgroundImage: 'url('+getFirstImage(event.images)+')'
+                    <div key={i} className={`w-full min-h-[400px] h-fit flex relative bg-no-repeat bg-cover bg-center items-center justify-center`} style={{
+                        backgroundImage: 'url('+getFirstImage(event.images as JsonValue)+')'
                     }}>
-                        {/* <div className="bg-yellow-500/50 absolute top-0 left-0 w-full h-full flex z-0"></div> */}
-                        <RegisterEventBtn eventId={event.id} status={status} showModal={()=>setShowRegister(true)} setEventId={()=>setEventId(event.id)}  />
+                        <div className="bg-black/50 absolute top-0 left-0 w-full h-full flex z-0 backdrop-blur-sm"></div>
+                        <div className="flex flex-col w-full h-full gap-y-4 z-10 items-center justify-center">
+                            <h2 className="text-yellow-400 text-4xl font-bold">{event.name}</h2>
+                            <p className="text-white">
+                                {event.description}
+                            </p>
+                            <div className="gap-x-4 flex">
+                                <RegisterEventBtn eventId={event.id} status={status} showModal={()=>setShowRegister(true)} setEventId={()=>setEventId(event.id)}  />
+                                <Link href="/events"><Button>Know More</Button></Link>
+                            </div>
+                        </div>
                     </div>
                 ))
             }

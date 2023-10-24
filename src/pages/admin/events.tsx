@@ -582,7 +582,7 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                     </button>
                   </div>
                   <div className="flex justify-center gap-x-6 items-center">
-                    <span>Is Avaialable</span>
+                    <span>Is Available</span>
                     <span
                       className={`w-14 h-8 rounded-full flex bg-black/10 dark:bg-gray-200/20  p-1 cursor-pointer`}
                       onClick={() => {

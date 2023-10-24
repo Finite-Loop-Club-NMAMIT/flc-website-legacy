@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { addEventInput, deleteEventImageInput, editEventInput, getEventsInput } from "../../../types";
 
-import { createTRPCRouter, publicProcedure ,adminProcedure} from "../trpc";
+import { createTRPCRouter, publicProcedure ,adminProcedure, protectedProcedure} from "../trpc";
 import { deleteImage, deleteListImage } from "../../../utils/cloudinary";
 
 export const eventRouter = createTRPCRouter({
@@ -166,26 +166,25 @@ export const eventRouter = createTRPCRouter({
         console.log("error",error)
       }
     }),
-
+    
   registerToEvent: protectedProcedure
-    .input(
-      z.object({
-        eventId: z.number(),
+  .input(
+    z.object({
+      eventId: z.number(),
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    try {
+      return await ctx.prisma.eventParticipant.create({
+        data:{
+          eventId:input.eventId,
+          userId:ctx.session.user.id
+        }
       })
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-
-        return await ctx.prisma.eventParticipant.create({
-          data: {
-            eventId: input.eventId,
-            userId: ctx.session.user.id
-          }
-        })
-      } catch(error) {
-        console.log("error",error)
-      }
-    }),
+    } catch(error){
+      console.log("Error",error)
+    }
+  }),
 
   getAvailableEvent: publicProcedure
     .query(async({ ctx })=>{
