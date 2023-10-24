@@ -127,7 +127,7 @@ model Event {
   isAvailable  Boolean            @default(true)
   attended     Int
   type         EventTypes
-  image        String
+  images       Json?
   organizer    String
   description  String             @db.Text
   amount       Int?

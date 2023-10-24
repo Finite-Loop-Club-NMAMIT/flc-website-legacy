@@ -25,7 +25,7 @@ const RegisterEventBtn: React.FC<RegisterEventBtnProps> = ({ eventId, status, sh
     }
 
     return (
-            <Button onClick={() => void handleRegisterBtn()} className="w-fit mx-auto mb-4">
+            <Button onClick={() => void handleRegisterBtn()} className="w-fit h-fit mx-auto mb-4">
                 Register Event
             </Button>
     )
