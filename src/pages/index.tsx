@@ -7,6 +7,7 @@ import Perks from "../components/perks";
 import DSAsprint from "../components/sprint";
 import Tech from "../components/tech";
 import Testimonials from "../components/testimonials";
+import HomeEvents from "../components/homeEvents";
 
 const Home: NextPage = () => {
   return (
@@ -16,6 +17,7 @@ const Home: NextPage = () => {
         <hr className="border-gray-500/50" />
         <About />
         <hr className="border-gray-500/50" />
+        <HomeEvents/>
         <Hackfest />
         <hr className="border-gray-500/50" />
         <DSAsprint />

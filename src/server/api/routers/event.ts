@@ -122,4 +122,81 @@ export const eventRouter = createTRPCRouter({
         console.log("error", error);
       }
     }),
+
+  updateEvent: adminProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        isAvailable: z.boolean(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const { id, isAvailable } = input;
+        return await ctx.prisma.event.update({
+          where: {
+            id
+          },
+          data: {
+            isAvailable
+          }
+        })
+      } catch (error) {
+        console.log("error",error)
+      }
+    }),
+
+  getUserForEvent: protectedProcedure
+    .query(async ({ ctx }) => {
+      try {
+        return await ctx.prisma.user.findUnique({
+          where:{
+            id: ctx.session.user.id
+          },
+          select: {
+            isMember: true,
+            Events: {
+              select: {
+                eventId: true
+              }
+            }
+          }
+        })
+      } catch(error) {
+        console.log("error",error)
+      }
+    }),
+
+  registerToEvent: protectedProcedure
+    .input(
+      z.object({
+        eventId: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+
+        return await ctx.prisma.eventParticipant.create({
+          data: {
+            eventId: input.eventId,
+            userId: ctx.session.user.id
+          }
+        })
+      } catch(error) {
+        console.log("error",error)
+      }
+    }),
+
+  getAvailableEvent: publicProcedure
+    .query(async({ ctx })=>{
+      try {
+        return await ctx.prisma.event.findMany({
+          where:{
+            isAvailable: true
+          }
+        })
+      } catch(error){
+        console.log("error",error)
+      }
+    })
 });

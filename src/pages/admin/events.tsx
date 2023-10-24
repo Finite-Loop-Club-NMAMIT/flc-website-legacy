@@ -393,6 +393,9 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
   };
 
   const deleteEvent = api.eventRouter.deleteEvent.useMutation();
+
+  const updateEvent = api.eventRouter.updateEvent.useMutation();
+
   return (
     <div className="mb-5 flex flex-col items-center justify-center px-5">
       <p className="my-5 w-fit rounded-lg border border-yellow-500 p-1 text-center text-xl font-bold">
@@ -577,6 +580,28 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                     >
                       <MdDeleteOutline /> Delete
                     </button>
+                  </div>
+                  <div className="flex justify-center gap-x-6 items-center">
+                    <span>Is Avaialable</span>
+                    <span
+                      className={`w-14 h-8 rounded-full flex bg-black/10 dark:bg-gray-200/20  p-1 cursor-pointer`}
+                      onClick={() => {
+                        updateEvent.mutate({
+                          id: event.id,
+                          isAvailable: !event.isAvailable,
+                        }, {
+                          onSuccess: () => {
+                            toast.success("Event is updated!!");
+                            events.refetch();
+                          },
+                          onError: () => {
+                            toast.error("Error updating event");
+                          },
+                        }
+                        )
+                      }}>
+                      <span className={`${event.isAvailable ? 'translate-x-6 bg-yellow-400' : 'translate-x-0 bg-white'} flex w-6 h-6 rounded-full transition-all duration-200 ease-in-out`}></span>
+                    </span>
                   </div>
                 </div>
               );
