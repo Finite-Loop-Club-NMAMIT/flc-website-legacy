@@ -475,6 +475,14 @@ const EventList: React.FC<EventListProps> = ({ events, filter }) => {
                             placeholder="Enter event description"
                             required
                           />
+                          <input
+                            className="rounded-lg border-2 border-gray-300 p-2"
+                            type="number"
+                            name="eamount"
+                            defaultValue={event.amount}
+                            placeholder="Enter event amount"
+                            required
+                          />
                           <select
                             className="rounded-lg border-2 border-gray-300 p-2"
                             defaultValue={event.filter}

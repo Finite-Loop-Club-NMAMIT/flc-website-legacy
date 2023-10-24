@@ -71,6 +71,7 @@ export const eventRouter = createTRPCRouter({
               organizer: input.organizer,
               description: input.description,
               filter:input.filter,
+              amount: input.amount
             }
           });
         } catch (error) {
