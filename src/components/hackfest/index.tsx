@@ -68,7 +68,7 @@ const Hackfest: FunctionComponent = () => {
                       </div>
                     )}
                     {phase.link ? (
-                      <a href="/DSA_Sprint_Brochure.pdf" target="_blank">
+                      <a href="/FLC_Hackfest_2022.pdf" target="_blank">
                         <FiExternalLink className="ml-2 mb-1 inline cursor-pointer text-2xl text-yellow-500" />{" "}
                       </a>
                     ) : (
