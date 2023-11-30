@@ -48,6 +48,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
             name="description"
             content="Finite Loop is a Coding Club, which aims to give a good perspective of development, and encourages students to realize their ideas. We encourage students to participate in competitive programming and thus, inspire the next."
           />
+          <meta name="google-site-verification" content="gF5q7kmsuFAvfGVbqiRCAuv6evgC1-GkoXZaW4K8tbo" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Navbar />
