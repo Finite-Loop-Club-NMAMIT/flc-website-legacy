@@ -3,7 +3,7 @@ import Testimonial from "./testimonial";
 
 const Testimonials = () => {
   return (
-    <section className="bg-white text-black transition-colors duration-500 dark:bg-gray-900/10 dark:text-white">
+    <section className="bg-white text-black transition-colors duration-500 dark:bg-black dark:text-white">
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6">
         <h2 className="heading text-center text-3xl font-bold sm:text-4xl">
           Testimonials

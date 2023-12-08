@@ -7,7 +7,7 @@ import { DSAPhases, sprintPhases } from "../constants/";
 const DSAsprint: FunctionComponent = () => {
   return (
     <>
-      <section className="bg-white text-black transition-colors duration-500 dark:bg-black dark:text-white">
+      <section className="bg-white text-black transition-colors duration-500 dark:bg-gray-900/10 dark:text-white">
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-28">
           <Fade triggerOnce cascade>
             <div className="mx-auto max-w-lg text-center">
@@ -69,7 +69,7 @@ const DSAsprint: FunctionComponent = () => {
                     )}
                     {phase.link ? (
                       <a href="/DSA_Sprint_Brochure.pdf" target="_blank">
-                        <FiExternalLink className="ml-2 mb-1 inline cursor-pointer text-2xl text-yellow-500" />{" "}
+                        <FiExternalLink className="mb-1 ml-2 inline cursor-pointer text-2xl text-yellow-500" />{" "}
                       </a>
                     ) : (
                       ""

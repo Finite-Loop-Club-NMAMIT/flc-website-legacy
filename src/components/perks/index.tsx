@@ -1,11 +1,11 @@
 import { perks } from "../constants";
-import {Fade } from "react-awesome-reveal";
+import { Fade } from "react-awesome-reveal";
 import { type FunctionComponent } from "react";
 import BlurImage from "../blurImage";
 
 const Perks: FunctionComponent = () => {
   return (
-    <section className="bg-white text-black transition-colors duration-500 dark:bg-black dark:text-white">
+    <section className="bg-white text-black transition-colors duration-500 dark:bg-gray-900/10 dark:text-white">
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-28">
         <Fade triggerOnce cascade>
           <div className="mx-auto max-w-lg text-center">

@@ -27,7 +27,7 @@ const Navbar: FunctionComponent = () => {
   return (
     <>
       <div className="fixed left-0 top-0 z-40 w-full bg-black bg-opacity-30 shadow-md backdrop-blur-lg backdrop-filter">
-        <div className="flex items-center justify-between px-3 py-2 md:flex-row md:px-5">
+        <div className="mx-auto flex max-w-screen-xl items-center justify-between px-3 py-2 md:flex-row md:px-5">
           <div
             className="flex cursor-pointer items-center text-xl font-bold text-white
       md:text-2xl"

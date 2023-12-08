@@ -7,7 +7,7 @@ import BlurImage from "../blurImage";
 const Hackfest: FunctionComponent = () => {
   return (
     <>
-      <section className="bg-white text-black transition-colors duration-500 dark:bg-gray-900/10 dark:text-white">
+      <section className="bg-white text-black transition-colors duration-500 dark:bg-black dark:text-white">
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-28">
           <Fade cascade>
             <div className="mx-auto max-w-lg text-center">
@@ -42,6 +42,7 @@ const Hackfest: FunctionComponent = () => {
                         className={`${
                           phase.isCompleted ? "bg-yellow-400" : "bg-gray-400"
                         } h-2 w-8`}
+                        key={phase.id + "completion"}
                       />
                     )}
                   </>
@@ -69,7 +70,7 @@ const Hackfest: FunctionComponent = () => {
                     )}
                     {phase.link ? (
                       <a href="/FLC_Hackfest_2022.pdf" target="_blank">
-                        <FiExternalLink className="ml-2 mb-1 inline cursor-pointer text-2xl text-yellow-500" />{" "}
+                        <FiExternalLink className="mb-1 ml-2 inline cursor-pointer text-2xl text-yellow-500" />{" "}
                       </a>
                     ) : (
                       ""
