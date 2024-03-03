@@ -27,12 +27,12 @@ export const Links = [
 ];
 
 export const footLinks = [
-  { name: 'Privacy', link: '/privacy' },
-  { name: 'Terms and Conditions', link: '/rules' },
-  { name: 'Refund & Cancellation', link: '/refund' },
-  { name: 'Contact us', link: '/contact-us' },
-  { name: 'Shipping', link: '/shipping' },
-]
+  { name: "Privacy", link: "/privacy" },
+  { name: "Terms and Conditions", link: "/rules" },
+  { name: "Refund & Cancellation", link: "/refund" },
+  { name: "Contact us", link: "/contact-us" },
+  { name: "Shipping", link: "/shipping" },
+];
 
 export const points = [
   {
@@ -526,4 +526,22 @@ export const TestimonialList = [
     My journey with a finite loop has been a blessing altogether. It had given me a platform, where I was able to build, learn and grow both professional and personal. I met some really amazing people here. Who encouraged me to do more and gave me courage to uplift my life. Being an industrial professional I can say, finite loop really gives us the edge over the others. It gave me exposure to cooperate work style as well as opportunity to work on the latest technologies. Being an tech enthusiastic, I would highly recommend people to take part with Finite loop and their activities.       
     `,
   },
+];
+
+export const hackloopTeams2nd = [
+  { name: "Ctrl Alt Elite", domain: "App Development " },
+  { name: "Disco Inferno", domain: "Web Development " },
+  { name: "Serial Byte", domain: "Web Development " },
+  { name: "Team CryptoCrafters", domain: "Blockchain" },
+  { name: "Team KFC", domain: "Web Development " },
+  { name: "Tech Titans", domain: "Web Development " },
+  { name: "WeShowCode ", domain: "Web Development " },
+];
+
+export const hackloopTeams1st = [
+  { name: "Code Sentinels", domain: "Artificial Intelligence" },
+  { name: "CyberSprinters", domain: "Web Development" },
+  { name: "Recode", domain: "App Development" },
+  { name: "Team Code Crafters", domain: "Web Development" },
+  { name: "Tech bees", domain: "Web Development" },
 ];
