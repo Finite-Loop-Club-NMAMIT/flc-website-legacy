@@ -248,28 +248,28 @@ function Register() {
     );
   }
   if (!user.data) return <Error />;
-  const { year, branch, usn, batch } = extractStudentDetailsFromEmail(
+  const { year, branch, usn } = extractStudentDetailsFromEmail(
     user.data.email!,
   );
-  if (batch === 2027)
-    return (
-      <section>
-        <div className="mx-auto  max-w-screen-sm  text-center">
-          <h1 className="gradient mb-4 text-2xl font-extrabold tracking-tight text-yellow-500 dark:text-yellow-500">
-            Hey{" "}
-            <span className="text-black dark:text-white">
-              {user.data.name}!
-            </span>
-            <br />
-            1st year&apos;s are not eligible to register for FLC. see you in
-            next year!
-          </h1>
-          <p className="mb-4 text-gray-500 dark:text-gray-400">
-            Please contact the club for more details.
-          </p>
-        </div>
-      </section>
-    );
+  // if (batch === 2027)
+  //   return (
+  //     <section>
+  //       <div className="mx-auto  max-w-screen-sm  text-center">
+  //         <h1 className="gradient mb-4 text-2xl font-extrabold tracking-tight text-yellow-500 dark:text-yellow-500">
+  //           Hey{" "}
+  //           <span className="text-black dark:text-white">
+  //             {user.data.name}!
+  //           </span>
+  //           <br />
+  //           1st year&apos;s are not eligible to register for FLC. see you in
+  //           next year!
+  //         </h1>
+  //         <p className="mb-4 text-gray-500 dark:text-gray-400">
+  //           Please contact the club for more details.
+  //         </p>
+  //       </div>
+  //     </section>
+  //   );
 
   if (user.data.role === "member" && !user.data.isMember)
     return (
