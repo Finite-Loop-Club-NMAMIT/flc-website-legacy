@@ -165,6 +165,7 @@ function Register() {
       }
     }
   };
+  
 
   if (status === "loading")
     return (
@@ -248,9 +249,10 @@ function Register() {
     );
   }
   if (!user.data) return <Error />;
-  const { year, branch, usn } = extractStudentDetailsFromEmail(
+  const { year, branch, usn, threedigs } = extractStudentDetailsFromEmail(
     user.data.email!,
   );
+  const YOS = parseInt(getYOSValue(year, threedigs) as string)
   // if (batch === 2027)
   //   return (
   //     <section>
@@ -390,6 +392,14 @@ function Register() {
 
           <div>
             <label
+            htmlFor="yearOfStudy"
+            className="mb-2 block text-sm text-red-500 font-semibold"
+            >
+              All the students who are currently in {
+                YOS === 4 ? "third" : YOS === 3 ? "second" : "first"
+              } year (NNM{YOS=== 4 ? "21/22" : YOS === 3 ? "22/23" : "23"}) will be considered as {YOS === 4 ? "fourth" : YOS === 3 ? "third" : "second"} years as this registration for the next academic year.
+            </label>
+            <label
               htmlFor="yearOfStudy"
               className="mb-2 block text-sm text-gray-400"
             >
@@ -399,7 +409,7 @@ function Register() {
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-yellow-500 focus:ring-yellow-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-yellow-500 dark:focus:ring-yellow-500"
               name="yearOfStudy"
               id="yearOfStudy"
-              value={year === 20 ? "4" : year === 21 ? "3" : "2"}
+              value={getYOSValue(year, threedigs)}
               disabled
             >
               <option value="2">2nd Year</option>
@@ -564,4 +574,14 @@ function Register() {
   );
 }
 
+function getYOSValue(year:number, threedigs:number){
+  if(threedigs >=400) {
+    if(year === 22) return "4";
+    if(year === 23) return "3"; 
+  }else{
+    if(year === 21) return "4";
+    if(year === 22) return "3";
+    if(year === 23) return "2";
+  }
+}
 export default Register;

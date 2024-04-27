@@ -24,7 +24,7 @@ interface FormType {
 
 const Registrations: NextPage = () => {
   const count = api.registrationRouter.getRegistrationCount.useQuery({
-    yearOfReg: 2023,
+    yearOfReg: 2024,
   });
 
   const [searchTerm, setSearchTerm] = useState("");
