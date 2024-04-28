@@ -397,7 +397,7 @@ function Register() {
             >
               All the students who are currently in {
                 YOS === 4 ? "third" : YOS === 3 ? "second" : "first"
-              } year (NNM{YOS=== 4 ? "21/22" : YOS === 3 ? "22/23" : "23"}) will be considered as {YOS === 4 ? "fourth" : YOS === 3 ? "third" : "second"} years as this registration for the next academic year.
+              } year (NNM{YOS=== 4 ? "21/22" : YOS === 3 ? "22/23" : "23"}) will be considered as {YOS === 4 ? "fourth" : YOS === 3 ? "third" : "second"} years as this registration is for the next academic year.
             </label>
             <label
               htmlFor="yearOfStudy"
@@ -499,6 +499,7 @@ function Register() {
               placeholder=" "
               name="why"
               id="why"
+              rows={5}
               className="form-input peer"
               value={inputValues.why}
               onChange={handleInputChange}
@@ -512,6 +513,7 @@ function Register() {
             <textarea
               placeholder=" "
               name="expectations"
+              rows={5}
               id="expectations"
               className="form-input peer"
               value={inputValues.expectations}
