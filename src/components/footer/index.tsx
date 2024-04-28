@@ -31,7 +31,7 @@ const Footer: FunctionComponent = () => {
               <li key={index}>
                 <Link
                   href={link.link}
-                  className="text-black transition hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-200/75"
+                  className="text-black transition hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-200/75" target="_blank"
                 >
                   {link.name}
                 </Link>
@@ -45,7 +45,7 @@ const Footer: FunctionComponent = () => {
             <li key={index}>
               <Link
                 href={link.link}
-                className="text-black transition hover:text-gray-200/75 dark:text-gray-100"
+                className="text-black transition hover:text-gray-200/75 dark:text-gray-100" target="_blank"
               >
                 <span className="sr-only">{link.name}</span>
                 {link.icon}
@@ -59,7 +59,7 @@ const Footer: FunctionComponent = () => {
             {footLinks.map((link, index) => (
               <div key={index}>
                 <li>
-                  <Link href={link.link} className="text-black dark:text-gray-400 transition hover:text-gray-500 dark:hover:text-gray-200/75">
+                  <Link href={link.link} className="text-black dark:text-gray-400 transition hover:text-gray-500 dark:hover:text-gray-200/75" target="_blank">
                       {link.name}
                   </Link>
                 </li>
