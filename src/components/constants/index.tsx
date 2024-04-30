@@ -503,7 +503,7 @@ export const TestimonialList = [
     position: "SDE ",
     company: "Hashedin by Deloitte",
     testimonial: `
-    Finiteloop gave me opportunities to work on cutting edge technologies through real-time projects. It made me confident and helped me hone my skills. The club emphasizes team work, leadership and self-empowerment. I feel immensely fortunate to have been part of such a wonderful team.
+    Finite Loop gave me opportunities to work on cutting edge technologies through real-time projects. It made me confident and helped me hone my skills. The club emphasizes team work, leadership and self-empowerment. I feel immensely fortunate to have been part of such a wonderful team.
     `,
   },
   {
@@ -512,7 +512,7 @@ export const TestimonialList = [
     position: "Associate Software Engineer ",
     company: "Robert Bosch Engineering Pvt. Ltd.",
     testimonial: `
-    The Finiteloop Club has not only shaped me as a student, but also a professional. Being part of the
+    The Finite Loop Club has not only shaped me as a student, but also a professional. Being part of the
     club has helped build my confidence in being a leader, given me great people to connect with, and
     given me the incredible opportunity to learn and share new skills.
     `,
