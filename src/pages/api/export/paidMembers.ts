@@ -5,24 +5,12 @@ const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) {
   try {
     const paidMembersDetails = await prisma.user.findMany({
       where: {
         isMember: true,
-        Registrations: {
-          some: {
-            OR: [
-              {
-                yearOfReg: 2024,
-              },
-              {
-                yearOfReg: 2023,
-              },
-            ],
-          },
-        },
       },
       select: {
         name: true,
@@ -34,17 +22,13 @@ export default async function handler(
     const csvRows = [];
     csvRows.push("Name,Email,Phone,USN");
 
-    const usernameRegex = /^(nnm22|nnm23)/;
-
     for (const member of paidMembersDetails) {
       if (member == null) continue;
       const { name, email, phone } = member;
 
       const usn = email?.split("@")[0];
 
-      if (!usernameRegex.test(usn!)) continue;
-
-      csvRows.push(`Member ${name},${email},${phone},${usn}`);
+      csvRows.push(`${name},${email},${phone},${usn}`);
     }
 
     const csvString = csvRows.join("\n");
