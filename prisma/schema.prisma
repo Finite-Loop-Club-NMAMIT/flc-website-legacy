@@ -58,7 +58,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Certificate   Certificate[]
-  Registrations Registrations[]
+  Registrations Registrations?
   Events        EventParticipant[]
 
   @@index([teamId])
@@ -165,13 +165,13 @@ model Registrations {
 
 // Event registrations model
 model EventParticipant {
-  event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId Int
-  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
 
-  @@id([userId,eventId])
-  @@unique([userId,eventId])
+  @@id([userId, eventId])
+  @@unique([userId, eventId])
   @@index([userId])
   @@index([eventId])
 }

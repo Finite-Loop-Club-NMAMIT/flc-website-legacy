@@ -165,7 +165,6 @@ function Register() {
       }
     }
   };
-  
 
   if (status === "loading")
     return (
@@ -220,7 +219,11 @@ function Register() {
       </section>
     );
   }
-  if (user.data?.email && !user.data.email.endsWith("@nmamit.in")) {
+  if (
+    user.data?.email &&
+    (!user.data.email.endsWith("@nmamit.in") ||
+      !user.data.email.startsWith("nnm"))
+  ) {
     return (
       <section>
         <div className="mx-auto  max-w-screen-sm  text-center">
@@ -252,7 +255,7 @@ function Register() {
   const { year, branch, usn, threedigs } = extractStudentDetailsFromEmail(
     user.data.email!,
   );
-  const YOS = parseInt(getYOSValue(year, threedigs) as string)
+  const YOS = parseInt(getYOSValue(year, threedigs) as string);
   // if (batch === 2027)
   //   return (
   //     <section>
@@ -392,12 +395,15 @@ function Register() {
 
           <div>
             <label
-            htmlFor="yearOfStudy"
-            className="mb-2 block text-sm text-red-500 font-semibold"
+              htmlFor="yearOfStudy"
+              className="mb-2 block text-sm font-semibold text-red-500"
             >
-              All the students who are currently in {
-                YOS === 4 ? "third" : YOS === 3 ? "second" : "first"
-              } year (NNM{YOS=== 4 ? "21/22" : YOS === 3 ? "22/23" : "23"}) will be considered as {YOS === 4 ? "fourth" : YOS === 3 ? "third" : "second"} years as this registration is for the next academic year.
+              All the students who are currently in{" "}
+              {YOS === 4 ? "third" : YOS === 3 ? "second" : "first"} year (NNM
+              {YOS === 4 ? "21/22" : YOS === 3 ? "22/23" : "23"}) will be
+              considered as{" "}
+              {YOS === 4 ? "fourth" : YOS === 3 ? "third" : "second"} years as
+              this registration is for the next academic year.
             </label>
             <label
               htmlFor="yearOfStudy"
@@ -576,14 +582,14 @@ function Register() {
   );
 }
 
-function getYOSValue(year:number, threedigs:number){
-  if(threedigs >=400) {
-    if(year === 22) return "4";
-    if(year === 23) return "3"; 
-  }else{
-    if(year === 21) return "4";
-    if(year === 22) return "3";
-    if(year === 23) return "2";
+function getYOSValue(year: number, threedigs: number) {
+  if (threedigs >= 400) {
+    if (year === 22) return "4";
+    if (year === 23) return "3";
+  } else {
+    if (year === 21) return "4";
+    if (year === 22) return "3";
+    if (year === 23) return "2";
   }
 }
 export default Register;
